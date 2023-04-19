@@ -1,0 +1,65 @@
+.mk-project-description{
+    font-size: 18px;
+}
+
+.mk-project-container .mk-project-nav{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    margin-bottom: 32px;
+}
+.mk-project-container {
+    margin-top: 32px;
+    margin-bottom: 64px;
+}
+
+.mk-project-container .mk-project-nav-icon i{
+    color: #0065c1;
+    font-size: 20px;
+ }
+ .mk-project-container .mk-project-nav-label{
+    color: #0065c1;
+ }
+.mk-project-container .mk-project-nav-item-container {
+    display: flex;
+    margin-bottom: 10px;
+ }
+ .mk-project-container .mk-project-nav-icon {
+    margin-right: 14px;
+ }
+ .mk-project-container .mk-project-nav-info {
+    font-size: 17px;
+    font-weight: 500;
+ }
+
+ .mk-project-container .mk-related-project .mk-card{
+     height: 400px;
+ }
+ .mk-project-container .mk-related-project .mk-card-image{
+    height: 200px;
+}
+.mk-project-bg{
+    height: 300px;
+}
+.mk-project-email-website:hover {
+    color: blue;
+}
+
+
+@media only screen and (max-width: 991.9px) {
+    .mk-project-bg-content{
+        width: 90% !important;
+    }
+    .mk-project-container .col-lg-3{
+        padding-top: 20px;
+        order: 1;
+    }
+    .mk-project-container .col-lg-9 .mk-project-nav{
+        margin-bottom: 0;
+        row-gap: 0;
+    }
+    .mk-project-bg{
+        height: unset;
+    }
+    
+}

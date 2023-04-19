@@ -1,0 +1,474 @@
+{
+    "navbar": {
+        "Home": "Trang chủ",
+        "Projects": "Dự án",
+        "Commercial-Projects": "Sản phẩm thương mại",
+        "Researching-Projects": "Kết quả nghiên cứu",
+        "Idea-Projects": "Ý tưởng",
+        "Research-groups": "Nhóm nghiên cứu",
+        "FAQ": "FAQ",
+        "About": "Giới thiệu",
+        "Contact": "Liên hệ",
+        "Login": "Đăng nhập",
+        "Logout": "Đăng xuất"
+    },
+    "home": {
+        "projects": {
+            "title": "Các dự án tiêu biểu"
+        },
+        "research-groups": {
+            "title": "Các nhóm nghiên cứu tiêu biểu"
+        },
+        "card": {
+            "btn-text": "Xem chi tiết"
+        }
+    },
+    "projects": {
+        "nodata": "Không có dự án",
+        "commercial": {
+            "title": "Sản phẩm thương mại"
+        },
+        "researching": {
+            "title": "Kết quả nghiên cứu"
+        },
+        "idea": {
+            "title": "Ý tưởng"
+        }
+    },
+    "project": {
+        "message-not-allow-null": "không được để trống",
+        "commercial": {
+            "companyName": "Tên đơn vị",
+            "author": "Nhóm tác giả",
+            "address": "Địa chỉ",
+            "phoneNumber": "Số điện thoại",
+            "fax": "Fax",
+            "email": "Email",
+            "website": "Website",
+            "name": "Tên sản phẩm",
+            "shortDescription": "Mô tả ngắn",
+            "scope": "Phạm vi thương mại",
+            "projectFieldList": "Lĩnh vực",
+            "comDevLevelList": "Mức độ phát triển",
+            "comTransMethodList": "Phương thức chuyển giao",
+            "fieldIdList": "Lĩnh vực",
+            "price": "Chào giá tham khảo",
+            "process": "Mô tả quy trình công nghệ",
+            "advantage": "Ưu điểm",
+            "projectImage": "Hình ảnh tổng thể",
+            "challenge": "Thách thức",
+            "solution": "Giải pháp",
+            "benefit": "Lợi ích",
+            "description": "Chi tiết",
+            "related-projects": {
+                "title": "Sản phẩm cùng lĩnh vực",
+                "btn-text":"Xem chi tiết"
+            },
+            "other-action": {
+                "btn-text": "Liên hệ tác giả",
+                "form": {
+                    "title": "Thông tin liên hệ",
+                    "project-name": "Tên sản phẩm",
+                    "name": "Họ tên",
+                    "phone": "Số điện thoại",
+                    "email": "Email",
+                    "content": "Nội dung liên hệ",
+                    "btn-ok": "Gửi",
+                    "btn-cancel": "Hủy"
+                }
+            }
+        }
+    },
+    "search": {
+        "placeholder": "Tìm kiếm"
+    },
+    "research-groups": {
+        "card": {
+            "btn-text": "Xem chi tiết"
+        }
+    },
+    "research-group": {
+        "introduction": {
+            "title": "Giới thiệu"
+        },
+        "topics": {
+            "title": "Lĩnh vực nghiên cứu"
+        },
+        "members": {
+            "title": "Thành viên",
+            "card": {
+                "btn-text": "Xem chi tiết"
+            }
+        },
+        "publication": {
+            "title": "Các công bố khoa học"
+        }
+    },
+    "contact": {
+        "title": "Liên hệ với chúng tôi",
+        "form": {
+            "name": "Họ tên",
+            "email": "Email",
+            "phone": "Số điện thoại",
+            "title": "Tiêu đề",
+            "content": "Nội dung liên hệ",
+            "btn-text": "Gửi"
+        }
+    },
+    "login": {
+        "title": "ĐĂNG NHẬP",
+        "form": {
+            "username": "Tên đăng nhập",
+            "password": "Mật khẩu",
+            "btnLogin": "Đăng nhập",
+            "btnSignup": "Đăng ký",
+            "labelHaveNotAccount": "Chưa có tài khoản",
+            "labelRemember": "Ghi nhớ",
+            "log-in-with-google": "Đăng nhập với Google",
+            "forget-password": "Quên mật khẩu"
+        }
+    },
+    "signup": {
+        "form": {
+            "title": "Đăng ký",
+            "btnSignup": "Đăng ký",
+            "guest": {
+                "fullName": "Họ tên",
+                "email": "Email",
+                "phoneNumber":"Số điện thoại",
+                "address":"Địa chỉ",
+                "gender":"Giới tính",
+                "username":"Tên đăng nhập",
+                "password":"Mật khẩu",
+                "getNews": "Nhận thông báo"
+            },
+            "researcher": {
+                "fullName": "Họ tên",
+                "email": "Email",
+                "dob": "Ngày sinh",
+                "phoneNumber":"Số điện thoại",
+                "address":"Địa chỉ",
+                "gender":"Giới tính",
+                "username":"Tên đăng nhập",
+                "password":"Mật khẩu",
+                "getNews": "Nhận thông báo"
+            }
+        }
+    },
+    "forgetPassword": {
+        "form": {
+            "title": "QUÊN MẬT KHẨU",
+            "username": "Tên đăng nhập",
+            "btnOk": "Đặt lại mật khẩu",
+            "btnBack": "Trở về trang đăng nhập"
+        },
+        "modal": {
+            "code": {
+                "title": "Vui lòng nhập mã code xác nhận đã được gửi đến email của bạn."
+            },
+            "password": {
+                "password": "Mật khẩu mới",
+                "confirmPassword": "Xác nhận mật khẩu"
+            },
+            "btnOk": "Xác nhận",
+            "btnCancel": "Đóng"
+        }
+    },
+    
+
+    "researcher": {
+        "home": {
+            "title": "Thông tin cá nhân",
+            "form": {
+                "fullName": "Họ tên",
+                "email": "Email",
+                "phoneNumber": "Số điện thoại",
+                "address": "Địa chỉ",
+                "gender": "Giới tính",
+                "dob": "Ngày sinh",
+                "bio": "Tiểu sử",
+                "qualification": "Trình độ chuyên môn",
+                "website": "Website",
+                "domain": "Tên miền",
+                "btn-edit": "Chỉnh sửa",
+                "btn-cancel": "Hủy",
+                "btn-save": "Lưu lại",
+                "btn-change-password": "Thay đổi mật khẩu",
+                "placeholder-password": "Mật khẩu",
+                "password": "Mật khẩu"
+            },
+            "change-pass": {
+                "btnActive": "Đổi mật khẩu",
+                "btnCancel": "Hủy",
+                "title": "Đổi mật khẩu",
+                "form": {
+                    "oldPassword": "Mật khẩu cũ",
+                    "newPassword": "Mật khẩu mới",
+                    "confirmPassword": "Xác nhận mật khẩu",
+                    "btnOk": "Xác nhận",
+                    "btnCancel": "Đóng"
+                }
+            },
+            "navbar": {
+                "create-project": "Tạo dự án",
+                "projects": "Danh sách dự án"
+            }
+        },
+        "projects": {
+            "filter": {
+                "project-type": {
+                    "title": "Thể loại dự án",
+                    "commercial": "Sản phẩm thương mại",
+                    "researching": "Kết quả nghiên cứu",
+                    "idea": "Ý tưởng"
+                },
+                "project-status": {
+                    "title": "Trạng thái dự án",
+                    "Đã Duyệt": "Đã Duyệt",
+                    "Chờ Duyệt": "Chờ duyệt",
+                    "Từ Chối": "Từ chối",
+                    "Lưu Nháp": "Lưu Nháp",
+                    "All": "Tất cả"
+                }
+            },
+            "nodata": "Không có dữ liệu"
+        },
+        "project-create": {
+            "dropdown-select-type": "Chọn thể loại",
+            "project-types": {
+                "TM": "Sản phẩm thương mại",
+                "NC": "Kết quả nghiên cứu",
+                "YT": "Ý tưởng"
+            },
+            "templates": {
+                "template1": "Mẫu 1",
+                "template2": "Mẫu 2"
+            },
+            "form": {
+                "btnBack": "Trở lại",
+                "btnNext": "Tiếp theo",
+                "btnSend": "Gửi",
+                "btnDraft": "Lưu nháp"
+            },
+            "steps": {
+                "Thông tin chung": "Thông tin chung",
+                "Thông tin chi tiết": "Thông tin chi tiết",
+                "Xem kết quả": "Xem kết quả"
+            }
+        }
+    },
+
+
+    "admin": {
+        "sidebar": {
+            "/informations": "Quản lý thông tin",
+            "/projects": "Quản lý dự án",
+            "/users": "Quản lý người dùng",
+            "/roles": "Quản lý vai trò",
+            "/domains": "Quản lý domain",
+            "/functions": "Quản lý chức năng",
+            "/research-groups": "Quản lý nhóm nghiên cứu",
+            "/faqs": "Quản lý FAQ",
+            "/contacts": "Quản lý liên hệ",
+            "/abouts": "Quản lý giới thiệu",
+            "/footers": "Quản lý footer",
+            "/home-video": "Quản lý home video"
+        },
+        "admin-manage-info-form": {
+            "btn-new": "Thêm mới",
+            "header": {
+                "ID": "ID",
+                "MÃ": "MÃ",
+                "TÊN": "TÊN",
+                "HÀNH ĐỘNG": "HÀNH ĐỘNG",
+                "STT": "STT",
+                "HỌ TÊN": "HỌ TÊN",
+                "KÍCH HOẠT": "KÍCH HOẠT",
+                "TÊN ĐĂNG NHẬP": "TÊN ĐĂNG NHẬP",
+                "VAI TRÒ": "VAI TRÒ",
+                "TÊN NHÓM": "TÊN NHÓM",
+                "CÂU HỎI": "CÂU HỎI",
+                "CÂU TRẢ LỜI": "CÂU TRẢ LỜI",
+                "TIÊU ĐỀ": "TIÊU ĐỀ",
+                "NỔI BẬT": "NỔI BẬT",
+                "TRẠNG THÁI": "TRẠNG THÁI",
+                "NGÀY TẠO": "NGÀY TẠO",
+                "NGƯỜI TẠO" : "NGƯỜI TẠO",
+                "TÁC GIẢ": "TÁC GIẢ",
+                "NGƯỜI DUYỆT": "NGƯỜI DUYỆT",
+                "NỘI DUNG": "NỘI DUNG",
+                "SỐ ĐIỆN THOẠI": "SỐ ĐIỆN THOẠI",
+                "EMAIL": "EMAIL",
+                "TÊN DỰ ÁN": "TÊN DỰ ÁN",
+                "NỘI DUNG LIÊN HỆ": "NỘI DUNG LIÊN HỆ",
+                "NGÀY SINH": "NGÀY SINH",
+                "ĐỊA CHỈ": "ĐỊA CHỈ",
+                "TRÌNH ĐỘ CHUYÊN MÔN": "TRÌNH ĐỘ CHUYÊN MÔN",
+                "WEBSITE": "WEBSITE",
+                "TIỂU SỬ": "TIỂU SỬ",
+                "TÊN MIỀN": "TÊN MIỀN",
+                "HÌNH ĐẠI DIỆN": "HÌNH ĐẠI DIỆN",
+                "MẬT KHẨU": "MẬT KHẨU",
+                "GIỚI TÍNH": "GIỚI TÍNH",
+                "TÊN SẢN PHẨM": "TÊN SẢN PHẨM"
+            }
+        },
+        "admin-form": {
+            "add": {
+                "title": "Thêm ",
+                "btn-ok": "Thêm",
+                "btn-cancel": "Hủy"
+            }, 
+            "edit": {
+                "title": "Cập nhật ",
+                "btn-ok": "Cập nhật",
+                "btn-cancel": "Hủy"
+            }, 
+            "field": "Lĩnh vực",
+            "development-level": "Mức độ phát triển",
+            "transmisstion-method": "Phương thức chuyển giao",
+            "status": "Trạng thái",
+            "roles": "Vai trò",
+            "domains": "Domains",
+            "functions": "Chức măng",
+            "faqs": "Faqs"
+        },
+        "tabs": {
+            "informations": {
+                "home": "Thông tin lĩnh vực",
+                "development-levels": "Thông tin mức độ phát triển",
+                "transmisstion-methods": "Thông tin phương thức chuyển giao",
+                "status": "Thông tin trạng thái"
+            },
+            "contacts": {
+                "/admin/contacts/contact": "Liên hệ website",
+                "/admin/contacts/customer-contact": "Liên hệ sản phẩm"
+            },
+            "users": {
+                "/users/add/researcher": "Nhà nghiên cứu",
+                "/users/add/admin": "Quản trị viên"
+            },
+            "signup": {
+                "/users/add/normal_user": "Người dùng khách",
+                "/users/add/researcher": "Nhà nghiên cứu"
+            }
+        },
+        "informations": {
+            "development-levels": {
+                "title": "DANH SÁCH MỨC ĐỘ PHÁT TRIỂN"
+            },
+            "transmisstion-methods": {
+                "title": "DANH SÁCH PHƯƠNG THỨC CHUYỂN GIAO"
+            },
+            "status": {
+                "title": "DANH SÁCH TRẠNG THÁI"
+            }
+        },
+        "projects": {
+            "title": "DANH SÁCH DỰ ÁN",
+            "actions": {
+                "approve": "Duyệt",
+                "deny": "Từ chối",
+                "setHightlight": {
+                    "btnText": "Đặt thứ tự",
+                    "form": {
+                        "title": "Đổi vị trí nỗi bật",
+                        "btnOk": "Đổi",
+                        "btnCancel": "Hủy",
+                        "comboboxLabel": "Vị Trí"
+                    }
+                }
+            }
+        },
+        "search": {
+            "filterBy": {
+                "name-authors": "Tìm kiếm theo tên, tác giả",
+                "username": "Tìm kiếm theo tên đăng nhập"
+            }
+        },
+        "users": {
+            "title": "DANH SÁCH NGƯỜI DÙNG",
+            "form": {
+                "new": {
+                    "title": "THÊM NGƯỜI DÙNG",
+                    "btnOk": "Thêm",
+                    "btnCancel": "Hủy"
+                },
+                "edit": {
+                    "title": "CẬP NHẬT NGƯỜI DÙNG",
+                    "btnOk": "Cập nhật",
+                    "btnCancel": "Hủy"
+                }
+            }
+        },
+        "roles": {
+            "title": "DANH SÁCH VAI TRÒ"
+        },
+        "domains": {
+            "title": "DANH SÁCH DOMAIN"
+        },
+        "functions": {
+            "title": "DANH SÁCH CHỨC NĂNG"
+        },
+        "research-groups": {
+            "title": "DANH SÁCH NHÓM NGHIÊN CỨU"
+        },
+        "faqs": {
+            "title": "DANH SÁCH FAQ"
+        },
+        "contacts": {
+            "general": {
+                "title": "DANH SÁCH LIÊN HỆ WEBSITE",
+                "form": {
+                    "title": "Chi tiết liên hệ"
+                }
+            },
+            "project": {
+                "title": "DANH SÁCH LIÊN HỆ SẢN PHẨM",
+                "form": {
+                    "title": "Chi tiết liên hệ"
+                }
+            }
+        },
+        "about": {
+            "title": "QUẢN LÝ GIỚI THIỆU",
+            "form": {
+                "title": "Sửa giới thiệu",
+                "btnOk": "Cập nhật",
+                "btnCancel": "Quay lại",
+                "name": "Tên"
+            }
+        },
+        "footer": {
+            "title": "QUẢN LÝ FOOTER",
+            "form": {
+                "title": "Sửa footer",
+                "btnOk": "Cập nhật",
+                "btnCancel": "Quay lại"
+            }
+        },
+        "home-video": {
+            "title": "VIDEO TRANG CHỦ",
+            "form": {
+                "name": "Tên",
+                "video": "Video",
+                "btn-text": "Cập nhật"
+            }
+        }
+    },
+
+    "message": {
+        "something-went-wrong": "Có lỗi xảy ra",
+        "method-not-support": "Phương thức không được hỗ trợ",
+        "success": {
+            "create": "Tạo thành công",
+            "update": "Cập nhật thành công",
+            "delete": "Xóa thành công"
+        },
+        "fail": {
+            "create": "Tạo thất bại",
+            "update": "Cập nhật thất bại",
+            "delete": "Xóa thất bại"
+        }
+    }
+}

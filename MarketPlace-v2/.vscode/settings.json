@@ -1,0 +1,6 @@
+{
+    "i18n-ally.localesPaths": [
+        "../../../Code/MarketPlace-v2/src/translations"
+    ],
+    "i18n-ally.keystyle": "nested"
+}

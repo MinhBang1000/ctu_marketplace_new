@@ -1,0 +1,474 @@
+{
+    "navbar": {
+        "Home": "Home",
+        "Projects": "Projects",
+        "Commercial-Projects": "Commercials",
+        "Researching-Projects": "Researchings",
+        "Idea-Projects": "Ideas",
+        "Research-groups": "Research groups",
+        "FAQ": "FAQ",
+        "About": "About",
+        "Contact": "Contact",
+        "Login": "Login",
+        "Logout": "Logout"
+    },
+    "home": {
+        "projects": {
+            "title": "Hightlight projects"
+        },
+        "research-groups": {
+            "title": "Hightlight research groups"
+        },
+        "card": {
+            "btn-text": "View detail"
+        }
+    },
+    "projects": {
+        "nodata": "Nothing to show",
+        "commercial": {
+            "title": "Commercial projects"
+        },
+        "researching": {
+            "title": "Researching projects"
+        },
+        "idea": {
+            "title": "Idea projects"
+        }
+    },
+    "project": {
+        "message-not-allow-null": "may not be null",
+        "commercial": {
+            "companyName": "Company name",
+            "author": "Authors",
+            "address": "Address",
+            "phoneNumber": "Phone number",
+            "fax": "Fax",
+            "email": "Email",
+            "website": "Website",
+            "name": "Name",
+            "shortDescription": "Short description",
+            "scope": "Scope",
+            "projectFieldList": "Fields",
+            "comDevLevelList": "Development level",
+            "comTransMethodList": "Transmission method",
+            "fieldIdList": "Fields",
+            "price": "Price",
+            "process": "Process",
+            "advantage": "Advantage",
+            "projectImage": "Image",
+            "challenge": "Challenge",
+            "solution": "Solution",
+            "benefit": "Benefit",
+            "description": "Detail",
+            "related-projects": {
+                "title": "Related projects",
+                "btn-text":"View detail"
+            },
+            "other-action": {
+                "btn-text": "Contact with us",
+                "form": {
+                    "title": "Contact information",
+                    "project-name": "Project name",
+                    "name": "Name",
+                    "phone": "Phone number",
+                    "email": "Email",
+                    "content": "Content",
+                    "btn-ok": "Send",
+                    "btn-cancel": "Cancel"
+                }
+            }
+        }
+    },
+    "search": {
+        "placeholder": "Search"
+    },
+    "research-groups": {
+        "card": {
+            "btn-text": "View detail"
+        }
+    },
+    "research-group": {
+        "introduction": {
+            "title": "Introduction"
+        },
+        "topics": {
+            "title": "Research topics"
+        },
+        "members": {
+            "title": "Members",
+            "card": {
+                "btn-text": "View detail"
+            }
+        },
+        "publication": {
+            "title": "Scientific publication"
+        }
+    },
+    "contact": {
+        "title": "Contact with us",
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone number",
+            "title": "Title",
+            "content": "Content",
+            "btn-text": "Send"
+        }
+    },
+    "login": {
+        "title": "LOGIN",
+        "form": {
+            "username": "Username",
+            "password": "Password",
+            "btnLogin": "Login",
+            "btnSignup": "Sign Up",
+            "labelHaveNotAccount": "Don't have account",
+            "labelRemember": "Remember",
+            "log-in-with-google": "Log in with Google",
+            "forget-password": "Forget password"
+        }
+    },
+    "signup": {
+        "form": {
+            "title": "Sign up",
+            "btnSignup": "Sign up",
+            "guest": {
+                "fullName": "Full name",
+                "email": "Email",
+                "phoneNumber":"Phone Number",
+                "address":"Address",
+                "gender":"Gender",
+                "username":"Username",
+                "password":"Password",
+                "getNews": "Get news"
+            },
+            "researcher": {
+                "fullName": "Full name",
+                "email": "Email",
+                "dob": "Date of birth",
+                "phoneNumber":"Phone Number",
+                "address":"Address",
+                "gender":"Gender",
+                "username":"Username",
+                "password":"Password",
+                "getNews": "Get news"
+            }
+        }
+    },
+    "forgetPassword": {
+        "form": {
+            "title": "FORGET PASSWORD",
+            "username": "Username",
+            "btnOk": "Reset password",
+            "btnBack": "Back to login page"
+        },
+        "modal": {
+            "code": {
+                "title": "Please input the code that has been sent to your email."
+            },
+            "password": {
+                "password": "New password",
+                "confirmPassword": "Confirm password"
+            },
+            "btnOk": "Confirm",
+            "btnCancel": "Close"
+        }
+    },
+
+
+    "researcher": {
+        "home": {
+            "title": "Personal information",
+            "form": {
+                "fullName": "Full name",
+                "email": "Email",
+                "phoneNumber": "Phone number",
+                "address": "Address",
+                "gender": "Gender",
+                "dob": "Date of birth",
+                "bio": "Bio",
+                "qualification": "Qualification",
+                "website": "Website",
+                "domain": "Domain",
+                "btn-edit": "Edit",
+                "btn-cancel": "Cancel",
+                "btn-save": "Save",
+                "btn-change-password": "Change password",
+                "placeholder-password": "Password",
+                "password": "Password"
+            },
+            "change-pass": {
+                "btnActive": "Change password",
+                "btnCancel": "Cancel",
+                "title": "Change password",
+                "form": {
+                    "oldPassword": "Old password",
+                    "newPassword": "New password",
+                    "confirmPassword": "Confirm password",
+                    "btnOk": "Confirm",
+                    "btnCancel": "Close"
+                }
+            },
+            "navbar": {
+                "create-project": "Create project",
+                "projects": "Projects"
+            }
+        },
+        "projects": {
+            "filter": {
+                "project-type": {
+                    "title": "Project type",
+                    "commercial": "Commercial",
+                    "researching": "Researching",
+                    "idea": "Idea"
+                },
+                "project-status": {
+                    "title": "Project status",
+                    "Đã Duyệt": "Approved",
+                    "Chờ Duyệt": "Waiting",
+                    "Từ Chối": "Denied",
+                    "Lưu Nháp": "Draft",
+                    "All": "All"
+                }
+            },
+            "nodata": "Nothing to show"
+        },
+        "project-create": {
+            "dropdown-select-type": "Select project type",
+            "project-types": {
+                "TM": "Commercial",
+                "NC": "Researching",
+                "YT": "Idea"
+            },
+            "templates": {
+                "template1": "Template 1",
+                "template2": "Template 2"
+            },
+            "form": {
+                "btnBack": "Back",
+                "btnNext": "Next",
+                "btnSend": "Send",
+                "btnDraft": "Draft"
+            },
+            "steps": {
+                "Thông tin chung": "General information",
+                "Thông tin chi tiết": "Detail",
+                "Xem kết quả": "View result"
+            }
+        }
+    },
+
+
+    "admin": {
+        "sidebar": {
+            "/informations": "Informations mamangement",
+            "/projects": "Projects management",
+            "/users": "Users management",
+            "/roles": "Roles management",
+            "/domains": "Domains management",
+            "/functions": "Functions management",
+            "/research-groups": "Research groups management",
+            "/faqs": "FAQ management",
+            "/contacts": "Contacts management",
+            "/abouts": "Abouts management",
+            "/footers": "Footers management",
+            "/home-video": "Home video management"
+        },
+        "admin-manage-info-form": {
+            "btn-new": "New",
+            "header": {
+                "ID": "ID",
+                "MÃ": "CODE",
+                "TÊN": "NAME",
+                "HÀNH ĐỘNG": "ACTIONS",
+                "STT": "STT",
+                "HỌ TÊN": "FULL NAME",
+                "KÍCH HOẠT": "ACTIVATED",
+                "TÊN ĐĂNG NHẬP": "USERNAME",
+                "VAI TRÒ": "ROLE", 
+                "TÊN NHÓM": "GROUP NAME",
+                "CÂU HỎI": "QUESTION",
+                "CÂU TRẢ LỜI": "ANSWER",
+                "TIÊU ĐỀ": "TITLE",
+                "NỔI BẬT": "HIGHTLIGHTED",
+                "TRẠNG THÁI": "STATUS",
+                "NGÀY TẠO": "CREATED DATE",
+                "NGƯỜI TẠO" : "CREATED BY",
+                "TÁC GIẢ": "AUTHOR",
+                "NGƯỜI DUYỆT": "APPROVED BY",
+                "NỘI DUNG": "CONTENT",
+                "SỐ ĐIỆN THOẠI": "PHONE NUMBER",
+                "EMAIL": "EMAIL",
+                "TÊN DỰ ÁN": "PROJECT NAME",
+                "NỘI DUNG LIÊN HỆ": "CONTENT",
+                "NGÀY SINH": "DATE OF BIRTH",
+                "ĐỊA CHỈ": "ADDRESS",
+                "TRÌNH ĐỘ CHUYÊN MÔN": "QUALIFICATION",
+                "WEBSITE": "WEBSITE",
+                "TIỂU SỬ": "BIO",
+                "TÊN MIỀN": "DOMAIN",
+                "HÌNH ĐẠI DIỆN": "AVATAR",
+                "MẬT KHẨU": "PASSWORD",
+                "GIỚI TÍNH": "GENDER",
+                "TÊN SẢN PHẨM": "PROJECT NAME"
+            }
+        },
+        "admin-form": {
+            "add": {
+                "title": "Add ",
+                "btn-ok": "Add",
+                "btn-cancel": "Cancel"
+            }, 
+            "edit": {
+                "title": "Update ",
+                "btn-ok": "Update",
+                "btn-cancel": "Cancel"
+            }, 
+            "field": "Field",
+            "development-level": "Development level",
+            "transmisstion-method": "Transmission method",
+            "status":"Status",
+            "roles": "Roles",
+            "domains": "Domains",
+            "functions": "Functions",
+            "faqs": "Faqs"
+        },
+        "tabs": {
+            "informations": {
+                "home": "Field informations",
+                "development-levels": "Development level informations",
+                "transmisstion-methods": "Transmission method informations",
+                "status": "Status informations"
+            },
+            "contacts": {
+                "/admin/contacts/contact": "Website",
+                "/admin/contacts/customer-contact": "Project"
+            },
+            "users": {
+                "/users/add/researcher": "Researcher",
+                "/users/add/admin": "Admin"
+            },
+            "signup": {
+                "/users/add/normal_user": "Guest",
+                "/users/add/researcher": "Researcher"
+            }
+        },
+        "informations": {
+            "development-levels": {
+                "title": "DEVELOPMENT LEVELS"
+            },
+            "transmisstion-methods": {
+                "title": "TRANSMISSION METHODS"
+            },
+            "status": {
+                "title": "STATUS"
+            }
+        },
+        "projects": {
+            "title": "PROJECTS",
+            "actions": {
+                "approve": "Approve",
+                "deny": "Deny",
+                "setHightlight": {
+                    "btnText": "Set Hightlight",
+                    "form": {
+                        "title": "Change hightlight position",
+                        "btnOk": "Change",
+                        "btnCancel": "Cancel",
+                        "comboboxLabel": "Position"
+                    }
+                }
+            }
+        },
+        "search": {
+            "filterBy": {
+                "name-authors": "Search by name, author",
+                "username": "Search by username"
+            }
+        },
+        "users": {
+            "title": "USERS",
+            "form": {
+                "new": {
+                    "title": "ADD NEW USER",
+                    "btnOk": "Add",
+                    "btnCancel": "Cancel"
+                },
+                "edit": {
+                    "title": "UPDATE USER",
+                    "btnOk": "Update",
+                    "btnCancel": "Cancel"
+                }
+            }
+        },
+        "roles": {
+            "title": "ROLES"
+        },
+        "domains": {
+            "title": "DOMAINS"
+        },
+        "functions": {
+            "title": "FUNCTIONS"
+        },
+        "research-groups": {
+            "title": "RESEARCH GROUPS"
+        },
+        "faqs": {
+            "title": "FAQS"
+        },
+        "contacts": {
+            "general": {
+                "title": "WEBSITE CONTACTS",
+                "form": {
+                    "title": "Contact detail"
+                }
+            },
+            "project": {
+                "title": "PROJECT CONTACTS",
+                "form": {
+                    "title": "Contact detail"
+                }
+            }
+        },
+        "about": {
+            "title": "ABOUT",
+            "form": {
+                "title": "Edit about",
+                "btnOk": "Update",
+                "btnCancel": "Back",
+                "name": "Name"
+            }
+        },
+        "footer": {
+            "title": "FOOTER",
+            "form": {
+                "title": "Edit footer",
+                "btnOk": "Update",
+                "btnCancel": "Back"
+            }
+        },
+        "home-video": {
+            "title": "HOME VIDEO",
+            "form": {
+                "name": "Name",
+                "video": "Video",
+                "btn-text": "Update"
+            }
+        }
+    },
+
+    "message": {
+        "something-went-wrong": "Something went wrong",
+        "method-not-support": "Method not support",
+        "success": {
+            "create": "Create success",
+            "update": "Update success",
+            "delete": "Delete success"
+        },
+        "fail": {
+            "create": "Create fail",
+            "update": "Update fail",
+            "delete": "Delete fail"
+        }
+    }
+}

@@ -1,0 +1,6 @@
+.carousel-itemimg {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: 50% 50%;
+}
