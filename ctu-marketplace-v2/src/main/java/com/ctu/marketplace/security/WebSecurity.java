@@ -3,6 +3,7 @@ package com.ctu.marketplace.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -96,6 +97,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter implements WebMvcC
 				// .antMatchers("/api/v2/upload-file/download/**").permitAll()
 				.antMatchers("/api/v2/admin/**").hasAnyAuthority("SAD", "AD")
 				.antMatchers("/api/v2/auth/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/v3/projects").hasAuthority("NNC")
+				.antMatchers("/api/v3/**").permitAll()
 				.anyRequest()
 				// .permitAll()
 				.authenticated()

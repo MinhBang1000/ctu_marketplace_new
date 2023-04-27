@@ -1,0 +1,30 @@
+package com.ctu.marketplace.dto.last.response;
+
+import com.ctu.marketplace.dto.last.FieldDTO;
+import com.ctu.marketplace.dto.last.StatusDTO;
+import com.ctu.marketplace.dto.last.UserProfileDTO;
+import com.ctu.marketplace.dto.last.KeyValueDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.Set;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class NewProjectDTO {
+    private Long id;
+    private String name;
+    private String author;
+    private Date createdAt;
+    private UserProfileDTO approver;
+    private UserProfileDTO user;
+    private FieldDTO field;
+    private StatusDTO status;
+    private boolean isTemplate;
+    private boolean isActive;
+    private Set<KeyValueDTO> keyValues;
+
+}

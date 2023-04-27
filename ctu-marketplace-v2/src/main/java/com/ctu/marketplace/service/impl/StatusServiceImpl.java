@@ -1,6 +1,7 @@
 package com.ctu.marketplace.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,11 @@ public class StatusServiceImpl implements StatusService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Status getByCode(String code) throws NoSuchElementException {
+        return this.statusRepository.findByCode(code).get();
     }
 
 }

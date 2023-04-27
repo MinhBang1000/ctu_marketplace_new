@@ -1,4 +1,4 @@
-USE marketplacelocal;
+use marketplace;
 CREATE TABLE about_page (
     id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,

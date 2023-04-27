@@ -15,4 +15,6 @@ public interface StatusService {
     Status update(Long statusId, StatusDto statusDto);
 
     boolean deleteById(Long statusId);
+
+    Status getByCode(String code);
 }
