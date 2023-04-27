@@ -11,6 +11,7 @@ import com.ctu.marketplace.repository.NewProjectRepository;
 import com.ctu.marketplace.repository.UserProfileRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,6 @@ public class NewProjectService {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private FkeyValueRepository fkeyValueRepository;
-
     public NewProject create(NewProject instance, List<KeyValueDTO> keyValues) {
         NewProject newProject = this.newProjectRepository.save(instance);
         keyValues.stream().forEach(
@@ -37,21 +37,26 @@ public class NewProjectService {
         );
         return this.newProjectRepository.save(newProject);
     }
-
     public List<NewProject> getAll() {
         return this.newProjectRepository.findAll();
     }
     public List<NewProject> getAllTemplate() {
         return this.newProjectRepository.findAllByIsTemplate(true);
     }
-
+    public List<NewProject> searchProjects(String search) {
+        return this.newProjectRepository.findByNameContaining(search);
+    }
     public NewProject get(Long id) throws NoSuchElementException{
         return this.newProjectRepository.findById(id).get();
     }
-
     public NewProject update(NewProject instance, List<KeyValueDTO> keyValues) throws  NoSuchElementException{
         NewProject exists = this.newProjectRepository.findById(instance.getId()).get();
         // setting auth value for exists
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserProfile currentUser = this.userProfileRepository.findByUsername(auth.getName()).get();
+        if (currentUser.getId() != exists.getUser().getId()) {
+            throw new NoSuchElementException("You are not onwer of this projects!");
+        }
         instance.setUser(exists.getUser());
         instance.setApprover(exists.getApprover());
         instance.setStatus(exists.getStatus());
@@ -81,8 +86,7 @@ public class NewProjectService {
         instance.setApprover(user);
         return this.newProjectRepository.save(instance);
     }
-
-    public void delete(Long id) throws  NoSuchElementException {
+    public void delete(Long id) throws Exception {
         this.newProjectRepository.deleteById(id);
     }
 }

@@ -41,9 +41,12 @@ create table fkey_value(
 );
 
 select * from field;
+select MAX(id) from field;
+insert into field(id,name) values (50900,"Mẫu");
 select * from user_profile;
 select * from new_project;
 select * from fkey_value;
 select * from user_function;
 select * from role;
 select * from status;
+

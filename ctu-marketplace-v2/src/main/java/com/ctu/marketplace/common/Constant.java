@@ -25,6 +25,8 @@ public class Constant {
 
     public static final int STATUS_CODE_400 = 400;
     public static final int STATUS_CODE_200 = 200;
+    public static final int STATUS_CODE_404 = 404;
+    public static final int STATUS_CODE_204 = 204;
     
     public static final String SUCCESS_MESSAGE = "Thành công!";
     public static final String FAILED_MESSAGE = "Thất bại!";
