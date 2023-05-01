@@ -1,0 +1,1 @@
+- Sửa lỗi SSL --> Chọn đúng đường dẫn keystore.p12 cho resource Spring boot

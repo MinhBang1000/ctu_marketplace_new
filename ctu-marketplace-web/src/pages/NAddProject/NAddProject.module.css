@@ -106,31 +106,6 @@
     justify-content: flex-end;
 }
 
-.btn {
-    padding: var(--padding-super-small) var(--padding-small);
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: opacity linear .2s;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-.btn + .btn {
-    margin-left: var(--margin-super-small);
-}
-
-.btnReset {
-    border: 3px solid var(--black);
-}
-
-.btnSubmit {
-    background-color: var(--black);
-    color: var(--white);
-}
-
 .dropdown {
     padding: 12px;
     margin-top: 8px;
@@ -181,13 +156,6 @@
     display: none;
 }
 
-.btnModal {
-    background-color: var(--white);
-    text-align: center;
-    border-radius: 5px;
-    border: 2px solid var(--black);
-}
-
 /* Modal and cover */
 .formCover {
     transform: translateY(100%);
@@ -230,14 +198,6 @@
     cursor: pointer;
 }
 
-.btnModalCreate {
-    text-align: center;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 2px solid var(--black);
-    margin-top: var(--margin-medium);
-}
-
 /* Editor */
 .formEditor {
     margin-bottom: var(--margin-super-small);
@@ -263,4 +223,95 @@
 
 .editorName>i:hover {
     opacity: 0.8;
+}
+/* Detail page */
+.detail {
+    background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: var(--padding-large);
+    min-height: 600px;
+}
+
+.detailTitle{
+    text-align: center;
+}
+
+.detailAuthor {
+    text-align: center;
+    font-size: 18px;
+    color: var(--secondary);
+}
+
+.detailFields {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin-top: var(--margin-super-small);
+}
+
+.detailItem + .detailItem{
+    margin-left: var(--margin-super-small);
+}
+
+.detailItem {
+    text-decoration: underline;
+}
+
+.detailKeyValues {
+    margin: var(--margin-small) 0;
+}
+
+.detailKeyValues>div:first-child{
+    font-weight: bold;
+}
+
+.detailControl {
+    margin-top: var(--margin-large);
+    display: flex;
+    justify-content: flex-end;
+}
+/* Button */
+.btn {
+    background-color: black;
+    color: white;
+}
+
+.btn {
+    padding: var(--padding-super-small) var(--padding-small);
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity linear .2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn + .btn {
+    margin-left: var(--margin-super-small);
+}
+
+.btnPrimary {
+    background-color: black;
+}
+
+.btnSecondary {
+    background-color: #9c9c9c;
+    color: black;
+}
+
+.btnFeature {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+}
+
+/* set private for btn*/
+.formModal .btn {
+    margin-top: 10px;
+    text-align: center;
 }

@@ -41,9 +41,13 @@ public class NewProjectController {
     @Autowired
     private ModelMapper mapper;
     @GetMapping("")
-    public ResponseEntity<Response<List<NewProjectDTO>>> getAll(@RequestParam(value = "is_template", required = false) Boolean isTemplate, @RequestParam(value = "search", required = false) String search) {
+    public ResponseEntity<Response<List<NewProjectDTO>>> getAll(
+            @RequestParam(value = "is_template", required = false) Boolean isTemplate,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "approve", required = false) Boolean isApproved
+    ) {
         List<NewProject> list = new LinkedList<>();
-        if (isTemplate != null) {
+        if (isTemplate != null && isTemplate==true) {
             list = this.newProjectService.getAllTemplate();
         }else{
             if (search != null) {
@@ -51,6 +55,11 @@ public class NewProjectController {
             }else{
                 list = this.newProjectService.getAll();
             }
+        }
+        if (isApproved != null && isApproved==true) {
+            list = list.stream().filter((item) -> {
+                return item.getStatus().getCode().equals("DD");
+            }).collect(Collectors.toList());
         }
         List<NewProjectDTO> dtos = list.stream().map(
                 (item) -> {
@@ -72,10 +81,13 @@ public class NewProjectController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Response<NewProjectDTO>> createNewProject(@RequestBody NewProjectRequestDTO newProjectDTO) {
+    public ResponseEntity<Response<NewProjectDTO>> createNewProject(@RequestBody NewProjectRequestDTO newProjectDTO, @RequestParam(value = "is_template",required = false ) Boolean isTemplate) {
         NewProject newProject = new NewProject();
         newProject.setName(newProjectDTO.getName());
         newProject.setAuthor(newProjectDTO.getAuthor());
+        if (isTemplate != null) {
+            newProject.setTemplate(true);
+        }
         // find  fix auto get user --> First time approverId is UserId
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String exceptionMsg = "";
@@ -85,8 +97,8 @@ public class NewProjectController {
             newProject.setApprover(userProfile);
             // Editing fields
             List<Long> fieldId = newProjectDTO.getFieldIds();
-            // Status
-            newProject.setStatus(this.statusService.getById(newProjectDTO.getStatusId()));
+            // Status - default is 102 - CD
+            newProject.setStatus(this.statusService.getByCode("CD"));
             // to list
             NewProject newInstance = this.newProjectService.create(
                     newProject,
