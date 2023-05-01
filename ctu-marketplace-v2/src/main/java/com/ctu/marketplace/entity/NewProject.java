@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
@@ -23,9 +24,13 @@ public class NewProject {
     private Long id;
     @Column(name = "name")
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "field_id")
-    private Field field;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "new_project_field",
+            joinColumns = @JoinColumn(name  = "new_project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "field_id", referencedColumnName = "id")
+    )
+    private Set<Field> fields = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserProfile user;
@@ -43,12 +48,20 @@ public class NewProject {
     private String author;
     @Column(name = "is_template")
     private boolean isTemplate;
-    @Column(name = "is_active")
-    private boolean isActive;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<FkeyValue> keyValues = new HashSet<>();
     public void addKeyValue(FkeyValue newInstance) {
         this.keyValues.add(newInstance);
+    }
+
+    public void addField(Field field) {
+        this.fields.add(field);
+    }
+
+    public void removeField(Field field) {
+        this.setFields(this.fields.stream().filter((item) -> {
+            return item.getId() != field.getId();
+        }).collect(Collectors.toSet()));
     }
 
     @Override
@@ -56,13 +69,9 @@ public class NewProject {
         return "NewProject{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", field=" + field +
                 ", user=" + user +
                 ", approver=" + approver +
-                ", createdAt=" + createdAt +
-                ", author='" + author + '\'' +
-                ", isTemplate=" + isTemplate +
-                ", isActive=" + isActive +
+                ", status=" + status +
                 '}';
     }
 

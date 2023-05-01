@@ -21,10 +21,9 @@ public class NewProjectDTO {
     private Date createdAt;
     private UserProfileDTO approver;
     private UserProfileDTO user;
-    private FieldDTO field;
+    private Set<FieldDTO> fields;
     private StatusDTO status;
     private boolean isTemplate;
-    private boolean isActive;
     private Set<KeyValueDTO> keyValues;
 
 }

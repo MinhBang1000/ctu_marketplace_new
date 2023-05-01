@@ -4,10 +4,7 @@ import com.ctu.marketplace.common.Constant;
 import com.ctu.marketplace.dto.last.request.NewProjectRequestDTO;
 import com.ctu.marketplace.dto.last.response.NewProjectDTO;
 import com.ctu.marketplace.dto.response.Response;
-import com.ctu.marketplace.entity.FkeyValue;
-import com.ctu.marketplace.entity.NewProject;
-import com.ctu.marketplace.entity.Status;
-import com.ctu.marketplace.entity.UserProfile;
+import com.ctu.marketplace.entity.*;
 import com.ctu.marketplace.service.FieldService;
 import com.ctu.marketplace.service.StatusService;
 import com.ctu.marketplace.service.UserProfileService;
@@ -22,8 +19,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -84,13 +83,15 @@ public class NewProjectController {
             UserProfile userProfile = this.userProfileService.getByUsername(auth.getName());
             newProject.setUser(userProfile);
             newProject.setApprover(userProfile);
-            newProject.setField(this.fieldService.getById(newProjectDTO.getFieldId()));
+            // Editing fields
+            List<Long> fieldId = newProjectDTO.getFieldIds();
             // Status
             newProject.setStatus(this.statusService.getById(newProjectDTO.getStatusId()));
             // to list
             NewProject newInstance = this.newProjectService.create(
                     newProject,
-                    newProjectDTO.getKeyValues()
+                    newProjectDTO.getKeyValues(),
+                    fieldId
             );
             NewProjectDTO dto = this.mapper.map(newInstance, NewProjectDTO.class);
             return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200, dto, Constant.SUCCESS_MESSAGE), HttpStatus.CREATED);
@@ -108,9 +109,18 @@ public class NewProjectController {
             newProject.setName(newProjectRequestDTO.getName());
             newProject.setAuthor(newProjectRequestDTO.getAuthor());
             newProject.setId(projectId);
-            newProject.setField(this.fieldService.getById(newProjectRequestDTO.getFieldId()));
+            // Customizing fields
+            List<Field> fields = newProjectRequestDTO.getFieldIds().stream().map((item) -> {
+                Field field = this.fieldService.getById(item);
+                return field;
+            }).collect(Collectors.toList());
+            Set<Field> setFields = new HashSet<>();
+            fields.stream().forEach((item) -> {
+                setFields.add(item);
+            });
+            newProject.setFields(setFields);
             NewProjectDTO dto = this.mapper.map(
-                    this.newProjectService.update(newProject, newProjectRequestDTO.getKeyValues()),
+                    this.newProjectService.update(newProject, newProjectRequestDTO.getKeyValues(), setFields),
                     NewProjectDTO.class
             );
             return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200, dto, Constant.SUCCESS_MESSAGE), HttpStatus.OK);

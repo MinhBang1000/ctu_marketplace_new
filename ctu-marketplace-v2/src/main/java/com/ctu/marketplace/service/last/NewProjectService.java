@@ -1,11 +1,10 @@
 package com.ctu.marketplace.service.last;
 
+import com.ctu.marketplace.dto.last.FieldDTO;
 import com.ctu.marketplace.dto.last.KeyValueDTO;
 import com.ctu.marketplace.dto.last.response.NewProjectDTO;
-import com.ctu.marketplace.entity.FkeyValue;
-import com.ctu.marketplace.entity.NewProject;
-import com.ctu.marketplace.entity.Status;
-import com.ctu.marketplace.entity.UserProfile;
+import com.ctu.marketplace.entity.*;
+import com.ctu.marketplace.repository.FieldRepository;
 import com.ctu.marketplace.repository.FkeyValueRepository;
 import com.ctu.marketplace.repository.NewProjectRepository;
 import com.ctu.marketplace.repository.UserProfileRepository;
@@ -25,8 +24,10 @@ public class NewProjectService {
     @Autowired
     private UserProfileRepository userProfileRepository;
     @Autowired
+    private FieldRepository fieldRepository;
+    @Autowired
     private FkeyValueRepository fkeyValueRepository;
-    public NewProject create(NewProject instance, List<KeyValueDTO> keyValues) {
+    public NewProject create(NewProject instance, List<KeyValueDTO> keyValues, List<Long> fieldIds) throws NoSuchElementException{
         NewProject newProject = this.newProjectRepository.save(instance);
         keyValues.stream().forEach(
                 (item) -> {
@@ -35,6 +36,10 @@ public class NewProjectService {
                     newProject.addKeyValue(this.fkeyValueRepository.save(keyValue));
                 }
         );
+        fieldIds.stream().forEach((item) -> {
+            Field field = this.fieldRepository.findById(item).get();
+            newProject.addField(field);
+        });
         return this.newProjectRepository.save(newProject);
     }
     public List<NewProject> getAll() {
@@ -49,7 +54,7 @@ public class NewProjectService {
     public NewProject get(Long id) throws NoSuchElementException{
         return this.newProjectRepository.findById(id).get();
     }
-    public NewProject update(NewProject instance, List<KeyValueDTO> keyValues) throws  NoSuchElementException{
+    public NewProject update(NewProject instance, List<KeyValueDTO> keyValues, Set<Field> setFields) throws  NoSuchElementException{
         NewProject exists = this.newProjectRepository.findById(instance.getId()).get();
         // setting auth value for exists
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,15 +66,14 @@ public class NewProjectService {
         instance.setApprover(exists.getApprover());
         instance.setStatus(exists.getStatus());
         instance.setTemplate(exists.isTemplate());
-        instance.setActive(exists.isActive());
         Set<FkeyValue> existsKeyValues = exists.getKeyValues();
-        // delete old version of fields
+        // delete old version of key values
         existsKeyValues.stream().forEach(
                 (item) -> {
                     this.fkeyValueRepository.deleteById(item.getId());
                 }
         );
-        // add new fields
+        // add new key values
         keyValues.stream().forEach(
                 (item) -> {
                     FkeyValue keyValue = (new ModelMapper()).map(item, FkeyValue.class);
@@ -77,6 +81,8 @@ public class NewProjectService {
                     instance.addKeyValue(this.fkeyValueRepository.save(keyValue));
                 }
         );
+        // update fields
+        instance.setFields(setFields);
         return this.newProjectRepository.save(instance);
     }
     public NewProject approve(Status status, Long id) throws NoSuchElementException{

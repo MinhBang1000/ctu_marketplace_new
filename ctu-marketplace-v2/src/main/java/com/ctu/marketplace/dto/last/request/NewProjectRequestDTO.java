@@ -15,7 +15,7 @@ public class NewProjectRequestDTO {
     private String author;
     private Long approverId;
     private Long userId;
-    private Long fieldId;
+    private List<Long> fieldIds;
     private Long statusId;
     private List<KeyValueDTO> keyValues;
 }

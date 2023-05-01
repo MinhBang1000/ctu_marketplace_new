@@ -1,0 +1,1492 @@
+[
+	{
+		"id" : 1,
+		"name" : "Khoa học tự nhiên",
+		"child_of_field_id" : null
+	},
+	{
+		"id" : 2,
+		"name" : "Khoa học kỹ thuật và công nghệ",
+		"child_of_field_id" : null
+	},
+	{
+		"id" : 3,
+		"name" : "Khoa học y dược",
+		"child_of_field_id" : null
+	},
+	{
+		"id" : 4,
+		"name" : "Khoa học nông nghiệp",
+		"child_of_field_id" : null
+	},
+	{
+		"id" : 5,
+		"name" : "Khoa học xã hội",
+		"child_of_field_id" : null
+	},
+	{
+		"id" : 101,
+		"name" : "Toán học và thống kê",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 102,
+		"name" : "Khoa học máy tính và thông tin ",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 103,
+		"name" : "Vật lý",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 104,
+		"name" : "Hoá học",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 105,
+		"name" : "Các khoa học trái đất và môi trường liên quan",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 106,
+		"name" : "Sinh học",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 199,
+		"name" : "Khoa học tự nhiên khác",
+		"child_of_field_id" : 1
+	},
+	{
+		"id" : 201,
+		"name" : "Kỹ thuật dân dụng",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 202,
+		"name" : "Kỹ thuật điện, kỹ thuật điện tử, kỹ thuật thông tin",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 203,
+		"name" : "Kỹ thuật cơ khí",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 204,
+		"name" : "Kỹ thuật hóa học",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 205,
+		"name" : "Kỹ thuật vật liệu và luyện kim",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 206,
+		"name" : "Kỹ thuật y học",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 207,
+		"name" : "Kỹ thuật môi trường",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 208,
+		"name" : "Công nghệ sinh học môi trường",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 209,
+		"name" : "Công nghệ sinh học công nghiệp",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 210,
+		"name" : "Công nghệ nano",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 211,
+		"name" : "Kỹ thuật thực phẩm và đồ uống",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 299,
+		"name" : "Khoa học kỹ thuật và công nghệ khác",
+		"child_of_field_id" : 2
+	},
+	{
+		"id" : 301,
+		"name" : "Y học cơ sở",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 302,
+		"name" : "Y học lâm sàng",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 303,
+		"name" : "Y tế",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 304,
+		"name" : "Dược học",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 305,
+		"name" : "Công nghệ sinh học trong y học",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 399,
+		"name" : "Khoa học y, dược khác",
+		"child_of_field_id" : 3
+	},
+	{
+		"id" : 401,
+		"name" : "Trồng trọt",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 402,
+		"name" : "Chăn nuôi",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 403,
+		"name" : "Thú y",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 404,
+		"name" : "Lâm nghiệp",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 405,
+		"name" : "Thủy sản",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 406,
+		"name" : "Công nghệ sinh học trong nông nghiệp",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 499,
+		"name" : "Khoa học nông nghiệp khác",
+		"child_of_field_id" : 4
+	},
+	{
+		"id" : 501,
+		"name" : "Tâm lý học",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 502,
+		"name" : "Kinh tế và kinh doanh",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 503,
+		"name" : "Khoa học giáo dục",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 504,
+		"name" : "Xã hội học",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 505,
+		"name" : "Pháp luật ",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 506,
+		"name" : "Khoa học chính trị",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 507,
+		"name" : "Địa lý kinh tế và xã hội",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 508,
+		"name" : "Thông tin ñại chúng và truyền thông",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 599,
+		"name" : "Khoa học xã hội khác",
+		"child_of_field_id" : 5
+	},
+	{
+		"id" : 10101,
+		"name" : "Toán học cơ bản",
+		"child_of_field_id" : 101
+	},
+	{
+		"id" : 10102,
+		"name" : "Toán học ứng dụng",
+		"child_of_field_id" : 101
+	},
+	{
+		"id" : 10103,
+		"name" : "Thống kê",
+		"child_of_field_id" : 101
+	},
+	{
+		"id" : 10199,
+		"name" : "Toán học và thống kê khác",
+		"child_of_field_id" : 101
+	},
+	{
+		"id" : 10201,
+		"name" : "Khoa học máy tính",
+		"child_of_field_id" : 102
+	},
+	{
+		"id" : 10202,
+		"name" : "Khoa học thông tin",
+		"child_of_field_id" : 102
+	},
+	{
+		"id" : 10203,
+		"name" : "Sinh tin học",
+		"child_of_field_id" : 102
+	},
+	{
+		"id" : 10299,
+		"name" : "Khoa học máy tính và khoa học thông tin khác",
+		"child_of_field_id" : 102
+	},
+	{
+		"id" : 10301,
+		"name" : "Vật lý nguyên tử; vật lý phân tử và vật lý hóa học",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10302,
+		"name" : "Vật lý các chất cô đặc",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10303,
+		"name" : "Vật lý hạt và trường",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10304,
+		"name" : "Vật lý hạt nhân",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10305,
+		"name" : "Vật lý plasma và chất lỏng",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10306,
+		"name" : "Quang học",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10307,
+		"name" : "Âm học",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10308,
+		"name" : "Thiên văn học",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10309,
+		"name" : "Khoa học vũ trụ",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10399,
+		"name" : "Khoa học vật lý khác",
+		"child_of_field_id" : 103
+	},
+	{
+		"id" : 10401,
+		"name" : "Hoá hữu cơ",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10402,
+		"name" : "Hoá vô cơ và hạt nhân",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10403,
+		"name" : "Hoá lý",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10404,
+		"name" : "Hoá học cao phân tử",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10405,
+		"name" : "Điện hóa",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10406,
+		"name" : "Hoá keo",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10407,
+		"name" : "Hóa phân tích",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10499,
+		"name" : "Khoa học hoá học khác",
+		"child_of_field_id" : 104
+	},
+	{
+		"id" : 10501,
+		"name" : "Địa chất học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10502,
+		"name" : "Khoáng vật học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10503,
+		"name" : "Cổ sinh học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10504,
+		"name" : "Địa vật lý",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10505,
+		"name" : "Địa hóa học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10506,
+		"name" : "Địa lý tự nhiên",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10507,
+		"name" : "Núi lửa học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10508,
+		"name" : "Trắc địa học và bản đồ học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10509,
+		"name" : "Các khoa học môi trường",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10510,
+		"name" : "Khí tượng học và các khoa học khí quyển",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10511,
+		"name" : "Khí hậu học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10512,
+		"name" : "Hải dương học",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10513,
+		"name" : "Thuỷ văn; Tài nguyên nước",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10599,
+		"name" : "Khoa học trái đất và khoa học môi trường liên quan khác",
+		"child_of_field_id" : 105
+	},
+	{
+		"id" : 10601,
+		"name" : "Sinh học lý thuyết",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10602,
+		"name" : "Tế bào học, Mô - phôi học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10603,
+		"name" : "Vi sinh vật học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10604,
+		"name" : "Vi rút học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10605,
+		"name" : "Hoá sinh; phương pháp nghiên cứu hoá sinh",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10606,
+		"name" : "Sinh học phân tử",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10607,
+		"name" : "Nấm học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10608,
+		"name" : "Lý sinh",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10609,
+		"name" : "Di truyền học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10610,
+		"name" : "Sinh học sinh sản",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10611,
+		"name" : "Thực vật học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10612,
+		"name" : "Động vật học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10613,
+		"name" : "Sinh học biển và nước ngọt",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10614,
+		"name" : "Sinh thái học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10615,
+		"name" : "Đa dạng sinh học",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10616,
+		"name" : "Công nghệ sinh học ",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 10699,
+		"name" : "Khoa học sinh học khác ",
+		"child_of_field_id" : 106
+	},
+	{
+		"id" : 20101,
+		"name" : "Kỹ thuật kiến trúc",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20102,
+		"name" : "Kỹ thuật xây dựng",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20103,
+		"name" : "Kỹ thuật kết cấu và đô thị",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20104,
+		"name" : "Kỹ thuật giao thông vận tải",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20105,
+		"name" : "Kỹ thuật thuỷ lợi",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20106,
+		"name" : "Kỹ thuật địa chất công trình",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20199,
+		"name" : "Kỹ thuật dân dụng khác",
+		"child_of_field_id" : 201
+	},
+	{
+		"id" : 20201,
+		"name" : "Kỹ thuật điện và điện tử",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20202,
+		"name" : "Người máy và điều khiển tự động",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20203,
+		"name" : "Tự động hoá (CAD/CAM, v.v..) và các hệ thống điểu khiển, giám sát; công nghệ điều khiển số bằng máy tính (CNC),..",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20204,
+		"name" : "Các hệ thống và kỹ thuật truyền thông",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20205,
+		"name" : "Viễn thông",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20206,
+		"name" : "Phần cứng và kiến trúc máy tính",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20207,
+		"name" : "Cơ điện tử; hệ vi cơ điện tử (MEMS),.",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20299,
+		"name" : "Kỹ thuật điện, kỹ thuật điện tử, kỹ thuật thông tin không xếp vào mục nào khác ",
+		"child_of_field_id" : 202
+	},
+	{
+		"id" : 20301,
+		"name" : "Kỹ thuật cơ khí nói chung",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20302,
+		"name" : "Chế tạo máy nói chung",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20303,
+		"name" : "Chế tạo máy công cụ",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20304,
+		"name" : "Chế tạo máy công cụ",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20305,
+		"name" : "Kỹ thuật cơ khí và chế tạo máy nông nghiệp",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20306,
+		"name" : "Kỹ thuật cơ khí và chế tạo máy thuỷ lợi",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20307,
+		"name" : "Kỹ thuật cơ khí và chế tạo ôtô và giao thông",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20308,
+		"name" : "Kỹ thuật và công nghệ hàng không, vũ trụ",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20309,
+		"name" : "Kỹ thuật và công nghệ âm thanh",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20310,
+		"name" : "Kỹ thuật cơ khí và chế tạo máy xây dựng",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20311,
+		"name" : "Kỹ thuật cơ khí tàu thuỷ",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20312,
+		"name" : "Kỹ thuật cơ khí và chế tạo thiết bị khai khoáng",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20313,
+		"name" : "Kỹ thuật cơ khí và chế tạo thiết bị năng lượng",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20314,
+		"name" : "Kỹ thuật và công nghệ liên quan ñến hạt nhân",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20399,
+		"name" : "Kỹ thuật cơ khí, chế tạo máy khác ",
+		"child_of_field_id" : 203
+	},
+	{
+		"id" : 20401,
+		"name" : "Sản xuất hóa học công nghiệp nói chung",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20402,
+		"name" : "Kỹ thuật quá trình hóa học nói chung",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20403,
+		"name" : "Kỹ thuật hoá dược",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20404,
+		"name" : "Kỹ thuật hoá vô cơ",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20405,
+		"name" : "Kỹ thuật hoá hữu cơ",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20406,
+		"name" : "Kỹ thuật hoá dầu",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20499,
+		"name" : "Kỹ thuật hóa học khác",
+		"child_of_field_id" : 204
+	},
+	{
+		"id" : 20501,
+		"name" : "Kỹ thuật nhiệt trong luyện kim",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20502,
+		"name" : "Kỹ thuật và công nghệ sản xuất kim loại và hợp kim đen",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20503,
+		"name" : "Kỹ thuật và công nghệ sản xuất kim loại và hợp kim màu",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20504,
+		"name" : "Luyện kim bột",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20505,
+		"name" : "Cán kim loại",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20506,
+		"name" : "Luyện các chất bán dẫn",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20507,
+		"name" : "Vật liệu xây dựng",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20508,
+		"name" : "Vật liệu điện tử",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20509,
+		"name" : "Vật liệu kim loại",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20510,
+		"name" : "Gốm",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20511,
+		"name" : "Màng mỏng, vật liệu sơn, vật liệu phủ",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20512,
+		"name" : "Vật liệu composite",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20513,
+		"name" : "Gỗ, giấy, bột giấy ",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20514,
+		"name" : "Vải, gồm cả sợi, màu và thuốc nhuộm tổng hợp",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20515,
+		"name" : "Vật liệu tiên tiến",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20599,
+		"name" : "Kỹ thuật vật liệu và luyện kim khác",
+		"child_of_field_id" : 205
+	},
+	{
+		"id" : 20601,
+		"name" : "Kỹ thuật và thiết bị y học",
+		"child_of_field_id" : 206
+	},
+	{
+		"id" : 20602,
+		"name" : "Kỹ thuật phân tích mẫu bệnh phẩm",
+		"child_of_field_id" : 206
+	},
+	{
+		"id" : 20603,
+		"name" : "Kỹ thuật phân tích mẫu thuốc",
+		"child_of_field_id" : 206
+	},
+	{
+		"id" : 20605,
+		"name" : "Kỹ thuật chẩn đoán bệnh",
+		"child_of_field_id" : 206
+	},
+	{
+		"id" : 20699,
+		"name" : "Kỹ thuật y học khác",
+		"child_of_field_id" : 206
+	},
+	{
+		"id" : 20701,
+		"name" : "Kỹ thuật môi trường và địa chất, địa kỹ thuật",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20702,
+		"name" : "Kỹ thuật dầu khí",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20703,
+		"name" : "Kỹ thuật năng lượng và nhiên liệu không phải dầu khí",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20704,
+		"name" : "Viễn thám",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20705,
+		"name" : "Khai thác mỏ và xử lý khoáng chất",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20706,
+		"name" : "Kỹ thuật hàng hải, đóng tàu biển",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20707,
+		"name" : "Kỹ thuật đại dương",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20708,
+		"name" : "Kỹ thuật bờ biển",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20799,
+		"name" : "Kỹ thuật môi trường khác",
+		"child_of_field_id" : 207
+	},
+	{
+		"id" : 20801,
+		"name" : "Công nghệ sinh học môi trường nói chung",
+		"child_of_field_id" : 208
+	},
+	{
+		"id" : 20802,
+		"name" : "Xử lý môi trường bằng phương pháp sinh học; các công nghệ sinh học chẩn đoán",
+		"child_of_field_id" : 208
+	},
+	{
+		"id" : 20803,
+		"name" : "Đạo đức học trong công nghệ sinh học môi trường",
+		"child_of_field_id" : 208
+	},
+	{
+		"id" : 20899,
+		"name" : "Công nghệ sinh học môi trường khác",
+		"child_of_field_id" : 208
+	},
+	{
+		"id" : 20901,
+		"name" : "Các công nghệ xử lý sinh học (các quá trình công nghiệp dựa vào các tác nhân sinh học ñể vận hành quy trình), xúc tác sinh học; lên men",
+		"child_of_field_id" : 209
+	},
+	{
+		"id" : 20902,
+		"name" : "Các công nghệ sản phẩm sinh học (các sản phẩm dược chế tạo sử dụng vật liệu sinh học làm nguyên liệu), vật liệu sinh học, chất dẻo sinh học, nhiên liệu sinh học,các hóa chất được chiết tách từ sinh học, các vật liệu mới có nguồn gốc sinh học",
+		"child_of_field_id" : 209
+	},
+	{
+		"id" : 20999,
+		"name" : "Công nghệ sinh học công nghiệp khác",
+		"child_of_field_id" : 209
+	},
+	{
+		"id" : 21001,
+		"name" : "Các vật liệu nano",
+		"child_of_field_id" : 210
+	},
+	{
+		"id" : 21002,
+		"name" : "Các quy trình nano",
+		"child_of_field_id" : 210
+	},
+	{
+		"id" : 21099,
+		"name" : "Công nghệ nano khác",
+		"child_of_field_id" : 210
+	},
+	{
+		"id" : 21101,
+		"name" : "Kỹ thuật thực phẩm",
+		"child_of_field_id" : 211
+	},
+	{
+		"id" : 21102,
+		"name" : "Kỹ thuật đồ uống",
+		"child_of_field_id" : 211
+	},
+	{
+		"id" : 21199,
+		"name" : "Kỹ thuật thực phẩm và đồ uống khác",
+		"child_of_field_id" : 211
+	},
+	{
+		"id" : 30101,
+		"name" : "Giải phẫu học và hình thái học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30102,
+		"name" : "Di truyền học người",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30103,
+		"name" : "Miễn dịch học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30104,
+		"name" : "Thần kinh học (bao gồm cả Tâm sinh lý học)",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30105,
+		"name" : "Sinh lý học y học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30106,
+		"name" : "Mô học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30107,
+		"name" : "Hóa học lâm sàng và sinh hóa y học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30108,
+		"name" : "Vi sinh vật học y học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30109,
+		"name" : "Bệnh học",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30199,
+		"name" : "Y học cơ sở khác",
+		"child_of_field_id" : 301
+	},
+	{
+		"id" : 30201,
+		"name" : "Nam học",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30202,
+		"name" : "Sản khoa và phụ khoa",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30203,
+		"name" : "Nhi khoa",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30204,
+		"name" : "Hệ tim mạch",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30205,
+		"name" : "Bệnh hệ mạch ngoại biên",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30206,
+		"name" : "Huyết học và truyền máu",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30207,
+		"name" : "Hệ hô hấp và các bệnh liên quan",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30208,
+		"name" : "Điều trị tích cực và hồi sức cấp cứu",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30209,
+		"name" : "Gây mê ",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30210,
+		"name" : "Chấn thương, Chỉnh hình",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30211,
+		"name" : "Ngoại khoa",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30212,
+		"name" : "Y học hạt nhân và phóng xạ; chụp ảnh y học",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30213,
+		"name" : "Ghép mô, tạng",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30214,
+		"name" : "Nha khoa và phẫu thuật miệng",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30215,
+		"name" : "Da liễu, Hoa liễu",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30216,
+		"name" : "Dị ứng",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30217,
+		"name" : "Bệnh về khớp",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30218,
+		"name" : "Nội tiết và chuyển hoá",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30219,
+		"name" : "Tiêu hoá và gan mật học",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30220,
+		"name" : "Niệu học và thận học",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30221,
+		"name" : "Ung thư học và phát sinh ung thư",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30222,
+		"name" : "Nhãn khoa. Bệnh mắt",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30223,
+		"name" : "Tai mũi họng",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30224,
+		"name" : "Tâm thần học",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30225,
+		"name" : "Thần kinh học lâm sàng",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30226,
+		"name" : "Lão khoa, Bệnh người già",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30227,
+		"name" : "Y học thẩm mỹ, Phẫu thuật thẩm mỹ",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30228,
+		"name" : "Y học tổng hợp và nội khoa",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30229,
+		"name" : "Y học bổ trợ và kết hợp",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30230,
+		"name" : "Y học thể thao, thể dục",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30231,
+		"name" : "Y học dân tộc; y học cổ truyền",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30299,
+		"name" : "Y học lâm sàng khác",
+		"child_of_field_id" : 302
+	},
+	{
+		"id" : 30301,
+		"name" : "Khoa học về chăm sóc sức khoẻ và dịch vụ y tế (bao gồm cả quản trị bệnh viện, tài chính y tế,..)",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30302,
+		"name" : "Chính sách và dịch vụ y tế",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30303,
+		"name" : "Điều dưỡng",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30304,
+		"name" : "Dinh dưỡng; Khoa học về ăn kiêng",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30305,
+		"name" : "Y tế môi trường và công cộng",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30306,
+		"name" : "Y học nhiệt đới",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30307,
+		"name" : "Ký sinh trùng học",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30308,
+		"name" : "Bệnh truyền nhiễm",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30309,
+		"name" : "Dịch tễ học",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30310,
+		"name" : "Sức khoẻ nghề nghiệp; tâm lý ung thư học, Hiệu quả chính sách và xã hội của nghiên cứu y sinh học",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30312,
+		"name" : "Sức khoẻ sinh sản",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30313,
+		"name" : "Đạo đức học trong y học",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30314,
+		"name" : "Lạm dụng thuốc; Nghiện và cai nghiện.",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30399,
+		"name" : "Các vấn đề y tế khác",
+		"child_of_field_id" : 303
+	},
+	{
+		"id" : 30401,
+		"name" : "Dược lý học",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30402,
+		"name" : "Dược học lâm sàng và điều trị",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30403,
+		"name" : "Dược liệu học; Cây thuốc; Con thuốc; Thuốc Nam, thuốc dân tộc",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30404,
+		"name" : "Hoá dược học",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30405,
+		"name" : "Kiểm nghiệm thuốc và độc chất học",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30499,
+		"name" : "Dược học khác",
+		"child_of_field_id" : 304
+	},
+	{
+		"id" : 30501,
+		"name" : "Công nghệ sinh học liên quan đến y học, y tế",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 30502,
+		"name" : "Công nghệ sinh học liên quan đến thao tác với các tế bào, mô, cơ quan hay toàn bộ sinh vật (hỗ trợ sinh sản); công nghệ tế bào gốc",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 30503,
+		"name" : "Công nghệ liên quan đến xác định chức năng của ADN, protein, enzym và tác động của chúng tới việc phát bệnh; đảm bảo sức khỏe (bao gồm cả chẩn đoán gen, các can thiệp điều trị trên cơ sở gen (dược phẩm trên cơ sở gen (pharmacogenomics) các liệu pháp điều trị trên cở sở gen),...",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 30504,
+		"name" : "Vật liệu sinh học liên quan đến cấy ghép trong y học, thiết bị, cảm biến y học)",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 30505,
+		"name" : "Đạo đức học trong công nghệ sinh học y học",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 30599,
+		"name" : "Công nghệ sinh học y học khác",
+		"child_of_field_id" : 305
+	},
+	{
+		"id" : 39901,
+		"name" : "Pháp y",
+		"child_of_field_id" : 399
+	},
+	{
+		"id" : 39902,
+		"name" : "Y học thảm hoạ",
+		"child_of_field_id" : 399
+	},
+	{
+		"id" : 39903,
+		"name" : "Y học hàng không, vũ trụ",
+		"child_of_field_id" : 399
+	},
+	{
+		"id" : 39904,
+		"name" : "Quân y; Y tế quốc phòng",
+		"child_of_field_id" : 399
+	},
+	{
+		"id" : 39999,
+		"name" : "Y học, y tế và dược chưa xếp vào mục nào khác",
+		"child_of_field_id" : 399
+	},
+	{
+		"id" : 40106,
+		"name" : "Bảo vệ thực vật",
+		"child_of_field_id" : 401
+	},
+	{
+		"id" : 40107,
+		"name" : "Bảo quản và chế biến nông sản",
+		"child_of_field_id" : 401
+	},
+	{
+		"id" : 40503,
+		"name" : "Bảo quản và chế biến nông sản",
+		"child_of_field_id" : 405
+	},
+	{
+		"id" : 40504,
+		"name" : "Bảo quản và chế biến nông sản",
+		"child_of_field_id" : 405
+	},
+	{
+		"id" : 40601,
+		"name" : "Công nghệ gen",
+		"child_of_field_id" : 406
+	},
+	{
+		"id" : 40602,
+		"name" : "Các công nghệ tế bào trong nông nghiệp",
+		"child_of_field_id" : 406
+	},
+	{
+		"id" : 40603,
+		"name" : "Các công nghệ enzym và protein trong nông nghiệp",
+		"child_of_field_id" : 406
+	},
+	{
+		"id" : 40604,
+		"name" : "Các công nghệ vi sinh vật trong nông nghiệp",
+		"child_of_field_id" : 406
+	},
+	{
+		"id" : 50101,
+		"name" : "Tâm lý học nói chung",
+		"child_of_field_id" : 501
+	},
+	{
+		"id" : 50102,
+		"name" : "Tâm lý học chuyên ngành",
+		"child_of_field_id" : 501
+	},
+	{
+		"id" : 50199,
+		"name" : "Tâm lý học khác",
+		"child_of_field_id" : 501
+	},
+	{
+		"id" : 50201,
+		"name" : "Kinh tế học; Trắc lượng kinh tế học; Quan hệ sản xuất kinh doanh",
+		"child_of_field_id" : 502
+	},
+	{
+		"id" : 50202,
+		"name" : "Kinh doanh và quản lý",
+		"child_of_field_id" : 502
+	},
+	{
+		"id" : 50299,
+		"name" : "Kinh tế học và kinh doanh khác",
+		"child_of_field_id" : 502
+	},
+	{
+		"id" : 50301,
+		"name" : "Khoa học giáo dục học nói chung, bao gồm cả đào tạo, sư phạm học, lý luận giáo dục,.. ",
+		"child_of_field_id" : 503
+	},
+	{
+		"id" : 50302,
+		"name" : "Giáo dục chuyên biệt",
+		"child_of_field_id" : 503
+	},
+	{
+		"id" : 50399,
+		"name" : "Các vấn đề khoa học giáo dục khác",
+		"child_of_field_id" : 503
+	},
+	{
+		"id" : 50401,
+		"name" : "Xã hội học nói chung",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50402,
+		"name" : "Nhân khẩu học",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50403,
+		"name" : "Nhân chủng học",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50404,
+		"name" : "Dân tộc học",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50405,
+		"name" : "Xã hội học chuyên sề; Khoa học về giới và phụ nữ; Các vấn đề xã hội nghiên cứu gia đình và xã hội; Công tác xã hội",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50499,
+		"name" : "Xã hội học khác",
+		"child_of_field_id" : 504
+	},
+	{
+		"id" : 50501,
+		"name" : "Luật học",
+		"child_of_field_id" : 505
+	},
+	{
+		"id" : 50502,
+		"name" : "Tội phạm học",
+		"child_of_field_id" : 505
+	},
+	{
+		"id" : 50503,
+		"name" : "Hình phạt học",
+		"child_of_field_id" : 505
+	},
+	{
+		"id" : 50599,
+		"name" : "Các vấn để pháp luật khác",
+		"child_of_field_id" : 505
+	},
+	{
+		"id" : 50601,
+		"name" : "Khoa học chính trị",
+		"child_of_field_id" : 506
+	},
+	{
+		"id" : 50602,
+		"name" : "Hành chính công và quản lý hành chính",
+		"child_of_field_id" : 506
+	},
+	{
+		"id" : 50603,
+		"name" : "Lý thuyết tổ chức; Hệ thống chính trị; đảng chính trị",
+		"child_of_field_id" : 506
+	},
+	{
+		"id" : 50699,
+		"name" : "Khoa học chính trị khác",
+		"child_of_field_id" : 506
+	},
+	{
+		"id" : 50701,
+		"name" : "Khoa học môi trường - các khía cạnh xã hội;",
+		"child_of_field_id" : 507
+	},
+	{
+		"id" : 50702,
+		"name" : "Địa lý kinh tế và văn hoá",
+		"child_of_field_id" : 507
+	},
+	{
+		"id" : 50703,
+		"name" : "Nghiên cứu quy hoạch, phát triển đô thị",
+		"child_of_field_id" : 507
+	},
+	{
+		"id" : 50704,
+		"name" : "Quy hoạch giao thông và các khía cạnh xã hội của giao thông vận tải",
+		"child_of_field_id" : 507
+	},
+	{
+		"id" : 50705,
+		"name" : "Địa lý kinh tế và xã hội khác",
+		"child_of_field_id" : 507
+	},
+	{
+		"id" : 50801,
+		"name" : "Báo chí",
+		"child_of_field_id" : 508
+	},
+	{
+		"id" : 50802,
+		"name" : "Thông tin học",
+		"child_of_field_id" : 508
+	},
+	{
+		"id" : 50803,
+		"name" : "Khoa học thư viện",
+		"child_of_field_id" : 508
+	},
+	{
+		"id" : 50804,
+		"name" : "Thông tin đại chúng và truyền thông văn hoá - xã hội",
+		"child_of_field_id" : 508
+	},
+	{
+		"id" : 50899,
+		"name" : "Thông tin đại chúng và truyền thông khác",
+		"child_of_field_id" : 508
+	},
+	{
+		"id" : 50900,
+		"name" : "Mẫu",
+		"child_of_field_id" : null
+	}
+]

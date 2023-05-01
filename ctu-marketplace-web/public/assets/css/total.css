@@ -1,0 +1,22 @@
+:root {
+    /* COLOR */
+    --white: #fff;
+    --black: #000;
+    --grey: #ced4da;
+    /* GAP */
+    --padding-large: 36px;
+    --padding-super-large: 48px;
+    --margin-large: 36px;
+    --margin-super-large: 48px;
+    --padding-medium: 24px;
+    --margin-medium: 24px;
+    --padding-small: 14px;
+    --margin-small: 14px;
+    --padding-super-small: 8px;
+    --margin-super-small: 8px;
+    /* EFFECT */
+    --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    --box-in-color: #80bdff;
+    --box-out-color: #bfdeff;
+
+}
