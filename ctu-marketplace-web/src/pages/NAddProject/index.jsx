@@ -4,11 +4,14 @@ import styles from  "./NAddProject.module.css"
 import { CKEditor } from 'ckeditor4-react';
 import axios from "axios"
 import authHeader from "../../services/auth.header";
+import Toast from "../../components/Toast";
 
 
 const NAddProject = () => {
     // Init
     const initState = {
+        // Action
+        toast: 0,
         // Data
         templates: [],
         projectName: '',
@@ -53,7 +56,21 @@ const NAddProject = () => {
 
     // Hooks
     const [state, setState] = useState(initState)
-    const {form, checkFields, fields, kvalues, showAnimation, newField, projectName, projectAuthor, templates} = state
+    const {form, checkFields, fields, kvalues, showAnimation, newField, projectName, projectAuthor, templates, toast} = state
+
+    const resetState = {
+        // Data
+        templates: [],
+        projectName: '',
+        projectAuthor: '',
+        form: 1,
+        checkFields: [],
+        fields: [],
+        kvalues: [],
+        newField: "",
+        // CSS Class
+        showAnimation: false    
+    }
 
     // Handle 
     const handleUp = (index) => {
@@ -197,7 +214,13 @@ const NAddProject = () => {
 
     const resetComponent = () => {
         handleChooseForm(1)
-        setState(initState)
+        const temp = fields
+        setState((prev) => {
+            return {...prev, ...resetState}
+        })
+        setState((prev) => {
+            return {...prev, fields: temp}
+        })
     }
 
     const handleCreatePattern = () => {
@@ -205,11 +228,11 @@ const NAddProject = () => {
         axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
             headers: authHeader()
         }).then(res => {
-            console.log(res.data);
+            resetComponent()
+            handleChangeToast(1)
         }).catch(error => {
-            console.log(error)
+            handleChangeToast(2)
         })
-        resetComponent()
     }
 
     const handleCreateProject = () => {
@@ -217,31 +240,37 @@ const NAddProject = () => {
         axios.post("https://127.0.0.1:3999/api/v3/projects", json, {
             headers: authHeader()
         }).then(res => {
-            console.log(res.data);
+            resetComponent()
+            handleChangeToast(1)
         }).catch(error => {
-            console.log(error)
+            handleChangeToast(2)
         })
-        resetComponent()
     }
 
     const handleCreateBoth = () => {
         let json = preparingData()
+        let check = true 
         axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
             headers: authHeader()
         }).then(res => {
-            console.log(res.data);
+            check = true
         }).catch(error => {
-            console.log(error)
+            check = false 
         })
         let json1 = preparingData()
         axios.post("https://127.0.0.1:3999/api/v3/projects", json1, {
             headers: authHeader()
         }).then(res => {
-            console.log(res.data);
+            check = true 
         }).catch(error => {
-            console.log(error)
+            check = false 
         })
-        resetComponent()
+        if (check == true) {
+            resetComponent()
+            handleChangeToast(1)
+        }else{
+            handleChangeToast(2)
+        }
     }
     
 
@@ -473,23 +502,50 @@ const NAddProject = () => {
         </div>)
     }
 
+    const handleChangeToast = (value) => {
+        setState((prev) => {
+            return {...prev, toast: value}
+        })
+    }
 
+    const toastRender = (option) => {
+        if (option === 1) {
+            return (<Toast 
+                title='Thành công'
+                message='Thao tác thêm thành công'
+                status={true}
+                changeToast={(value) => handleChangeToast(value)}
+            />)
+        } else {
+            if (option === 2) {
+                return (<Toast 
+                    title='Thất bại'
+                    message='Thao tác thêm thất bại'
+                    status={false}
+                    changeToast={(value) => handleChangeToast(value)}
+                />)
+            }
+        } 
+        return (<></>)
+    }
 
-    // Rendering this page !
+    // Primary render
     return (
-        <div className={clsx(styles.nAddProject)}>
-            <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>
-                {infoComponent()}
-                <div className={styles.contact}>
-                    <div>Nếu bạn có thắc mắc</div>
-                    <div>Liên hệ <i className="fa-solid fa-arrow-right"></i></div>
+        <>
+            {toastRender(toast)}
+            <div className={clsx(styles.nAddProject)}>
+                <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>
+                    {infoComponent()}
+                    <div className={styles.contact}>
+                        <div>Nếu bạn có thắc mắc</div>
+                        <div>Liên hệ <i className="fa-solid fa-arrow-right"></i></div>
+                    </div>
+                </div>
+                <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
+                    {formComponent()}
                 </div>
             </div>
-
-            <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
-                {formComponent()}
-            </div>
-        </div>
+        </>
     )
 
 }

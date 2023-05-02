@@ -1,0 +1,77 @@
+.toast {
+    position: fixed;
+    right: 4px;
+    box-sizing: border-box;
+    top: var(--margin-small);
+    z-index: 9999;
+    background-color: var(--white);
+    min-width: 500px;
+    padding: var(--padding-small) var(--padding-medium);
+    padding-left: 50px;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    transform: translateX(104%);
+}
+
+.toast>i:first-child {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.toast>i:nth-child(2) {
+    position: absolute;
+    top: 20px;
+    left: 23px;
+    cursor: pointer;
+}
+
+.toast::before {
+    content: '';
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.message {
+    color: #333;
+}
+
+/* Another status */
+.success::before {
+    content: '';
+    background-color: #49b247;
+}
+
+.success>i:nth-child(2) {
+    color: #49b247;
+}
+
+.fail::before {
+    content: '';
+    background-color: #d13168;
+}
+
+.fail>i:nth-child(2) {
+    color: #d13168;
+}
+
+/* Animation */
+@keyframes show {
+    to {
+        transform: translateX(0%);
+    }
+}
+
+.toast {
+    animation: show .3s ease-in-out forwards;
+}
