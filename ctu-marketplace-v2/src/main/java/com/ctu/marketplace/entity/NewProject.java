@@ -8,10 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -49,7 +46,7 @@ public class NewProject {
     @Column(name = "is_template")
     private boolean isTemplate;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private Set<FkeyValue> keyValues = new HashSet<>();
+    private Set<FkeyValue> keyValues = new LinkedHashSet<>();
     public void addKeyValue(FkeyValue newInstance) {
         this.keyValues.add(newInstance);
     }

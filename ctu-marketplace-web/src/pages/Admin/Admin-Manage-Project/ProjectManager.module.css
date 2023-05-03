@@ -1,0 +1,127 @@
+.project {
+    padding: 36px 0;
+}
+
+.board {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.search{
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .search {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .board {
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+}
+
+.search>input{ 
+    outline: none;
+    border: none;
+}
+
+.search, .filter>select{
+    padding: 12px;
+    box-sizing: border-box;
+    max-height: 46px;
+    margin-top: 8px;
+    border: 2px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all ease-in-out .15s;
+}
+
+.search:hover , .filter>select:hover{
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 .2rem #bfdeff;
+}
+
+/* Button */
+
+.control {
+    display: flex;
+    justify-content: space-between;
+}
+
+.control>i {
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+}
+
+.btn + .btn {
+    margin-left: 4px;
+}
+
+.btn {
+    transition: opacity ease .2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+/* Detail */
+.detail {
+    padding: 12px;
+}
+
+.content {
+    padding: 36px;
+    margin: 24px auto;
+    border-radius: 15px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.title {
+    text-align: center;
+}
+
+.author {
+    text-align: center;
+    color: #333;
+}
+
+.back {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity ease 0.3s;
+}
+
+.back:hover {
+    opacity: 0.8;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    justify-content: center;
+}
+
+.item {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.item + .item {
+    margin-left: 18px;
+}
+
+.key {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 12px;
+}

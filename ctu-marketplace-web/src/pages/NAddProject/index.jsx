@@ -12,6 +12,7 @@ const NAddProject = () => {
     const initState = {
         // Action
         toast: 0,
+        constFields: [],
         // Data
         templates: [],
         projectName: '',
@@ -25,14 +26,13 @@ const NAddProject = () => {
         showAnimation: false    
     }
     // Apis
-    
-    
+
     useEffect(() => {
         // Get All Fields
         axios.get("https://127.0.0.1:3999/api/v3/fields")
         .then(res => {
             setState((prev) => {
-                return {...prev, fields: res.data.data}
+                return {...prev, fields: res.data.data, constFields: res.data.data}
             })
         })
         .catch(error => {
@@ -41,7 +41,6 @@ const NAddProject = () => {
         // Get Project Templates
         axios.get("https://127.0.0.1:3999/api/v3/projects?is_template=true&approve=true")
         .then(res => {
-            console.log(res.data.data);
             setState((prev) => {
                 return {...prev, templates: res.data.data}
             })
@@ -56,7 +55,11 @@ const NAddProject = () => {
 
     // Hooks
     const [state, setState] = useState(initState)
-    const {form, checkFields, fields, kvalues, showAnimation, newField, projectName, projectAuthor, templates, toast} = state
+    const {form, checkFields, fields, kvalues, showAnimation, newField, constFields, projectName, projectAuthor, templates, toast} = state
+
+    useEffect(() => {
+        localStorage.setItem('keyValues', JSON.stringify(kvalues))
+    }, [kvalues])
 
     const resetState = {
         // Data
@@ -77,6 +80,7 @@ const NAddProject = () => {
         // At least two element
         if (index > 0) {
             const tempObj = kvalues[index]
+            // Change value of Editor
             let newList = kvalues
             newList[index] = newList[index - 1]
             newList[index - 1] = tempObj
@@ -103,6 +107,7 @@ const NAddProject = () => {
         if (index >= 0 && index < kvalues.length) {
             let newList = kvalues
             newList.splice(index, 1)
+            localStorage.setItem('keyValues', JSON.stringify(newList))
             setState((prev) => {
                 return {...prev, kvalues: newList}
             })
@@ -110,9 +115,9 @@ const NAddProject = () => {
     }
 
     const handleEditor = (value, index) => {
-        const  values = kvalues
+        const values = JSON.parse(localStorage.getItem('keyValues') || "[]")
         if (index >= 0 && index < kvalues.length) {
-            values[index]["value"] = value 
+            values[index].value = value 
             setState((prev) => {
                 return {...prev, kvalues: values}
             })
@@ -163,9 +168,6 @@ const NAddProject = () => {
     }
 
     const handleChooseForm = (id) => {
-        if (id === 3) {
-            preparingData()
-        }
         setState((prev) => {
             return {...prev, form: id}
         })
@@ -179,7 +181,7 @@ const NAddProject = () => {
 
     const handleFieldSearch = (value) => {
 
-        const newList = fields.filter((item) => {
+        const newList = constFields.filter((item) => {
             return item.name.includes(value)
         })
         setState((prev) => {
@@ -189,11 +191,12 @@ const NAddProject = () => {
     }
 
     const handleChoosePattern = (id) => {
-        const pattern = templates.filter((item) => item.id==id)[0]
-        if (id == 0) {
+        if (id === 0) {
             setState((prev) => {return {...prev, kvalues: []}})
         }else{
-            setState((prev) => {return {...prev, kvalues: pattern.keyValues}})
+            const patterns = templates.filter((item) => item.id===id)
+            console.log(patterns[0]);
+            setState((prev) => {return {...prev, kvalues: patterns[0].keyValues}})
         }
     }
 
@@ -225,6 +228,7 @@ const NAddProject = () => {
 
     const handleCreatePattern = () => {
         let json = preparingData()
+        console.log(json);
         axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
             headers: authHeader()
         }).then(res => {
@@ -265,7 +269,7 @@ const NAddProject = () => {
         }).catch(error => {
             check = false 
         })
-        if (check == true) {
+        if (check === true) {
             resetComponent()
             handleChangeToast(1)
         }else{
@@ -312,7 +316,7 @@ const NAddProject = () => {
     const formComponent = () => {
         if (form === 1) {
             return (
-                <form className={clsx(styles.form)}>
+                <div className={clsx(styles.form)}>
                     <div className={clsx(styles.formGroup)}>
                         <label>Tên</label>
                         <input 
@@ -370,21 +374,21 @@ const NAddProject = () => {
                             Tạo
                         </div>
                     </div>
-                </form>
+                </div>
             )
         } else if (form === 2) {
-            return (<form className={clsx(styles.form)}>
-                <div className={clsx(styles.formGroup)}>
-                    <label>Chọn mẫu</label>
-                    <select onChange={e => handleChoosePattern(e.target.value)}>
-                        <option value={0} key={0}>Chọn mẫu</option>
-                        {
-                            templates.map((item, index) => {
-                                return <option value={item.id} key={index}>{item.name}</option>
-                            })
-                        }
-                    </select>
-                </div>
+            return (<div className={clsx(styles.form)}>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Chọn mẫu</label>
+                        <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
+                            <option value={0} key={0}>Chọn mẫu</option>
+                            {
+                                templates.map((item, index) => {
+                                    return <option value={item.id}  key={index}>{item.name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
 
                 {
                     kvalues.map((item, index) => {
@@ -398,8 +402,7 @@ const NAddProject = () => {
                                 </div>
                                 <CKEditor 
                                     id={item.key}
-                                    name={item.key}
-                                    activeClass={item.key}
+                                    name={`CK-${index}`}
                                     initData={item.value || ""}
                                     config={{
                                         filebrowserUploadUrl: 'https://marketplace.ctu.edu.vn/api/v2/upload-file',
@@ -459,7 +462,7 @@ const NAddProject = () => {
                         Tiếp tục
                     </div>
                 </div>
-            </form>)
+            </div>)
         }
         
         return (

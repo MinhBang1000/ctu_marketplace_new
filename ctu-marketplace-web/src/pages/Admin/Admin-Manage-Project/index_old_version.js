@@ -450,6 +450,7 @@ const AdminManageProjectPage = (props) => {
 
         return null
     }
+    
 
     const renderDatatable = (data) => {
         if(renderRows(data)){
@@ -494,6 +495,7 @@ const AdminManageProjectPage = (props) => {
     return (
         
         <>
+            <h1>Hello</h1>
             <Filter 
                 handleComboboxChange={handleComboboxChange}
                 handleRadioClick={handleRadioClick}

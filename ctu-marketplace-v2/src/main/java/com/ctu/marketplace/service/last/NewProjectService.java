@@ -93,6 +93,9 @@ public class NewProjectService {
         return this.newProjectRepository.save(instance);
     }
     public void delete(Long id) throws Exception {
+        NewProject instance = this.newProjectRepository.findById(id).get();
+        instance.setFields(new HashSet<>());
+        this.newProjectRepository.save(instance);
         this.newProjectRepository.deleteById(id);
     }
 }

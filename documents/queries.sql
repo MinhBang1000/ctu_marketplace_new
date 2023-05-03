@@ -17,9 +17,9 @@ create table new_project (
     created_at datetime default current_timestamp,
     author varchar(255) not null,
     is_template boolean default 0,
-    foreign key (user_id) references user_profile(id),
-    foreign key (approver_id) references user_profile(id),
-    foreign key (status_id) references status(id),
+    foreign key (user_id) references user_profile(id) ON DELETE CASCADE,
+    foreign key (approver_id) references user_profile(id) ON DELETE CASCADE,
+    foreign key (status_id) references status(id) ON DELETE CASCADE,
     primary key (id)
 );
 
@@ -27,8 +27,8 @@ create table new_project_field (
 	id bigint auto_increment primary key,
     field_id bigint not null,
     new_project_id bigint not null,
-    foreign key (field_id) references field(id),
-    foreign key (new_project_id) references new_project(id)
+    foreign key (field_id) references field(id) ON DELETE CASCADE,
+    foreign key (new_project_id) references new_project(id) ON DELETE CASCADE
 );
 
 create table fkey_value(
@@ -36,11 +36,12 @@ create table fkey_value(
     fkey varchar(255) not null,
     fvalue longtext,
     new_project_id bigint not null,
-    foreign key (new_project_id) references new_project(id)
+    foreign key (new_project_id) references new_project(id) ON DELETE CASCADE
 );
 
 drop table fkey_value;
 drop table new_project;
+drop table new_project_field;
 delete from fkey_value;
 delete from new_project;
 alter table new_project add column status_id bigint not null;
@@ -60,4 +61,7 @@ select * from user_function;
 select * from role;
 select * from status;
 update new_project set is_template = 1;
+delete from new_project where id = 5;
+select * from new_project_field;
+
 
