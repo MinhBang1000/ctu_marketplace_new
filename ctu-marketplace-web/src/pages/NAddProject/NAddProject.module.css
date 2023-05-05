@@ -315,3 +315,7 @@
     margin-top: 10px;
     text-align: center;
 }
+
+.contact>a {
+    font-weight: bold;
+}

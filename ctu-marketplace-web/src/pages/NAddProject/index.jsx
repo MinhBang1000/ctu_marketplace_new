@@ -5,6 +5,7 @@ import { CKEditor } from 'ckeditor4-react';
 import axios from "axios"
 import authHeader from "../../services/auth.header";
 import Toast from "../../components/Toast";
+import { Link } from "react-router-dom"
 
 
 const NAddProject = () => {
@@ -201,9 +202,9 @@ const NAddProject = () => {
     }
 
     const handleChecked = (id) => {
-        if (state.checkFields.includes(id)) {
+        if (checkFields.includes(id)) {
             // remove
-            const removedList = state.checkFields.filter((item) => item.id !== id)
+            const removedList = checkFields.filter((item) => item !== id)
             setState((prev) => {
                 return {...prev, checkFields: removedList}
             })
@@ -541,7 +542,7 @@ const NAddProject = () => {
                     {infoComponent()}
                     <div className={styles.contact}>
                         <div>Nếu bạn có thắc mắc</div>
-                        <div>Liên hệ <i className="fa-solid fa-arrow-right"></i></div>
+                        <Link to="/contact">Liên hệ <i className="fa-solid fa-arrow-right"></i></Link>
                     </div>
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>

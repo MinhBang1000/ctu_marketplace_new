@@ -58,7 +58,7 @@ export const login = createAsyncThunk(
   async ({ username, password }, propsHistory) => {
     const response = await AuthService.login({ username, password });
     localStorage.setItem("token", JSON.stringify(response.data.data.token));
-
+    
     try {
       if (response.status === 200) {
         // await users.get(`${USER_ID_URL}/${response.data.id}`)

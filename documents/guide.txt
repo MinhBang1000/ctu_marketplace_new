@@ -1,3 +1,4 @@
 - Sửa lỗi SSL --> Chọn đúng đường dẫn keystore.p12 cho resource Spring boot
 - Sửa lỗi Cannot update or delete parent --> Chỉ cần setKeyValues lại rỗng trước khi xóa
 - Sửa lỗi không có thứ tự vì Set không có thứ tự --> Chuyển thành List lúc là DTO response là được
+- Màu chủ đạo #0d47a1

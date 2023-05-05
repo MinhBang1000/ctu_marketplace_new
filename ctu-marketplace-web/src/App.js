@@ -6,14 +6,16 @@ import { useHistory, withRouter } from "react-router-dom";
 import "./App.css";
 import "./assets/css/all.min.css";
 import "./assets/css/owl.carousel.min.css";
-import Footer from "./components/Footer";
-import UserNavbar from "./components/Navbar/UserNavbar";
+// import Footer from "./components/Footer";
+// import UserNavbar from "./components/Navbar/UserNavbar";
 import { ROUTE_PREFIX_NNC } from './components/Router/constants';
 import Router from "./components/Router/Router";
 import AdminSidebar from "./components/Sidebar/AdminSidebar";
 import Loading from "./pages/Loading";
 import { logout } from "./store/authSlice";
 import projectService from "./services/project.service";
+import NFooter from "./components/NFooter";
+import NNavbar from "./components/NNavbar";
 
 const expiredTimeLocalStorage = localStorage.getItem("expiredTime");
 const expiredTime = JSON.parse(expiredTimeLocalStorage);
@@ -49,13 +51,14 @@ const App = () => {
     return (
       <>
         <header className="sticky-top">
-          <UserNavbar />
+          {/* <UserNavbar /> */}
+          <NNavbar />
         </header>
         <div className="main-content">
           <Router />
         </div>
         <footer className="mk-footer">
-          <Footer />
+          <NFooter />
         </footer>
       </>
     );
@@ -65,13 +68,14 @@ const App = () => {
     return (
       <div>
         <header className="sticky-top">
-          <UserNavbar />
+          {/* <UserNavbar /> */}
+          <NNavbar />
         </header>
         <div className="main-content">
           <Router />
         </div>
         <footer className="mk-footer">
-          <Footer />
+          <NFooter />
         </footer>
       </div>
     );
@@ -81,7 +85,8 @@ const App = () => {
     return (
       <div style={{ minWidth: "1366px" }}>
         <header className="sticky-top">
-          <UserNavbar />
+          {/* <UserNavbar /> */}
+          <NNavbar />
         </header>
         <div className="main-content">
           <div className="container-fluid">
@@ -103,7 +108,7 @@ const App = () => {
           </div>
         </div>
         <footer className="mk-footer">
-          <Footer />
+          <NFooter />
         </footer>
       </div>
     );

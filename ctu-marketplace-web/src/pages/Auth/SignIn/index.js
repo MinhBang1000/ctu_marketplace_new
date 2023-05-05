@@ -14,6 +14,9 @@ import { login } from '../../../store/authSlice'
 import googleLogo from '../../../assets/google-logo.png'
 import environment from '../../../environments/environment'
 
+// Custom
+import {useStore, myLogin} from "../../../store/globalstate"
+
 const SignIn = (props) => {
     
     const [formValues, setFormValues] = React.useState({});
@@ -30,6 +33,8 @@ const SignIn = (props) => {
             [fieldName]: value
         });
     }
+    // Custom here
+    const [state, myDispatch] = useStore()
 
     const onSubmit = (e) => {
         dispatch(login(formValues))
@@ -39,6 +44,8 @@ const SignIn = (props) => {
                 }
                 const expiredTime = new Date().getTime() + (60000 * 30)
                 localStorage.setItem('expiredTime', JSON.stringify(expiredTime));
+                // Login successfully
+                myDispatch(myLogin())
             })
             .catch((err) => {
                 alert('error: ', err)

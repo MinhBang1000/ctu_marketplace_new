@@ -8,6 +8,8 @@ import PrivateRouter from './PrivateRoute';
 
 
 const NAddProject = lazy(() => import("../../pages/NAddProject"));
+const NIntro = lazy(() => import("../../pages/NIntro"));
+const NLogin = lazy(() => import("../../pages/NLogin"));
 const NotFound = lazy(() => import("../../pages/NotFound"));
 const Home = lazy(() => import("../../pages/Home"));
 const Faq = lazy(() => import("../../pages/Faq"));
@@ -78,12 +80,16 @@ const RouterCustom = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Switch>
-                {/* <Route exact path="/" component={Home}/> */}
+                <Route exact path="/" component={Home}/>
 
 
                 {/* We have to code here update new version */}
 
-                <Route  exact path="/" component={NAddProject}/>
+                <Route exact path="/projects" component={NAddProject} />
+                <Route exact path="/login" component={NLogin} />
+                <Route exact path="/register" component={SignUp} />
+                <Route exact path="/introduction" component={NIntro} />
+                <Route exact path="/contact" component={Contact} />
 
                 {/* We have to code here update new version */}
 

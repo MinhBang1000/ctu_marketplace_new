@@ -1,0 +1,24 @@
+.intro {
+    display: flex;
+    padding: 48px;
+    background-color: #F4F4F4;
+}
+
+@media only screen and (max-width: 768px) {
+    .intro {
+        flex-direction: column;
+    }
+}
+
+.content {
+    flex: 7;
+    padding: var(--padding-large);
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.info {
+    flex: 3;
+}
+
