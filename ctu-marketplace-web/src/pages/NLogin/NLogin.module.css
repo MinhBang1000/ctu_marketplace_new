@@ -20,7 +20,7 @@
 }
 
 .info {
-    flex: 7;
+    flex: 6;
     opacity: 0;
 }
 
@@ -29,7 +29,7 @@
     box-shadow: var(--shadow);
     border-radius: 15px;
     padding: var(--padding-large);
-    flex: 3;
+    flex: 4;
 }
 
 .title {
@@ -48,7 +48,7 @@
     font-weight: bold;
 }
 
-.formGroup>input {
+.formGroup>input, .formGroup>.select {
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
@@ -104,5 +104,10 @@
 
 .submit {
     background-color: var(--green);
+    color: white;
+}
+
+.reset {
+    background-color: var(--red);
     color: white;
 }

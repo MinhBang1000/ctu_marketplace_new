@@ -98,11 +98,11 @@ const NNavbar = () => {
                                 <i className="fa-solid fa-arrow-right"></i> Đăng nhập
                             </Link>
                             
-                            <Link className={clsx(styles.mitem)} to="/register"
+                            {/* <Link className={clsx(styles.mitem)} to="/register"
                                 onClick={() => handleShowHide(false)}
                             >
                                 <i className="fa-solid fa-person"></i> Đăng ký
-                            </Link>
+                            </Link> */}
                         </>
                 }
 
@@ -152,9 +152,9 @@ const NNavbar = () => {
                             Đăng nhập
                         </Link>
 
-                        <Link className={clsx(styles.item)} to="/register">
+                        {/* <Link className={clsx(styles.item)} to="/register">
                             Đăng ký
-                        </Link>
+                        </Link> */}
                     </>
             }
 
