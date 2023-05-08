@@ -49,7 +49,7 @@
     border-radius: 15px;
     box-shadow: var(--shadow);
     padding: var(--padding-large);
-    min-height: 600px;
+    min-height: 700px;
     position: relative;
 }
 
@@ -284,10 +284,17 @@
     border-radius: 5px;
     cursor: pointer;
     transition: opacity linear .2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn:hover {
     opacity: 0.8;
+}
+
+.btn>i {
+    margin-right: 8px;
 }
 
 .btn + .btn {
@@ -305,11 +312,62 @@
 
 .btnFeature {
     background-color: white;
-    border: 2px solid black;
-    color: black;
+    border: 3px solid #2D9E64;
+    color: #2D9E64;
     text-align: center;
 }
+.primary {
+    background-color: #0d47a1;
+    color: white;
+}
 
+.submit {
+    background-color: #2D9E64;
+    color: white;
+}
+
+.reset {
+    background-color: #dc3545;
+    color: white;
+}
+/* Control */
+.control {
+    display: flex;
+}
+
+.controlAbove {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.controlAbove>.search {
+    padding: 12px;
+    border: 2px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all ease-in-out .15s;
+}
+
+.search>input {
+    outline: none;
+    border: none;
+}
+
+.controlAbove>.search:hover {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 .2rem #bfdeff;
+}
+
+/* .cellBtn {
+    display: block;
+    min-height: 100%;
+} */
+
+.controlPart + .controlPart {
+    margin-left: 8px;
+}
 /* set private for btn*/
 .formModal .btn {
     margin-top: 10px;

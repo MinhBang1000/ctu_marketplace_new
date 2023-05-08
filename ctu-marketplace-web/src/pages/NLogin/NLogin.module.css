@@ -1,6 +1,6 @@
 .auth {
     display: flex;
-    padding: var(--padding-super-large);
+    padding: 48px;
     background-color: #f4f4f4;
     /* Center Image Background */
     background-position: center;
@@ -26,20 +26,20 @@
 
 .content {
     background-color: white;
-    box-shadow: var(--shadow);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 15px;
-    padding: var(--padding-large);
+    padding: 36px;
     flex: 4;
 }
 
 .title {
     text-align: center;
-    margin-bottom: var(--margin-medium);
+    margin-bottom: 24px;
 }
 
 /* Form Group */
 .formGroup {
-    padding: var(--padding-super-small) 0;
+    padding: 8px 0;
     display: flex;
     flex-direction: column;
 }
@@ -51,16 +51,16 @@
 .formGroup>input, .formGroup>.select {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid #ced4da;
     border-radius: 5px;
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
 .formGroup>input:focus {
-    border-color: var(--box-in-color);
+    border-color: #80bdff;
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem #bfdeff;
 }
 
 .link>span {
@@ -87,15 +87,19 @@
 /* btn */
 .btn {
     box-sizing: border-box;
-    margin: var(--margin-super-small) 0;
+    margin: 8px 0;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--padding-small);
+    padding: 14px;
     cursor: pointer;
     font-weight: bold;
     transition: opacity ease .3s;
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
 }
 
 .btn:hover {
@@ -103,11 +107,11 @@
 }
 
 .submit {
-    background-color: var(--green);
+    background-color: #2D9E64;
     color: white;
 }
 
 .reset {
-    background-color: var(--red);
+    background-color: #dc3545;
     color: white;
 }

@@ -1,13 +1,21 @@
-import {LOGIN, LOGOUT} from "./constraints" 
+import {LOGIN, LOGOUT, SET_PROJECT} from "./constraints" 
 
 const initState = {
     logStatus: false,
-    roleCode: ''
+    roleCode: '',
+    detailProject: 0,
 }
 
 const reducer = (state, action) => {
     let newState
     switch (action.type) {
+        case SET_PROJECT: {
+            newState = {
+                ...state,
+                detailProject: action.payload
+            }
+            break
+        }
         case LOGIN: {
             const userData = JSON.parse(localStorage.getItem('userData'))
             let newRole = ''

@@ -8,6 +8,7 @@ import { useStore, myLogout, myLogin } from "../../store/globalstate"
 const NNavbar = () => {
     // Init Data
     const roles = ["NNC", "SAD", "AD"]
+    const admin = ["SAD", "AD"]
     const initState = {
         showNavbar: true
     }
@@ -67,6 +68,13 @@ const NNavbar = () => {
                     <i className="fa-solid fa-house"></i> Trang chủ
                 </Link>
                 {
+                    admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/admin"
+                        onClick={() => handleShowHide(false)}
+                    >
+                        <i className="fa-solid fa-lock"></i> Quản trị
+                    </Link> : ''
+                }
+                {
                     roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/projects"
                         onClick={() => handleShowHide(false)}
                     >
@@ -97,12 +105,6 @@ const NNavbar = () => {
                             >
                                 <i className="fa-solid fa-arrow-right"></i> Đăng nhập
                             </Link>
-                            
-                            {/* <Link className={clsx(styles.mitem)} to="/register"
-                                onClick={() => handleShowHide(false)}
-                            >
-                                <i className="fa-solid fa-person"></i> Đăng ký
-                            </Link> */}
                         </>
                 }
 
@@ -132,6 +134,11 @@ const NNavbar = () => {
                 Trang chủ
             </Link>
             {
+                admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/admin">
+                    Quản trị
+                </Link> : ''
+            }
+            {
                 roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/projects">
                     Dự án
                 </Link> : ''
@@ -151,10 +158,6 @@ const NNavbar = () => {
                         <Link className={clsx(styles.item)} to="/login">
                             Đăng nhập
                         </Link>
-
-                        {/* <Link className={clsx(styles.item)} to="/register">
-                            Đăng ký
-                        </Link> */}
                     </>
             }
 

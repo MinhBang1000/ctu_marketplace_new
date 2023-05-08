@@ -6,6 +6,8 @@ import axios from "axios"
 import authHeader from "../../services/auth.header";
 import Toast from "../../components/Toast";
 import { Link } from "react-router-dom"
+import DataTable from "react-data-table-component"
+import Swal from "sweetalert2";
 
 
 const NAddProject = () => {
@@ -14,11 +16,18 @@ const NAddProject = () => {
         // Action
         toast: 0,
         constFields: [],
+        isList: true,
+        projectDetail: null,
+        searchInput: '',
+        isUpdate: false,
+        reCallApi: false,
         // Data
+        projects: [],
+        loading: false,
         templates: [],
         projectName: '',
         projectAuthor: '',
-        form: 1,
+        form: 4,
         checkFields: [],
         fields: [],
         kvalues: [],
@@ -26,6 +35,13 @@ const NAddProject = () => {
         // CSS Class
         showAnimation: false    
     }
+    
+    
+    
+    // Hooks
+    const [localState, setState] = useState(initState)
+    const {form, checkFields, fields, kvalues,reCallApi,searchInput,projectDetail, showAnimation, isList ,newField, constFields, projectName, projectAuthor, templates, toast, projects, loading} = localState
+    
     // Apis
 
     useEffect(() => {
@@ -49,15 +65,20 @@ const NAddProject = () => {
         .catch(error => {
             console.log(error)
         })
-            
-    },[])
-
-
-
-    // Hooks
-    const [state, setState] = useState(initState)
-    const {form, checkFields, fields, kvalues, showAnimation, newField, constFields, projectName, projectAuthor, templates, toast} = state
-
+        // Get All Project to List
+        axios.get("https://127.0.0.1:3999/api/v3/projects")
+        .then(res => {
+            const auth = JSON.parse(localStorage.getItem('userData'))
+            const myProjects = res.data.data.filter((item) => {
+                return item.user.id === auth.data.id
+            })
+            setState((prev) => {
+                return {...prev, projects: myProjects}
+            })
+        }).catch(error => {
+            console.log(error)
+        }) 
+    },[reCallApi])
     useEffect(() => {
         localStorage.setItem('keyValues', JSON.stringify(kvalues))
     }, [kvalues])
@@ -72,6 +93,7 @@ const NAddProject = () => {
         fields: [],
         kvalues: [],
         newField: "",
+        isList: true,
         // CSS Class
         showAnimation: false    
     }
@@ -90,7 +112,6 @@ const NAddProject = () => {
             })
         }
     }
-
     const handleDown = (index) => {
         // At least two element
         if (index < kvalues.length - 1) {
@@ -103,7 +124,6 @@ const NAddProject = () => {
             })
         }
     }
-
     const handleRemoveField = (index) => {
         if (index >= 0 && index < kvalues.length) {
             let newList = kvalues
@@ -114,7 +134,6 @@ const NAddProject = () => {
             })
         }
     }
-
     const handleEditor = (value, index) => {
         const values = JSON.parse(localStorage.getItem('keyValues') || "[]")
         if (index >= 0 && index < kvalues.length) {
@@ -124,7 +143,6 @@ const NAddProject = () => {
             })
         }
     }
-
     const handleFields = () => {
         const key = newField
         if (!kvalues.includes(key)) {
@@ -140,13 +158,11 @@ const NAddProject = () => {
             })
         }
     }
-
     const handleSetNewField = (value) => {
         setState((prev) => {
             return {...prev, newField: value}
         })
     }
-
     const preparingData = () => {
         return {
             "name": projectName,
@@ -155,31 +171,26 @@ const NAddProject = () => {
             "keyValues": kvalues
         }
     }
-
     const handleProjectName = (value) => {
         setState((prev) => {
             return {...prev, projectName: value}
         })
     }
-
     const handleProjectAuthor = (value) => {
         setState((prev) => {
             return {...prev, projectAuthor: value}
         })
     }
-
     const handleChooseForm = (id) => {
         setState((prev) => {
             return {...prev, form: id}
         })
     }
-
     const handleHideShow = () => {
         setState((prev) => {
             return {...prev, showAnimation: !prev.showAnimation}
         })
     }
-
     const handleFieldSearch = (value) => {
 
         const newList = constFields.filter((item) => {
@@ -190,7 +201,6 @@ const NAddProject = () => {
         })
 
     }
-
     const handleChoosePattern = (id) => {
         if (id === 0) {
             setState((prev) => {return {...prev, kvalues: []}})
@@ -200,7 +210,6 @@ const NAddProject = () => {
             setState((prev) => {return {...prev, kvalues: patterns[0].keyValues}})
         }
     }
-
     const handleChecked = (id) => {
         if (checkFields.includes(id)) {
             // remove
@@ -215,7 +224,6 @@ const NAddProject = () => {
             })
         }
     }
-
     const resetComponent = () => {
         handleChooseForm(1)
         const temp = fields
@@ -226,7 +234,6 @@ const NAddProject = () => {
             return {...prev, fields: temp}
         })
     }
-
     const handleCreatePattern = () => {
         let json = preparingData()
         console.log(json);
@@ -235,11 +242,13 @@ const NAddProject = () => {
         }).then(res => {
             resetComponent()
             handleChangeToast(1)
+            setState((prev)=> {
+                return {...prev, reCallApi: !prev.reCallApi}
+            })
         }).catch(error => {
             handleChangeToast(2)
         })
     }
-
     const handleCreateProject = () => {
         let json = preparingData()
         axios.post("https://127.0.0.1:3999/api/v3/projects", json, {
@@ -247,11 +256,14 @@ const NAddProject = () => {
         }).then(res => {
             resetComponent()
             handleChangeToast(1)
+            setState((prev)=> {
+                return {...prev, reCallApi: !prev.reCallApi}
+            })
         }).catch(error => {
             handleChangeToast(2)
         })
-    }
 
+    }
     const handleCreateBoth = () => {
         let json = preparingData()
         let check = true 
@@ -273,14 +285,148 @@ const NAddProject = () => {
         if (check === true) {
             resetComponent()
             handleChangeToast(1)
+            setState((prev)=> {
+                return {...prev, reCallApi: !prev.reCallApi}
+            })
         }else{
             handleChangeToast(2)
         }
     }
-    
+    const handleSetSearch = (value) => {
+        setState((prev) => {
+            return {...prev, searchInput: value}
+        })
+    }
+    const handleChangeAddPage = () => {
+        setState((prev) => {
+            return {...prev, form: 1, isList: false}
+        })
+    }
+    const handleChangeListPage = () => {
+        setState((prev) => {
+            return {...prev, form: 4, isList: true}
+        })
+    }
+    const handleToList = () => {
+        setState((prev) => {
+            return {...prev, projectDetail: null}
+        })
+    }
+    const handleDetailPage = async(projectId) => {
+        let rawData = await axios.get(`https://127.0.0.1:3999/api/v3/projects/${projectId}`)
+        const project = rawData.data.data
+        setState((prev) => {
+            return {...prev, projectDetail: project}
+        })
+    }
+    const handleEditPage = async(projectId) => {
+        let rawData = await axios.get(`https://127.0.0.1:3999/api/v3/projects/${projectId}`)
+        const project = rawData.data.data
+        setState((prev) => {
+            return {...prev, projectDetail: project}
+        })
+    }
+    const handleSaveProject = () => {
 
-     // Sub-components
-     const infoComponent = () => {
+    }
+    const handleDelete = async(projectId) => {
+        axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
+        .then((res) => {
+            Swal.fire({
+                icon: "success",
+                title: "Xóa dự án",
+                text: "Dự án đã được xóa thành công"
+            })
+            setState((prev)=> {
+                return {...prev, reCallApi: !prev.reCallApi}
+            })
+        })
+        .catch((err) => {
+            Swal.fire({
+                icon: "error",
+                title: "Xóa dự án",
+                text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
+            })
+        })
+        
+    }
+    const handleRenderButton = (projectId) => {
+        return (<div className={clsx(styles.control)}>
+            <i onClick={() => handleDetailPage(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
+            <i onClick={() => handleEditPage(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.view,`fa-solid fa-pen-to-square`,`bg-primary`, `text-white`)}></i>
+            <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
+        </div>)
+    }
+    // Sub-components
+    const columns = [
+        {
+            name: "TÊN",
+            selector: (row) => row.name,
+        },
+        {
+            name: "TRẠNG THÁI",
+            selector: (row) => row.status.name
+        },
+        {
+            name: "LOẠI HÌNH",
+            selector: (row) => row.template === true ? "Mẫu" : "Báo cáo"
+        },
+        {
+            name: "THAO TÁC",
+            selector: (row) => handleRenderButton(row.id)
+        }
+    ]
+    const detailComponent = (project) => {
+        return (
+            <>
+            <div className={clsx(styles.controlAbove)}>
+                <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleToList}><i className="fa-solid fa-list"></i> Danh sách</div>
+            </div>
+            <h1 className={styles.detailTitle}>{project.name}</h1>
+            <h3 className={styles.detailAuthor}>{project.author}</h3>
+            <ul className={styles.detailFields}>
+                {
+                    project.fields.map((item, index) => {
+                        return (
+                            <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
+                        )
+                    })
+                }
+            </ul>
+            {
+                project.keyValues.map((item,index) => {
+                    return (<div key={index} className={clsx(styles.detailKeyValues)}>
+                        <div>{item.key}</div>
+                        <div
+                            dangerouslySetInnerHTML={{__html: item.value}}
+                        ></div>
+                    </div>)
+                })
+            }
+        </>
+        )
+        
+    }
+    const listComponent = () => {
+        return (<div className={clsx(styles.form)}>
+                {projectDetail===null ? <>
+                <div className={clsx(styles.controlAbove)}>
+                    <div className={clsx(styles.search, styles.controlPart)}>
+                        <input  value={searchInput} onChange={e => handleSetSearch(e.target.value)} placeholder="Tìm kiếm ..."/>
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div className={clsx(styles.btn, styles.submit, styles.controlPart)} onClick={handleChangeAddPage}><i className="fa-solid fa-plus"></i> Thêm mới</div>
+                </div>
+                <DataTable 
+                    columns={columns}
+                    data={projects}
+                    noDataComponent="Chưa có dự án để hiển thị"
+                    progressPending={loading}
+                    pagination
+                /></> : detailComponent(projectDetail)}
+            </div>)
+    }
+    const infoComponent = () => {
 
         if (form === 1) {
             return (
@@ -303,21 +449,29 @@ const NAddProject = () => {
                     </ul>
                 </div>
             )
+        }else if (form===3) {
+            return (
+                <div className={clsx(styles.heading)}>
+                    <h1>Chi tiết dự án</h1>
+                    <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
+                </div>
+            )
+        }else{
+            return (
+                <div className={clsx(styles.heading)}>
+                    <h1>Danh sách dự án</h1>
+                    <p>Bao gốm các dự án của bạn</p>
+                </div>
+            )   
         }
-        return (
-            <div className={clsx(styles.heading)}>
-                <h1>Chi tiết dự án</h1>
-                <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
-            </div>
-        )
-        
-
-    } 
-    
+    }    
     const formComponent = () => {
         if (form === 1) {
             return (
                 <div className={clsx(styles.form)}>
+                    <div className={clsx(styles.controlAbove)}>
+                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                    </div>
                     <div className={clsx(styles.formGroup)}>
                         <label>Tên</label>
                         <input 
@@ -366,10 +520,10 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
-                        <div className={clsx(styles.btn, styles.btnSecondary)}>
+                        <div className={clsx(styles.btn, styles.reset)}>
                             Đặt lại
                         </div>
-                        <div className={clsx(styles.btn)}
+                        <div className={clsx(styles.btn, styles.submit)}
                             onClick={() => handleChooseForm(2)}
                         >
                             Tạo
@@ -379,6 +533,9 @@ const NAddProject = () => {
             )
         } else if (form === 2) {
             return (<div className={clsx(styles.form)}>
+                                    <div className={clsx(styles.controlAbove)}>
+                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                    </div>
                     <div className={clsx(styles.formGroup)}>
                         <label>Chọn mẫu</label>
                         <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
@@ -441,7 +598,7 @@ const NAddProject = () => {
                                     onChange={(e) => handleSetNewField(e.target.value)}
                                 />
                             </div>
-                            <div className={clsx(styles.btn, styles.btnPrimary)}
+                            <div className={clsx(styles.btn, styles.submit)}
                                 onClick={handleFields}
                             >       
                                 Thêm
@@ -452,12 +609,12 @@ const NAddProject = () => {
                 </div>
 
                 <div className={clsx(styles.formGroup)}>
-                    <div className={clsx(styles.btn, styles.btnSecondary)}
+                    <div className={clsx(styles.btn, styles.submit)}
                         onClick={() => handleChooseForm(1)}
                     >
                         Quay lại
                     </div>
-                    <div className={clsx(styles.btn)}
+                    <div className={clsx(styles.btn, styles.primary)}
                         onClick={() => handleChooseForm(3)}
                     >
                         Tiếp tục
@@ -468,6 +625,9 @@ const NAddProject = () => {
         
         return (
         <div className={clsx(styles.detail)}>
+                                <div className={clsx(styles.controlAbove)}>
+                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                    </div>
             <h1 className={styles.detailTitle}>{projectName}</h1>
             <h3 className={styles.detailAuthor}>{projectAuthor}</h3>
             <ul className={styles.detailFields}>
@@ -491,27 +651,32 @@ const NAddProject = () => {
                     </div>)
                 })
             }
-            <div className={clsx(styles.detailControl)}>
-                <div className={clsx(styles.btn, styles.btnSecondary)} onClick={() => handleChooseForm(2)} >Quay lại</div>
-                <div className={clsx(styles.btn)}
-                    onClick={handleCreatePattern}
-                >Tạo mẫu</div>
-                <div className={clsx(styles.btn)}
-                    onClick={handleCreateBoth}
-                >Lưu và Tạo mẫu</div>
+            {
+                projectDetail===null ?             <div className={clsx(styles.detailControl)}>
+                    <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
+                    <div className={clsx(styles.btn, styles.primary)}
+                        onClick={handleCreatePattern}
+                    >Tạo mẫu</div>
+                    <div className={clsx(styles.btn, styles.primary)}
+                        onClick={handleCreateBoth}
+                    >Lưu và Tạo mẫu</div>
+                    <div 
+                        onClick={handleCreateProject}
+                    className={clsx(styles.btn, styles.primary)}>Lưu</div>
+                </div> : <div className={clsx(styles.detailControl)}>
+                <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
                 <div 
-                    onClick={handleCreateProject}
-                className={clsx(styles.btn)}>Lưu</div>
+                    onClick={handleSaveProject}
+                className={clsx(styles.btn, styles.primary)}>Lưu</div>
             </div>
+            }
         </div>)
     }
-
     const handleChangeToast = (value) => {
         setState((prev) => {
             return {...prev, toast: value}
         })
     }
-
     const toastRender = (option) => {
         if (option === 1) {
             return (<Toast 
@@ -546,7 +711,7 @@ const NAddProject = () => {
                     </div>
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
-                    {formComponent()}
+                    {isList ? listComponent() : formComponent()}
                 </div>
             </div>
         </>

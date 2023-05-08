@@ -166,6 +166,7 @@ public class NewProjectController {
     public ResponseEntity<Response<String>> deleteProject(@PathVariable Long projectId) {
         String exceptionMsg = "";
         try {
+//            Check
             this.newProjectService.delete(projectId);
             return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_204,"Deleted the instance!", Constant.SUCCESS_MESSAGE), HttpStatus.NO_CONTENT);
         }catch (Exception e) {
