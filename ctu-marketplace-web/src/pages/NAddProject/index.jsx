@@ -16,7 +16,7 @@ const NAddProject = () => {
         // Action
         toast: 0,
         constFields: [],
-        isList: true,
+        pageType: 1,
         projectDetail: null,
         searchInput: '',
         isUpdate: false,
@@ -40,7 +40,7 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields, fields, kvalues,reCallApi,searchInput,projectDetail, showAnimation, isList ,newField, constFields, projectName, projectAuthor, templates, toast, projects, loading} = localState
+    const {form, checkFields, fields, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates, toast, projects, loading} = localState
     
     // Apis
 
@@ -93,7 +93,7 @@ const NAddProject = () => {
         fields: [],
         kvalues: [],
         newField: "",
-        isList: true,
+        pageType: 1,
         // CSS Class
         showAnimation: false    
     }
@@ -206,7 +206,6 @@ const NAddProject = () => {
             setState((prev) => {return {...prev, kvalues: []}})
         }else{
             const patterns = templates.filter((item) => item.id===id)
-            console.log(patterns[0]);
             setState((prev) => {return {...prev, kvalues: patterns[0].keyValues}})
         }
     }
@@ -299,12 +298,12 @@ const NAddProject = () => {
     }
     const handleChangeAddPage = () => {
         setState((prev) => {
-            return {...prev, form: 1, isList: false}
+            return {...prev, form: 1, pageType: 2}
         })
     }
     const handleChangeListPage = () => {
         setState((prev) => {
-            return {...prev, form: 4, isList: true}
+            return {...prev, form: 4, pageType: 1}
         })
     }
     const handleToList = () => {
@@ -322,12 +321,31 @@ const NAddProject = () => {
     const handleEditPage = async(projectId) => {
         let rawData = await axios.get(`https://127.0.0.1:3999/api/v3/projects/${projectId}`)
         const project = rawData.data.data
+        const data={
+            projectName: project.name,
+            projectAuthor: project.author,
+            checkFields: project.fields.map((item) => { return item.id }),
+            kvalues: project.keyValues
+        }
         setState((prev) => {
-            return {...prev, projectDetail: project}
+            return {...prev, projectDetail: project, pageType: 3, form: 1,...data}
         })
     }
     const handleSaveProject = () => {
-
+        Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật',
+            text: 'Cập nhật thành công'
+        })
+        let data = preparingData()
+        const newKeyValues = data.keyValues.map((item) => {
+            return {key: item.key, value: item.value}
+        })
+        data.keyValues = newKeyValues
+        // Call api here to complete the feature
+        setState((prev) => {
+            return {...prev, projectDetail: null, pageType: 1}
+        })
     }
     const handleDelete = async(projectId) => {
         axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
@@ -625,9 +643,9 @@ const NAddProject = () => {
         
         return (
         <div className={clsx(styles.detail)}>
-                                <div className={clsx(styles.controlAbove)}>
-                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
-                    </div>
+            <div className={clsx(styles.controlAbove)}>
+                <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+            </div>
             <h1 className={styles.detailTitle}>{projectName}</h1>
             <h3 className={styles.detailAuthor}>{projectAuthor}</h3>
             <ul className={styles.detailFields}>
@@ -652,7 +670,7 @@ const NAddProject = () => {
                 })
             }
             {
-                projectDetail===null ?             <div className={clsx(styles.detailControl)}>
+                projectDetail===null ? <div className={clsx(styles.detailControl)}>
                     <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
                     <div className={clsx(styles.btn, styles.primary)}
                         onClick={handleCreatePattern}
@@ -711,7 +729,9 @@ const NAddProject = () => {
                     </div>
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
-                    {isList ? listComponent() : formComponent()}
+                    { pageType===1 && listComponent()}
+                    { pageType===2 && formComponent()}
+                    { pageType===3 && formComponent()}
                 </div>
             </div>
         </>
