@@ -2,13 +2,17 @@
 
 import _ from 'lodash';
 import Highlighter from "react-highlight-words";
-import './index.scss';
+import './Project.scss';
 
 import React from "react";
 import { Link } from "react-router-dom";
 
 import { useTranslation } from 'react-i18next';
 import SearchBar from '../../../../components/SearchBar/test';
+import { Pagination } from '@mui/material';
+
+import axios from 'axios';
+import project from '../../../../api/project';
 
 const TYPE_COMMERCIAL = 'commercial'
 const TYPE_RESEARCHING = 'researching'
@@ -16,7 +20,8 @@ const TYPE_IDEA = 'idea'
 
 const Projects = (props) => {
 
-    const { projectType, projects, filteredFields, setFilteredFields, setIsFilterOneField } = props;
+    var { projectType, projects, filteredFields, setFilteredFields, setIsFilterOneField } = props;
+    
 
     const { t } = useTranslation('common');
 
@@ -81,6 +86,7 @@ const Projects = (props) => {
     }
 
     const filterProjects = (projects, query) => {
+        console.log("query: ", query)
         if (!query) {
             return projects;
         }
@@ -98,8 +104,6 @@ const Projects = (props) => {
                     return null;
                 })
             }
-
-
             return projectName.includes(query) || projectAuthor.includes(query) || checkFieldEqualSearch;
         });
     };
@@ -140,7 +144,6 @@ const Projects = (props) => {
     }
 
     const renderList = () => {
-
         const query = new URLSearchParams(window.location.search).get('s');
 
         if(projects && projects.length > 0){
@@ -150,8 +153,8 @@ const Projects = (props) => {
                         const {
                             name,
                             author,
-                            projectImage,
-                            projectFieldList
+                            // projectImage,
+                            // projectFieldList
     
                         } = project;
                         return (
@@ -161,18 +164,18 @@ const Projects = (props) => {
                                             <div className="mk-card-body">
                                                 <div className='product-card__description__header'>
                                                     <ul className='mk-card-horizontal-field'>
-                                                        {renderLinhVuc(projectFieldList)}
+                                                        {/* {renderLinhVuc(projectFieldList)} */}
                                                     </ul>
                                                 </div>
                                                 <Link
-                                                    to={`/san-pham/chi-tiet/${translateProjectTypeToVN(project.projectType)}/${project.id}`}
+                                                    // to={`/san-pham/chi-tiet/${translateProjectTypeToVN(project.projectType)}/${project.id}`}
                                                     style={{ textDecoration: 'none' }}
                                                 >
                                                     <h4 className="fw-bold text-uppercase product-card__description__name">
-                                                        {renderHighlightOnSearch(name)}
+                                                        {/* {renderHighlightOnSearch(name)} */} {name}
                                                     </h4>
                                                     <p className="card-text product-card__description__brief">
-                                                        {renderHighlightOnSearch(renderProjectShortDescription(project.shortDescription, 100))}
+                                                        {/* {renderHighlightOnSearch(renderProjectShortDescription(project.shortDescription, 100))} */}
                                                     </p>
                                                     
                                                 </Link>
@@ -181,12 +184,12 @@ const Projects = (props) => {
                                         <div className="col-lg-3 product-card__related-info">
                                             <p className="card-text">
                                                 <small className="text-muted">
-                                                    {renderHighlightOnSearch(author)}
+                                                    {/* {renderHighlightOnSearch(author)} */}
                                                 </small>
                                             </p>
                                         </div>
                                         <div className="col-lg-3 product-card__image">
-                                            <img
+                                            {/* <img
                                                 src={projectImage}
                                                 className="img-fluid rounded-3"
                                                 alt="Project Image"
@@ -194,7 +197,7 @@ const Projects = (props) => {
                                                     maxHeight: '16rem',
                                                     objectFit: 'contain',
                                                 }}
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 {/* <hr /> */}
@@ -205,6 +208,14 @@ const Projects = (props) => {
             else return <div>{ t('projects.nodata') }</div>
         }
         return <div>{ t('projects.nodata') }</div>
+    }
+
+    const renderList7 = () => {
+        console.log("render list 7: ", projects);
+        return projects.map((project) => {
+            // console.log("project in render list 7: ", project);
+            return <p key={project.id}>{project.name}</p>
+        })
     }
 
     const onSelectedFieldsOfProjectClick = (e,field) => {
@@ -237,16 +248,24 @@ const Projects = (props) => {
 
     return (
         <>
-            <div className="container mt-2">
-                <section className='mb-2'>
-                    <SearchBar />
-                </section>
-                <h5>{ renderTypeOfProject(projectType) }</h5>
-                <div className='mb-2'>
+            {/* <div className="home"> */}
+                {/* <div className='home__search' id='home__search'>
+                    <div className='home__search__input' id='home__search__input'>
+                        <SearchBar />
+                    </div>
+                </div> */}
+                {/* <h5>{ renderTypeOfProject(projectType) }</h5> */}
+                {/* <div>
                     { renderSelectedFieldsOfProject() }
-                </div>
-                {renderList()}
-            </div>
+                </div> */}
+                
+                {/* <div className='home__project-list'> */}
+                    {renderList()}
+                {/* </div> */}
+                {/* <div className='home__pagination'>
+                    <Pagination count={10} onChange={changePage} />
+                </div> */}
+            {/* </div> */}
         </>
     );
 

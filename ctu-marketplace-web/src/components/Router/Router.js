@@ -81,7 +81,7 @@ const RouterCustom = () => {
     return (
         <Suspense fallback={<Loading />}>
             <Switch>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/" component={ProjectListCommercial}/>
 
 
                 {/* We have to code here update new version */}
