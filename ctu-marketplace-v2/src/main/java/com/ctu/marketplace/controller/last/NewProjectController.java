@@ -1,7 +1,10 @@
 package com.ctu.marketplace.controller.last;
 
 import com.ctu.marketplace.common.Constant;
+import com.ctu.marketplace.dto.last.request.ImageDTO;
 import com.ctu.marketplace.dto.last.request.NewProjectRequestDTO;
+import com.ctu.marketplace.dto.last.response.FileResponseDTO;
+import com.ctu.marketplace.dto.last.response.FileUploadResponseDTO;
 import com.ctu.marketplace.dto.last.response.NewProjectDTO;
 import com.ctu.marketplace.dto.response.Response;
 import com.ctu.marketplace.entity.*;
@@ -9,16 +12,33 @@ import com.ctu.marketplace.service.FieldService;
 import com.ctu.marketplace.service.StatusService;
 import com.ctu.marketplace.service.UserProfileService;
 import com.ctu.marketplace.service.impl.UserProfileServiceImpl;
+import com.ctu.marketplace.service.last.FileService;
 import com.ctu.marketplace.service.last.KeyValueService;
 import com.ctu.marketplace.service.last.NewProjectService;
+import com.ctu.marketplace.upload.FileDownloadUtil;
+import com.ctu.marketplace.upload.FileUploadUtil;
+import lombok.var;
+import org.apache.tomcat.util.bcel.Const;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +60,9 @@ public class NewProjectController {
     private StatusService statusService;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private FileService fileService;
+    private String path = "images/";
     @GetMapping("")
     public ResponseEntity<Response<List<NewProjectDTO>>> getAll(
             @RequestParam(value = "is_template", required = false) Boolean isTemplate,
@@ -79,7 +102,60 @@ public class NewProjectController {
         }
         return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_404, null, Constant.FAILED_MESSAGE), HttpStatus.NOT_FOUND);
     }
+//    @GetMapping("/view-image")
+//    public ResponseEntity<byte[]> retrieveImage(@RequestParam(value = "fileName", required = true) String fileName, @RequestParam(value = "fileCode", required = true) String fileCode) {
+//        byte[] image = new byte[0];
+//        String fileId = fileCode+"_"+fileName;
+//        try {
+//            var imgFile = new ClassPathResource("../../../file_uploaded/"+fileId);
+//            image = StreamUtils.copyToByteArray(imgFile.getInputStream());
+//            System.out.println(imgFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+//    }
+//    @GetMapping("/download-image/{fileCode}")
+//    public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
+//        FileDownloadUtil downloadUtil = new FileDownloadUtil();
+//
+//        Resource resource = null;
+//        try {
+//            resource = downloadUtil.getFileAsResource(fileCode);
+//        } catch (IOException e) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//
+//        if (resource == null) {
+//            return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
+//        }
+//
+//        String contentType = "application/octet-stream";
+//        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+//                .body(resource);
+//    }
 
+//    @PostMapping(value = "/upload-image", consumes = {"multipart/form-data"})
+//    public ResponseEntity<Response<FileUploadResponseDTO>> uploadImage(@ModelAttribute ImageDTO imageDTO) {
+//        String msg = "";
+//        String fileCode = "";
+//        FileUploadResponseDTO responseDTO = new FileUploadResponseDTO();
+//        try {
+//            String fileName = StringUtils.cleanPath(imageDTO.getFile().getOriginalFilename());
+//            fileCode = FileUploadUtil.saveFile(fileName,imageDTO.getFile());
+//            responseDTO.setFileName(fileName);
+//            responseDTO.setFileCode(fileCode);
+//            responseDTO.setSize(imageDTO.getFile().getSize());
+//        }catch (Exception ex) {
+//            msg = ex.getMessage();
+//            return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_400, null, Constant.FAILED_MESSAGE), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200, responseDTO, Constant.SUCCESS_MESSAGE), HttpStatus.OK);
+//    }
     @PostMapping("")
     public ResponseEntity<Response<NewProjectDTO>> createNewProject(@RequestBody NewProjectRequestDTO newProjectDTO, @RequestParam(value = "is_template",required = false ) Boolean isTemplate) {
         NewProject newProject = new NewProject();
@@ -159,5 +235,28 @@ public class NewProjectController {
             exceptionMsg = e.getMessage();
         }
         return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_400, null, exceptionMsg),HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/upload-image", consumes = { "multipart/form-data" })
+    public ResponseEntity<Response<FileResponseDTO>> fileUpload(@ModelAttribute ImageDTO fileDto) {
+        String name = "";
+        MultipartFile file = fileDto.getFile();
+        try {
+            name = this.fileService.uploadImage(path, file);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_400,null, Constant.FAILED_MESSAGE), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200,new FileResponseDTO(name), Constant.SUCCESS_MESSAGE), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/view-image/{fileName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void serveImage(
+            @PathVariable("fileName") String fileName,
+            HttpServletResponse response
+    ) throws IOException {
+        InputStream resource = this.fileService.getResource(path, fileName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 }

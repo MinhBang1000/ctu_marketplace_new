@@ -17,6 +17,7 @@ const NLogin = () => {
         redirect: false,
         isLogin: true, // true is login , false is sign up
         isResearcher: false,
+        isShow: false,
         // Signup
         fullName: '',
         email: '',
@@ -27,6 +28,7 @@ const NLogin = () => {
         dob: new Date(),
     }
     const resetState = {
+        isShow: false,
         username: "",
         password: "",
         // Signup
@@ -39,7 +41,7 @@ const NLogin = () => {
         dob: new Date(),
     }
     const [localState, setState] = useState(initState)
-    const {username, password, redirect, isLogin, isResearcher, fullName, email, phone, address, gender, dob, getNews} = localState
+    const {username, password, redirect, isLogin, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
     const [state, myDispatch] = useStore()
     // Popup
     const popupLogin = (check) => {
@@ -223,7 +225,10 @@ const NLogin = () => {
             </div>
             <div className={clsx(styles.formGroup)}>
                 <label>Mật khẩu</label>
-                <input placeholder="*****" value={password} type="password" required onChange={(e) => handleSetPassword(e.target.value)} />
+                {
+                    !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
+                }
+                <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
             </div>
             <div className={clsx(styles.link, styles.forgot)}><span>Quên mật khẩu</span></div>
             <button className={clsx(styles.btn, styles.submit)} type="submit" onClick={handleSubmitLogin} >Đăng nhập</button>
@@ -275,7 +280,10 @@ const NLogin = () => {
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Mật khẩu</label>
-                            <input placeholder="*****" value={password} type="password" required onChange={(e) => handleSetPassword(e.target.value)} />
+                            {
+                                !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
+                            }
+                            <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'}  required onChange={(e) => handleSetPassword(e.target.value)} />
                         </div>
                     </> : <>
                         <div className={clsx(styles.formGroup)}>
@@ -312,7 +320,10 @@ const NLogin = () => {
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Mật khẩu</label>
-                            <input placeholder="*****" value={password} type="password" required onChange={(e) => handleSetPassword(e.target.value)} />
+                            {
+                                !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
+                            }
+                            <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
                         </div>
                     </>
                 }
@@ -325,7 +336,7 @@ const NLogin = () => {
     // Rendering
     return (<>
         {redirect && <Redirect to="/" />}
-        <div className={clsx(styles.auth)}  style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/my_auth_background.jpg')`}}>
+        <div className={clsx(styles.auth)}  style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}>
         <div className={clsx(styles.info)}>
             
         </div>

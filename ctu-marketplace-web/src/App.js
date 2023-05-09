@@ -32,7 +32,7 @@ const App = () => {
       dispatch(logout(history));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetch("https://172.30.37.169:3999/api/v2/public/fields")
+    fetch("https://127.0.0.1:3999/api/v2/public/fields")
       .then(res => res.json())
       .then(res => console.log("Test: ", res))
   }, []);
@@ -115,12 +115,12 @@ const App = () => {
   };
 
   const renderApp = () => {
-    if (window.location.pathname.startsWith("/admin")) {
-      return renderAdminLayout();
-    }
-    if (window.location.pathname.startsWith(ROUTE_PREFIX_NNC)) {
-      return renderResearchLayout();
-    }
+    // if (window.location.pathname.startsWith("/admin")) {
+    //   return renderAdminLayout();
+    // }
+    // if (window.location.pathname.startsWith(ROUTE_PREFIX_NNC)) {
+    //   return renderResearchLayout();
+    // }
     return renderUserLayout();
   };
 

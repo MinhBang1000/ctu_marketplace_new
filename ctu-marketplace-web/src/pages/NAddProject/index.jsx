@@ -4,7 +4,6 @@ import styles from  "./NAddProject.module.css"
 import { CKEditor } from 'ckeditor4-react';
 import axios from "axios"
 import authHeader from "../../services/auth.header";
-import Toast from "../../components/Toast";
 import { Link } from "react-router-dom"
 import DataTable from "react-data-table-component"
 import Swal from "sweetalert2";
@@ -14,7 +13,6 @@ const NAddProject = () => {
     // Init
     const initState = {
         // Action
-        toast: 0,
         constFields: [],
         pageType: 1,
         projectDetail: null,
@@ -22,6 +20,7 @@ const NAddProject = () => {
         isUpdate: false,
         reCallApi: false,
         // Data
+        projectImage: null,
         projects: [],
         loading: false,
         templates: [],
@@ -40,7 +39,7 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields, fields, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates, toast, projects, loading} = localState
+    const {form, checkFields, fields, projectImage, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
     
     // Apis
 
@@ -235,17 +234,24 @@ const NAddProject = () => {
     }
     const handleCreatePattern = () => {
         let json = preparingData()
-        console.log(json);
         axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
             headers: authHeader()
         }).then(res => {
             resetComponent()
-            handleChangeToast(1)
+            Swal.fire({
+                icon: "success",
+                title: "Tạo mẫu",
+                text: "Mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+            })
             setState((prev)=> {
                 return {...prev, reCallApi: !prev.reCallApi}
             })
         }).catch(error => {
-            handleChangeToast(2)
+            Swal.fire({
+                icon: "error",
+                title: "Tạo mẫu",
+                text: "Mẫu tạo không thành công!"
+            })
         })
     }
     const handleCreateProject = () => {
@@ -254,41 +260,53 @@ const NAddProject = () => {
             headers: authHeader()
         }).then(res => {
             resetComponent()
-            handleChangeToast(1)
+            Swal.fire({
+                icon: "success",
+                title: "Tạo dự án",
+                text: "Dự án được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+            })
             setState((prev)=> {
                 return {...prev, reCallApi: !prev.reCallApi}
             })
         }).catch(error => {
-            handleChangeToast(2)
+            Swal.fire({
+                icon: "error",
+                title: "Tạo dự án",
+                text: "Dự án tạo không thành công!"
+            })
         })
 
     }
-    const handleCreateBoth = () => {
+    const handleCreateBoth = async() => {
         let json = preparingData()
         let check = true 
-        axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
-            headers: authHeader()
-        }).then(res => {
-            check = true
-        }).catch(error => {
-            check = false 
-        })
+        try {
+            await axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {headers: authHeader()})
+        }catch (err) {
+            check = false
+        }
         let json1 = preparingData()
-        axios.post("https://127.0.0.1:3999/api/v3/projects", json1, {
-            headers: authHeader()
-        }).then(res => {
-            check = true 
-        }).catch(error => {
-            check = false 
-        })
+        try {
+            await axios.post("https://127.0.0.1:3999/api/v3/projects", json1, {headers: authHeader()})
+        }catch (err) {
+            check = false
+        }
         if (check === true) {
             resetComponent()
-            handleChangeToast(1)
+            Swal.fire({
+                icon: "success",
+                title: "Tạo dự án & mẫu",
+                text: "Dự án & mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+            })
             setState((prev)=> {
                 return {...prev, reCallApi: !prev.reCallApi}
             })
         }else{
-            handleChangeToast(2)
+            Swal.fire({
+                icon: "error",
+                title: "Tạo dự án & mẫu",
+                text: "Dự án & mẫu tạo không thành công!"
+            })
         }
     }
     const handleSetSearch = (value) => {
@@ -357,6 +375,12 @@ const NAddProject = () => {
         })
 
     }
+    const handleSetFile = (value) => {
+        setState((prev) => {
+            return {...prev, projectImage: value}
+        })
+        console.log(projectImage);
+    }
     const handleDelete = async(projectId) => {
         axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
         .then((res) => {
@@ -376,7 +400,6 @@ const NAddProject = () => {
                 text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
             })
         })
-        
     }
     const handleRenderButton = (projectId) => {
         return (<div className={clsx(styles.control)}>
@@ -384,6 +407,11 @@ const NAddProject = () => {
             <i onClick={() => handleEditPage(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.view,`fa-solid fa-pen-to-square`,`bg-primary`, `text-white`)}></i>
             <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
         </div>)
+    }
+    const handleUpload = () => {
+        if (projectImage!==null) {
+            
+        }
     }
     // Sub-components
     const columns = [
@@ -520,6 +548,15 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
+                        <label>Hình đại diện</label>
+                        <input 
+                            type="file"
+                            accept="image/png, image/gif, image/jpeg" 
+                            onChange={(e)=>handleSetFile(e.target.files[0])}
+                        />
+                    </div>
+
+                    <div className={clsx(styles.formGroup)}>
                         <label>Lĩnh vực</label>
                         <div className={clsx(styles.selectSearch)}>
                             <div className={clsx(styles.dropdown)}>
@@ -547,9 +584,6 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
-                        <div className={clsx(styles.btn, styles.reset)}>
-                            Đặt lại
-                        </div>
                         <div className={clsx(styles.btn, styles.submit)}
                             onClick={() => handleChooseForm(2)}
                         >
@@ -699,43 +733,13 @@ const NAddProject = () => {
             }
         </div>)
     }
-    const handleChangeToast = (value) => {
-        setState((prev) => {
-            return {...prev, toast: value}
-        })
-    }
-    const toastRender = (option) => {
-        if (option === 1) {
-            return (<Toast 
-                title='Thành công'
-                message='Thao tác thêm thành công'
-                status={true}
-                changeToast={(value) => handleChangeToast(value)}
-            />)
-        } else {
-            if (option === 2) {
-                return (<Toast 
-                    title='Thất bại'
-                    message='Thao tác thêm thất bại'
-                    status={false}
-                    changeToast={(value) => handleChangeToast(value)}
-                />)
-            }
-        } 
-        return (<></>)
-    }
 
     // Primary render
     return (
         <>
-            {toastRender(toast)}
             <div className={clsx(styles.nAddProject)}>
                 <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>
                     {infoComponent()}
-                    <div className={styles.contact}>
-                        <div>Nếu bạn có thắc mắc</div>
-                        <Link to="/contact">Liên hệ <i className="fa-solid fa-arrow-right"></i></Link>
-                    </div>
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
                     { pageType===1 && listComponent()}
