@@ -2,3 +2,14 @@
 - Sửa lỗi Cannot update or delete parent --> Chỉ cần setKeyValues lại rỗng trước khi xóa
 - Sửa lỗi không có thứ tự vì Set không có thứ tự --> Chuyển thành List lúc là DTO response là được
 - Màu chủ đạo #0d47a1
+- Bị SSL lỗi thì ta truy cập vào google gõ đường dẫn api list project và chọn nâng cao chọn truy cập không an toàn sau đó gọi api bình thường là được --> Do hết hạn thôi
+- Cách xóa có OneToMany và ManyToOne
+    + @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+      private Set<FkeyValue> keyValues = new LinkedHashSet<>();
+    + @ManyToOne
+      @JoinColumn(name = "new_project_id")
+      @JsonIgnore
+      private NewProject project;
+    + NewProject exists = this.newProjectRepository.findById(id).get();
+      exists.getKeyValues().removeIf(c -> c.getProject().getId() == exists.getId());
+      return this.newProjectRepository.save(exists);

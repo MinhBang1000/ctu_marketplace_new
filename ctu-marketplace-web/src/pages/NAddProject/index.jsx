@@ -303,12 +303,12 @@ const NAddProject = () => {
     }
     const handleChangeListPage = () => {
         setState((prev) => {
-            return {...prev, form: 4, pageType: 1}
+            return {...prev, form: 4, projectDetail: null ,pageType: 1}
         })
     }
     const handleToList = () => {
         setState((prev) => {
-            return {...prev, projectDetail: null}
+            return {...prev, projectDetail: null, pageType: 1}
         })
     }
     const handleDetailPage = async(projectId) => {
@@ -332,20 +332,30 @@ const NAddProject = () => {
         })
     }
     const handleSaveProject = () => {
-        Swal.fire({
-            icon: 'success',
-            title: 'Cập nhật',
-            text: 'Cập nhật thành công'
-        })
         let data = preparingData()
         const newKeyValues = data.keyValues.map((item) => {
             return {key: item.key, value: item.value}
         })
         data.keyValues = newKeyValues
-        // Call api here to complete the feature
-        setState((prev) => {
-            return {...prev, projectDetail: null, pageType: 1}
+        axios.put(`https://127.0.0.1:3999/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
+        .then((res) => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Cập nhật',
+                text: 'Cập nhật thành công'
+            })
+            setState((prev) => {
+                return {...prev, projectDetail: null, pageType: 1, reCallApi: !prev.reCallApi, form: 4}
+            })
         })
+        .catch((err) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Cập nhật',
+                text: 'Cập nhật không thành công!'
+            })
+        })
+
     }
     const handleDelete = async(projectId) => {
         axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
@@ -445,7 +455,6 @@ const NAddProject = () => {
             </div>)
     }
     const infoComponent = () => {
-
         if (form === 1) {
             return (
                 <div className={clsx(styles.heading)}>

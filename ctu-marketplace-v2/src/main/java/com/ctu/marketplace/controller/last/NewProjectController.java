@@ -117,22 +117,8 @@ public class NewProjectController {
     public ResponseEntity<Response<NewProjectDTO>> updateNewProject(@RequestBody NewProjectRequestDTO newProjectRequestDTO, @PathVariable Long projectId) {
         String exceptionMsg = "";
         try{
-            NewProject newProject = new NewProject();
-            newProject.setName(newProjectRequestDTO.getName());
-            newProject.setAuthor(newProjectRequestDTO.getAuthor());
-            newProject.setId(projectId);
-            // Customizing fields
-            List<Field> fields = newProjectRequestDTO.getFieldIds().stream().map((item) -> {
-                Field field = this.fieldService.getById(item);
-                return field;
-            }).collect(Collectors.toList());
-            Set<Field> setFields = new HashSet<>();
-            fields.stream().forEach((item) -> {
-                setFields.add(item);
-            });
-            newProject.setFields(setFields);
             NewProjectDTO dto = this.mapper.map(
-                    this.newProjectService.update(newProject, newProjectRequestDTO.getKeyValues(), setFields),
+                    this.newProjectService.update(newProjectRequestDTO, projectId),
                     NewProjectDTO.class
             );
             return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200, dto, Constant.SUCCESS_MESSAGE), HttpStatus.OK);
