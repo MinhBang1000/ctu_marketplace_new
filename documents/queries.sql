@@ -11,6 +11,7 @@ use marketplace;
 create table new_project (
 	id bigint auto_increment,
     name varchar(255) not null,
+    image varchar(255) not null,
     user_id bigint not null,
     approver_id bigint not null,
     status_id bigint not null,
@@ -48,6 +49,7 @@ alter table new_project add column status_id bigint not null;
 alter table new_project add foreign key (status_id) references status(id);
 alter table new_project modify column created_at datetime default current_timestamp not null;
 alter table new_project drop column field_id;
+alter table new_project add column image varchar(255) not null;
 
 
 
@@ -63,5 +65,8 @@ select * from status;
 update new_project set is_template = 1;
 delete from new_project where id = 5;
 select * from new_project_field;
+delete from new_project;
+delete from new_project_field;
+delete from fkey_value;
 
 

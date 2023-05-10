@@ -34,7 +34,6 @@ public class NewProject {
     @ManyToOne
     @JoinColumn(name = "approver_id")
     private UserProfile approver;
-
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Status status;
@@ -43,6 +42,8 @@ public class NewProject {
     private Date createdAt;
     @Column(name = "author")
     private String author;
+    @Column(name = "image")
+    private String image;
     @Column(name = "is_template")
     private boolean isTemplate;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)

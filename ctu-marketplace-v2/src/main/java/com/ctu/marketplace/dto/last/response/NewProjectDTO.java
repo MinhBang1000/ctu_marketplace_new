@@ -19,6 +19,7 @@ public class NewProjectDTO {
     private Long id;
     private String name;
     private String author;
+    private String image;
     private Date createdAt;
     private UserProfileDTO approver;
     private UserProfileDTO user;

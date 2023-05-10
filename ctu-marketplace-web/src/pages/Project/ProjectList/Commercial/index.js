@@ -229,6 +229,7 @@ const ProjectList = (props) => {
                                                 </ul>
                                             </div>
                                             <Link
+                                                to={`/projects/detail/${project.id}`}
                                                 // to={`/san-pham/chi-tiet/${translateProjectTypeToVN(project.projectType)}/${project.id}`}
                                                 style={{ textDecoration: 'none' }}
                                             >
@@ -260,6 +261,7 @@ const ProjectList = (props) => {
                                                 objectFit: 'contain',
                                             }}
                                         /> */}
+                                        <img src={`https://127.0.0.1:3999/api/v3/projects/view-image/${project.image}`} />
                                     </div>
                                 </div>
                             </div>)
