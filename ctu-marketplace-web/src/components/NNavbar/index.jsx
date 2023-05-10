@@ -68,7 +68,7 @@ const NNavbar = () => {
                     <i className="fa-solid fa-house"></i> Trang chủ
                 </Link>
                 {
-                    admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/admin"
+                    admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/administrators"
                         onClick={() => handleShowHide(false)}
                     >
                         <i className="fa-solid fa-lock"></i> Quản trị
@@ -134,7 +134,7 @@ const NNavbar = () => {
                 Trang chủ
             </Link>
             {
-                admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/admin">
+                admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/administrator">
                     Quản trị
                 </Link> : ''
             }

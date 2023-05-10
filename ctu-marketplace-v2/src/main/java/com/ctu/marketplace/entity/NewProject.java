@@ -45,8 +45,8 @@ public class NewProject {
     private String author;
     @Column(name = "is_template")
     private boolean isTemplate;
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private Set<FkeyValue> keyValues = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FkeyValue> keyValues = new LinkedList<>();
     public void addKeyValue(FkeyValue newInstance) {
         this.keyValues.add(newInstance);
     }

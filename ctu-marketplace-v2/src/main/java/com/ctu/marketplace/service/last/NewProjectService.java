@@ -2,12 +2,10 @@ package com.ctu.marketplace.service.last;
 
 import com.ctu.marketplace.dto.last.FieldDTO;
 import com.ctu.marketplace.dto.last.KeyValueDTO;
+import com.ctu.marketplace.dto.last.request.NewProjectRequestDTO;
 import com.ctu.marketplace.dto.last.response.NewProjectDTO;
 import com.ctu.marketplace.entity.*;
-import com.ctu.marketplace.repository.FieldRepository;
-import com.ctu.marketplace.repository.FkeyValueRepository;
-import com.ctu.marketplace.repository.NewProjectRepository;
-import com.ctu.marketplace.repository.UserProfileRepository;
+import com.ctu.marketplace.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class NewProjectService {
@@ -25,6 +24,8 @@ public class NewProjectService {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private FieldRepository fieldRepository;
+    @Autowired
+    private StatusRepository statusRepository;
     @Autowired
     private FkeyValueRepository fkeyValueRepository;
     public NewProject create(NewProject instance, List<KeyValueDTO> keyValues, List<Long> fieldIds) throws NoSuchElementException{
@@ -54,36 +55,24 @@ public class NewProjectService {
     public NewProject get(Long id) throws NoSuchElementException{
         return this.newProjectRepository.findById(id).get();
     }
-    public NewProject update(NewProject instance, List<KeyValueDTO> keyValues, Set<Field> setFields) throws  NoSuchElementException{
-        NewProject exists = this.newProjectRepository.findById(instance.getId()).get();
-        // setting auth value for exists
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserProfile currentUser = this.userProfileRepository.findByUsername(auth.getName()).get();
-        if (currentUser.getId() != exists.getUser().getId()) {
-            throw new NoSuchElementException("You are not onwer of this projects!");
-        }
-        instance.setUser(exists.getUser());
-        instance.setApprover(exists.getApprover());
-        instance.setStatus(exists.getStatus());
-        instance.setTemplate(exists.isTemplate());
-        Set<FkeyValue> existsKeyValues = exists.getKeyValues();
-        // delete old version of key values
-        existsKeyValues.stream().forEach(
-                (item) -> {
-                    this.fkeyValueRepository.deleteById(item.getId());
-                }
-        );
-        // add new key values
-        keyValues.stream().forEach(
-                (item) -> {
-                    FkeyValue keyValue = (new ModelMapper()).map(item, FkeyValue.class);
-                    keyValue.setProject(instance);
-                    instance.addKeyValue(this.fkeyValueRepository.save(keyValue));
-                }
-        );
-        // update fields
-        instance.setFields(setFields);
-        return this.newProjectRepository.save(instance);
+    public NewProject update(NewProjectRequestDTO dto, Long id) throws  NoSuchElementException{
+        NewProject exists = this.newProjectRepository.findById(id).get();
+        exists.getKeyValues().removeIf(c -> c.getProject().getId() == exists.getId());
+        exists.setAuthor(dto.getAuthor());
+        exists.setName(dto.getName());
+        Set<Field> fieldSet = dto.getFieldIds().stream().map((item) -> {
+            return this.fieldRepository.findById(item).get();
+        }).collect(Collectors.toSet());
+        exists.setFields(fieldSet);
+        exists.setStatus(this.statusRepository.findByCode("CD").get());
+        dto.getKeyValues().forEach((item) -> {
+            FkeyValue fkeyValue = new FkeyValue();
+            fkeyValue.setProject(exists);
+            fkeyValue.setValue(item.getValue());
+            fkeyValue.setKey(item.getKey());
+            exists.addKeyValue(this.fkeyValueRepository.save(fkeyValue));
+        });
+        return this.newProjectRepository.save(exists);
     }
     public NewProject approve(Status status, Long id) throws NoSuchElementException{
         NewProject instance = this.newProjectRepository.findById(id).get();
