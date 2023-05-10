@@ -165,6 +165,7 @@ const NLogin = () => {
             username,
             password
         }
+        console.log("account: ", data);
         axios.post("https://127.0.0.1:3999/api/v2/auth/login", data)
         .then(res => {
             localStorage.setItem('token', JSON.stringify(res.data.data.token))
