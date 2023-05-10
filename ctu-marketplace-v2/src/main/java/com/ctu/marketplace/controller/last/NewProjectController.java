@@ -35,6 +35,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -102,65 +103,13 @@ public class NewProjectController {
         }
         return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_404, null, Constant.FAILED_MESSAGE), HttpStatus.NOT_FOUND);
     }
-//    @GetMapping("/view-image")
-//    public ResponseEntity<byte[]> retrieveImage(@RequestParam(value = "fileName", required = true) String fileName, @RequestParam(value = "fileCode", required = true) String fileCode) {
-//        byte[] image = new byte[0];
-//        String fileId = fileCode+"_"+fileName;
-//        try {
-//            var imgFile = new ClassPathResource("../../../file_uploaded/"+fileId);
-//            image = StreamUtils.copyToByteArray(imgFile.getInputStream());
-//            System.out.println(imgFile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-//    }
-//    @GetMapping("/download-image/{fileCode}")
-//    public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
-//        FileDownloadUtil downloadUtil = new FileDownloadUtil();
-//
-//        Resource resource = null;
-//        try {
-//            resource = downloadUtil.getFileAsResource(fileCode);
-//        } catch (IOException e) {
-//            return ResponseEntity.internalServerError().build();
-//        }
-//
-//        if (resource == null) {
-//            return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
-//        }
-//
-//        String contentType = "application/octet-stream";
-//        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(contentType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-//                .body(resource);
-//    }
 
-//    @PostMapping(value = "/upload-image", consumes = {"multipart/form-data"})
-//    public ResponseEntity<Response<FileUploadResponseDTO>> uploadImage(@ModelAttribute ImageDTO imageDTO) {
-//        String msg = "";
-//        String fileCode = "";
-//        FileUploadResponseDTO responseDTO = new FileUploadResponseDTO();
-//        try {
-//            String fileName = StringUtils.cleanPath(imageDTO.getFile().getOriginalFilename());
-//            fileCode = FileUploadUtil.saveFile(fileName,imageDTO.getFile());
-//            responseDTO.setFileName(fileName);
-//            responseDTO.setFileCode(fileCode);
-//            responseDTO.setSize(imageDTO.getFile().getSize());
-//        }catch (Exception ex) {
-//            msg = ex.getMessage();
-//            return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_400, null, Constant.FAILED_MESSAGE), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(new Response<>(Constant.STATUS_CODE_200, responseDTO, Constant.SUCCESS_MESSAGE), HttpStatus.OK);
-//    }
     @PostMapping("")
     public ResponseEntity<Response<NewProjectDTO>> createNewProject(@RequestBody NewProjectRequestDTO newProjectDTO, @RequestParam(value = "is_template",required = false ) Boolean isTemplate) {
         NewProject newProject = new NewProject();
         newProject.setName(newProjectDTO.getName());
         newProject.setAuthor(newProjectDTO.getAuthor());
+        newProject.setImage(newProjectDTO.getImage());
         if (isTemplate != null) {
             newProject.setTemplate(true);
         }

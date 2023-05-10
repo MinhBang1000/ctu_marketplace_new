@@ -15,6 +15,7 @@ import java.util.List;
 public class NewProjectRequestDTO {
     private String name;
     private String author;
+    private String image;
     private Long approverId;
     private Long userId;
     private List<Long> fieldIds;

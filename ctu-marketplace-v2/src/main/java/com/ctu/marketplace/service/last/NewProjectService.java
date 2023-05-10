@@ -60,6 +60,7 @@ public class NewProjectService {
         exists.getKeyValues().removeIf(c -> c.getProject().getId() == exists.getId());
         exists.setAuthor(dto.getAuthor());
         exists.setName(dto.getName());
+        exists.setImage(dto.getImage());
         Set<Field> fieldSet = dto.getFieldIds().stream().map((item) -> {
             return this.fieldRepository.findById(item).get();
         }).collect(Collectors.toSet());

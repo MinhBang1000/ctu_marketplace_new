@@ -11,7 +11,7 @@ const NAdmin = lazy(() => import("../../pages/NAdmin"))
 const NAddProject = lazy(() => import("../../pages/NAddProject"));
 const NIntro = lazy(() => import("../../pages/NIntro"));
 const NLogin = lazy(() => import("../../pages/NLogin"));
-// const NDetail = lazy(() => import('../../pages/NDetail'));
+const NDetail = lazy(() => import('../../pages/NDetail'));
 const NotFound = lazy(() => import("../../pages/NotFound"));
 const Home = lazy(() => import("../../pages/Home"));
 const Faq = lazy(() => import("../../pages/Faq"));
@@ -93,7 +93,7 @@ const RouterCustom = () => {
                 <Route exact path="/introduction" component={NIntro} />
                 <Route exact path="/contact" component={Contact} />
                 <Route exact path="/administrator" component={NAdmin} />
-                {/* <Route exact path="/projects/detail" component={NDetail} /> */}
+                <Route exact path="/projects/detail/:id" component={NDetail} />
 
                 {/* We have to code here update new version */}
 

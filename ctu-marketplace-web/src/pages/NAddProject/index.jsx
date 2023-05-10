@@ -4,7 +4,6 @@ import styles from  "./NAddProject.module.css"
 import { CKEditor } from 'ckeditor4-react';
 import axios from "axios"
 import authHeader from "../../services/auth.header";
-import { Link } from "react-router-dom"
 import DataTable from "react-data-table-component"
 import Swal from "sweetalert2";
 
@@ -20,6 +19,7 @@ const NAddProject = () => {
         isUpdate: false,
         reCallApi: false,
         // Data
+        projectImageName: '',
         projectImage: null,
         projects: [],
         loading: false,
@@ -39,7 +39,7 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields, fields, projectImage, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
+    const {form, checkFields, fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
     
     // Apis
 
@@ -81,7 +81,10 @@ const NAddProject = () => {
     useEffect(() => {
         localStorage.setItem('keyValues', JSON.stringify(kvalues))
     }, [kvalues])
-
+    // Callback of setState
+    useEffect(() => {
+        hanldeUploadFile()
+    }, [projectImage])
     const resetState = {
         // Data
         templates: [],
@@ -89,6 +92,8 @@ const NAddProject = () => {
         projectAuthor: '',
         form: 1,
         checkFields: [],
+        projectImageName: '',
+        projectImage: null,
         fields: [],
         kvalues: [],
         newField: "",
@@ -108,6 +113,25 @@ const NAddProject = () => {
             newList[index - 1] = tempObj
             setState((prev) => {
                 return {...prev, kvalues: newList}
+            })
+        }
+    }
+    const hanldeUploadFile = () => {
+        if (projectImage !== null) {
+            let formData = new FormData()
+            formData.append("file", projectImage)
+            axios.post("https://127.0.0.1:3999/api/v3/projects/upload-image", formData, { headers: authHeader() })
+            .then((res) => {
+                setState((prev) => {
+                    return {...prev, projectImageName: res.data.data.name}
+                })
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Tải ảnh",
+                    text: "Tải ảnh không thành công! Vui lòng kiểm tra lại định dạng *.jpg"
+                })
             })
         }
     }
@@ -165,6 +189,7 @@ const NAddProject = () => {
     const preparingData = () => {
         return {
             "name": projectName,
+            "image": projectImageName,
             "author": projectAuthor,
             "fieldIds": checkFields,
             "keyValues": kvalues
@@ -379,7 +404,6 @@ const NAddProject = () => {
         setState((prev) => {
             return {...prev, projectImage: value}
         })
-        console.log(projectImage);
     }
     const handleDelete = async(projectId) => {
         axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
@@ -407,11 +431,6 @@ const NAddProject = () => {
             <i onClick={() => handleEditPage(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.view,`fa-solid fa-pen-to-square`,`bg-primary`, `text-white`)}></i>
             <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
         </div>)
-    }
-    const handleUpload = () => {
-        if (projectImage!==null) {
-            
-        }
     }
     // Sub-components
     const columns = [
@@ -551,7 +570,7 @@ const NAddProject = () => {
                         <label>Hình đại diện</label>
                         <input 
                             type="file"
-                            accept="image/png, image/gif, image/jpeg" 
+                            accept="image/jpeg" 
                             onChange={(e)=>handleSetFile(e.target.files[0])}
                         />
                     </div>
