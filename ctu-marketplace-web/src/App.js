@@ -8,9 +8,8 @@ import "./assets/css/all.min.css";
 import "./assets/css/owl.carousel.min.css";
 // import Footer from "./components/Footer";
 // import UserNavbar from "./components/Navbar/UserNavbar";
-import { ROUTE_PREFIX_NNC } from './components/Router/constants';
 import Router from "./components/Router/Router";
-import AdminSidebar from "./components/Sidebar/AdminSidebar";
+// import AdminSidebar from "./components/Sidebar/AdminSidebar";
 import Loading from "./pages/Loading";
 import { logout } from "./store/authSlice";
 import projectService from "./services/project.service";
@@ -64,55 +63,55 @@ const App = () => {
     );
   };
 
-  const renderResearchLayout = () => {
-    return (
-      <div>
-        <header className="sticky-top">
-          {/* <UserNavbar /> */}
-          <NNavbar />
-        </header>
-        <div className="main-content">
-          <Router />
-        </div>
-        <footer className="mk-footer">
-          <NFooter />
-        </footer>
-      </div>
-    );
-  };
+  // const renderResearchLayout = () => {
+  //   return (
+  //     <div>
+  //       <header className="sticky-top">
+  //         {/* <UserNavbar /> */}
+  //         <NNavbar />
+  //       </header>
+  //       <div className="main-content">
+  //         <Router />
+  //       </div>
+  //       <footer className="mk-footer">
+  //         <NFooter />
+  //       </footer>
+  //     </div>
+  //   );
+  // };
 
-  const renderAdminLayout = () => {
-    return (
-      <div style={{ minWidth: "1366px" }}>
-        <header className="sticky-top">
-          {/* <UserNavbar /> */}
-          <NNavbar />
-        </header>
-        <div className="main-content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col">
-                <div className="row">
-                  <div
-                    className="col-3"
-                    style={{ paddingLeft: "0", width: "300px" }}
-                  >
-                    <AdminSidebar />
-                  </div>
-                  <div className="col-9">
-                    <Router />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <footer className="mk-footer">
-          <NFooter />
-        </footer>
-      </div>
-    );
-  };
+  // const renderAdminLayout = () => {
+  //   return (
+  //     <div style={{ minWidth: "1366px" }}>
+  //       <header className="sticky-top">
+  //         {/* <UserNavbar /> */}
+  //         <NNavbar />
+  //       </header>
+  //       <div className="main-content">
+  //         <div className="container-fluid">
+  //           <div className="row">
+  //             <div className="col">
+  //               <div className="row">
+  //                 <div
+  //                   className="col-3"
+  //                   style={{ paddingLeft: "0", width: "300px" }}
+  //                 >
+  //                   <AdminSidebar />
+  //                 </div>
+  //                 <div className="col-9">
+  //                   <Router />
+  //                 </div>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <footer className="mk-footer">
+  //         <NFooter />
+  //       </footer>
+  //     </div>
+  //   );
+  // };
 
   const renderApp = () => {
     // if (window.location.pathname.startsWith("/admin")) {

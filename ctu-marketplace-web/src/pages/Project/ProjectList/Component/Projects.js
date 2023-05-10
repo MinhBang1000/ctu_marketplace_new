@@ -8,11 +8,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useTranslation } from 'react-i18next';
-import SearchBar from '../../../../components/SearchBar/test';
-import { Pagination } from '@mui/material';
-
-import axios from 'axios';
-import project from '../../../../api/project';
 
 const TYPE_COMMERCIAL = 'commercial'
 const TYPE_RESEARCHING = 'researching'
