@@ -4,6 +4,7 @@ import styles from "./ProjectManager.module.css"
 import axios from "axios"
 import authHeader from "../../../services/auth.header"
 import DataTable from "react-data-table-component"
+import Swal from "sweetalert2"
 
 const AdminManageProjectPage = () => {
     // Init
@@ -77,20 +78,43 @@ const AdminManageProjectPage = () => {
         })
     }
     const handleDelete = (id) => {
-        axios.delete(`https://127.0.0.1:3999/api/v3/projects/${id}`,{
-            headers: authHeader()
-        }).then(res => {
-            axios.get("https://127.0.0.1:3999/api/v3/projects")
-            .then(res => {
-                setState((prev) => {
-                    return {...prev, projects: res.data.data}
+        Swal.fire({
+            title: 'Xóa dự án',
+            text: "Bạn có chắc muốn xóa dự án này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy bỏ'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`https://127.0.0.1:3999/api/v3/projects/${id}`,{
+                    headers: authHeader()
+                }).then(res => {
+                    axios.get("https://127.0.0.1:3999/api/v3/projects")
+                    .then(res => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Xóa dự án",
+                            text: "Dự án đã được xóa thành công"
+                        })
+                        setState((prev) => {
+                            return {...prev, projects: res.data.data}
+                        })
+                    }).catch(error => {
+                        
+                    }) 
+                }).catch(error => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Xóa dự án",
+                        text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
+                    })
                 })
-            }).catch(error => {
-                console.log(error)
-            }) 
-        }).catch(error => {
-            console.log(error);
-        })
+            }
+          })
+        
     }
     const handleBack = () => {
         setState((prev) => {
@@ -193,7 +217,7 @@ const AdminManageProjectPage = () => {
         </div>)
         }
         return (
-            <div className={clsx(styles.detail)}>
+            <>
                 <div className={clsx(styles.back)} onClick={handleBack}><i className="fa-solid fa-arrow-left"></i> Quay lại</div>
                 <div className={clsx(styles.content)}>
                 <h1 className={clsx(styles.title)}>{detailProject.name}</h1>
@@ -216,7 +240,7 @@ const AdminManageProjectPage = () => {
                     })
                 }
                 </div>
-            </div>
+            </>
         )
     }
 
