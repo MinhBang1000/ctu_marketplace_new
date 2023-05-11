@@ -95,6 +95,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter implements WebMvcC
 				.antMatchers("/api/v2/researcher/**").hasAuthority("NNC")
 				// .antMatchers("/api/v2/upload-file/**").hasAnyAuthority("NNC", "SAD")
 				// .antMatchers("/api/v2/upload-file/download/**").permitAll()
+				.antMatchers(HttpMethod.GET,"/api/v2/admin/status-management").permitAll()
 				.antMatchers("/api/v2/admin/**").hasAnyAuthority("SAD", "AD")
 				.antMatchers("/api/v2/auth/login").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/v3/projects").hasAuthority("NNC")

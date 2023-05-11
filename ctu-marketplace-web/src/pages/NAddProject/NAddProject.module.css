@@ -337,11 +337,11 @@
 
 .controlAbove {
     display: flex;
-    justify-content: flex-end;
     margin-bottom: 8px;
+    justify-content: flex-end;
 }
 
-.controlAbove>.search {
+.controlAbove>.search, .controlAbove>.filter {
     padding: 12px;
     border: 2px solid #ced4da;
     border-radius: 5px;
@@ -349,12 +349,16 @@
     transition: all ease-in-out .15s;
 }
 
+.controlAbove>.filter {
+    max-width: 120px;
+}
+
 .search>input {
     outline: none;
     border: none;
 }
 
-.controlAbove>.search:hover {
+.controlAbove>.search:hover, .controlAbove>.filter:hover {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 .2rem #bfdeff;

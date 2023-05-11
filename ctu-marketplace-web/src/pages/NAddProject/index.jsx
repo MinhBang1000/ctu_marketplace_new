@@ -18,6 +18,7 @@ const NAddProject = () => {
         searchInput: '',
         isUpdate: false,
         reCallApi: false,
+        statuses: [],
         // Data
         projectImageName: '',
         projectImage: null,
@@ -39,11 +40,21 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields, fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
+    const {form, checkFields, statuses, fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
     
     // Apis
 
     useEffect(() => {
+        // Get All Status
+        axios.get("https://127.0.0.1:3999/api/v2/admin/status-management")
+        .then((res) => {
+            setState((prev) => {
+                return {...prev, statuses: res.data.data}
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
         // Get All Fields
         axios.get("https://127.0.0.1:3999/api/v3/fields")
         .then(res => {
@@ -95,6 +106,7 @@ const NAddProject = () => {
         projectImageName: '',
         projectImage: null,
         fields: [],
+        statuses: [],
         kvalues: [],
         newField: "",
         pageType: 1,
@@ -335,6 +347,11 @@ const NAddProject = () => {
         }
     }
     const handleSetSearch = (value) => {
+        if (value === "") {
+            setState((prev) => {
+                return {...prev, reCallApi: !prev.reCallApi}
+            })
+        }
         setState((prev) => {
             return {...prev, searchInput: value}
         })
@@ -406,24 +423,38 @@ const NAddProject = () => {
         })
     }
     const handleDelete = async(projectId) => {
-        axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
-        .then((res) => {
-            Swal.fire({
-                icon: "success",
-                title: "Xóa dự án",
-                text: "Dự án đã được xóa thành công"
-            })
-            setState((prev)=> {
-                return {...prev, reCallApi: !prev.reCallApi}
-            })
-        })
-        .catch((err) => {
-            Swal.fire({
-                icon: "error",
-                title: "Xóa dự án",
-                text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
-            })
-        })
+        Swal.fire({
+            title: 'Xóa dự án',
+            text: "Bạn có chắc muốn xóa dự án này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy bỏ'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
+                .then((res) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Xóa dự án",
+                        text: "Dự án đã được xóa thành công"
+                    })
+                    setState((prev)=> {
+                        return {...prev, reCallApi: !prev.reCallApi}
+                    })
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Xóa dự án",
+                        text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
+                    })
+                })
+            }
+          })
+        
     }
     const handleRenderButton = (projectId) => {
         return (<div className={clsx(styles.control)}>
@@ -431,6 +462,27 @@ const NAddProject = () => {
             <i onClick={() => handleEditPage(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.view,`fa-solid fa-pen-to-square`,`bg-primary`, `text-white`)}></i>
             <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
         </div>)
+    }
+    const handleSearchFeature = () => {
+        let newProjectList = projects.filter((project) => {
+            return project.name.includes(searchInput)
+        })
+        setState((prev) => {
+            return {...prev, projects: newProjectList}
+        })
+    }
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+        handleSearchFeature()
+    }
+    const handleFilterField = (value) => {
+
+    }
+    const handleFilterStatus = (value) => {
+
+    }
+    const handleFilterFormat = (value) => {
+
     }
     // Sub-components
     const columns = [
@@ -486,10 +538,32 @@ const NAddProject = () => {
         return (<div className={clsx(styles.form)}>
                 {projectDetail===null ? <>
                 <div className={clsx(styles.controlAbove)}>
-                    <div className={clsx(styles.search, styles.controlPart)}>
+                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterField(e.target.value)}>
+                        <option value={0}>Lĩnh vực</option>
+                        {
+                            fields.map((field) => {
+                                return <option value={field.id}>{ field.name.length >= 25 ? field.name.substring(0, 25) : field.name }</option>
+                            })
+                        }
+                    </select>
+                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterStatus(e.target.value)}>
+                        <option value={0}>Trạng thái</option>
+                        {
+                            statuses.map((status) => {
+                                return <option value={status.id}>{ status.name }</option>
+                            })
+                        }
+                    </select>
+                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterFormat(e.target.value)}>
+                        <option value={0}>Loại hình</option>
+                        <option value={1}>Báo cáo</option>
+                        <option value={2}>Mẫu</option>
+                    </select>
+                    <form className={clsx(styles.search, styles.controlPart)} onSubmit={(e) => handleSearchSubmit(e)}>
                         <input  value={searchInput} onChange={e => handleSetSearch(e.target.value)} placeholder="Tìm kiếm ..."/>
-                        <i className="fa-solid fa-magnifying-glass"></i>
-                    </div>
+                        <i className="fa-solid fa-magnifying-glass" onClick={handleSearchFeature} ></i>
+                    </form>
+
                     <div className={clsx(styles.btn, styles.submit, styles.controlPart)} onClick={handleChangeAddPage}><i className="fa-solid fa-plus"></i> Thêm mới</div>
                 </div>
                 <DataTable 
