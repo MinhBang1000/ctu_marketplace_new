@@ -316,7 +316,7 @@ const ProjectList = (props) => {
                                 Trường Đại học Cần Thơ
                             </div>
                             <div className='home__search__header__name-web'>
-                                        CÔNG NGHỆ <font color='#ffaf00'>&</font> <br/>SẢN PHẨM CÔNG NGHỆ
+                                    CÔNG NGHỆ <font color='#ffaf00'>&</font> <br/>SẢN PHẨM CÔNG NGHỆ SÁNG TẠO
                             </div>
                         </div>
                         <div id='home__search__block' className='home__search__block'> 
@@ -363,7 +363,10 @@ const ProjectList = (props) => {
                         </div>
                         <div className='home__search__image'>
                             <div className='home__search__image__item'>
-                                 <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                <div className='home__search__image__item__name'>
+                                    MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
+                                </div>
+                                <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
                             </div>
                             <div className='home__search__image__item'>
                                  <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
