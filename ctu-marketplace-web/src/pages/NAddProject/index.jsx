@@ -19,6 +19,9 @@ const NAddProject = () => {
         isUpdate: false,
         reCallApi: false,
         statuses: [],
+        formatOption: 0,
+        statusOption: 0,
+        tickFields: [],
         // Data
         projectImageName: '',
         projectImage: null,
@@ -40,7 +43,7 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields, statuses, fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
+    const {form, checkFields,tickFields, statuses, formatOption, statusOption ,fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
     
     // Apis
 
@@ -58,8 +61,13 @@ const NAddProject = () => {
         // Get All Fields
         axios.get("https://127.0.0.1:3999/api/v3/fields")
         .then(res => {
+            let allField = res.data.data.map((field) => {
+                return {
+                    ...field, checked: false
+                }
+            })
             setState((prev) => {
-                return {...prev, fields: res.data.data, constFields: res.data.data}
+                return {...prev, fields: allField, constFields: allField}
             })
         })
         .catch(error => {
@@ -96,6 +104,44 @@ const NAddProject = () => {
     useEffect(() => {
         hanldeUploadFile()
     }, [projectImage])
+    useEffect(() => {
+        const format = formatOption
+        const status = statusOption
+        axios.get("https://127.0.0.1:3999/api/v3/projects")
+        .then(res => {
+            const auth = JSON.parse(localStorage.getItem('userData'))
+            let myProjects = res.data.data.filter((item) => {
+                return item.user.id === auth.data.id
+            })
+            if (format !== 0) {
+                myProjects = myProjects.filter((project) => {
+                    const check = handleConvertFormat()
+                    return project.template === check
+                })       
+            }
+            if (status !== 0) {
+                myProjects = myProjects.filter((project) => {
+                    return project.status.id === status 
+                })
+            }
+            setState((prev) => {
+                return {...prev, projects: myProjects}
+            })
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [formatOption, statusOption])
+    useEffect(() => {
+        const newCheckedFields = fields.map((field) => {
+            return {
+                ...field,
+                checked: checkFields.includes(field.id)
+            }
+        })
+        setState((prev) => {
+            return {...prev, fields: newCheckedFields}
+        })
+    }, [checkFields])
     const resetState = {
         // Data
         templates: [],
@@ -108,8 +154,11 @@ const NAddProject = () => {
         fields: [],
         statuses: [],
         kvalues: [],
+        tickFields: [],
         newField: "",
         pageType: 1,
+        formatOption: 0,
+        statusOption: 0,
         // CSS Class
         showAnimation: false    
     }
@@ -146,6 +195,10 @@ const NAddProject = () => {
                 })
             })
         }
+    }
+    const handleConvertFormat = () => {
+        const check = formatOption === 1 ? false : true
+        return check
     }
     const handleDown = (index) => {
         // At least two element
@@ -237,25 +290,57 @@ const NAddProject = () => {
         })
 
     }
-    const handleChoosePattern = (id) => {
+    const handleResetCheckField = (templateFields) => {
+        const resetCheckFields = checkFields.filter((id) => {
+            return !templateFields.includes(id)
+        })
+        const myTick = tickFields.filter((id) => {
+            return !resetCheckFields.includes(id)
+        })
+        setState((prev) => {return {...prev, checkFields: [...resetCheckFields, ...myTick]}})
+    }
+    const handleChoosePattern = async(id) => {
+        let templateFields = []
+        templates.map((template) => {
+            template.fields.map((field) => {
+                if (!templateFields.includes(field.id)) {
+                    templateFields = [...templateFields, field.id]
+                }
+                return field
+            })
+            return template
+        })
         if (id === 0) {
+            handleResetCheckField(templateFields)
             setState((prev) => {return {...prev, kvalues: []}})
         }else{
             const patterns = templates.filter((item) => item.id===id)
             setState((prev) => {return {...prev, kvalues: patterns[0].keyValues}})
+            handleResetCheckField(templateFields)
+            setTimeout(() => {}, 1000)
+            patterns[0].fields.map((field) => {    
+                if (!checkFields.includes(field.id)){
+                    // add
+                    setState((prev) => {
+                        return {...prev, checkFields: [...prev.checkFields, field.id]}
+                    })
+                }
+                return field
+            })
         }
     }
     const handleChecked = (id) => {
         if (checkFields.includes(id)) {
             // remove
             const removedList = checkFields.filter((item) => item !== id)
+            const removedTickList = tickFields.filter((item) => item !== id)
             setState((prev) => {
-                return {...prev, checkFields: removedList}
+                return {...prev, checkFields: removedList, tickFields: removedTickList}
             })
         }else{
             // add
             setState((prev) => {
-                return {...prev, checkFields: [...prev.checkFields, id]}
+                return {...prev, checkFields: [...prev.checkFields, id], tickFields: [...prev.tickFields, id]}
             })
         }
     }
@@ -293,6 +378,7 @@ const NAddProject = () => {
     }
     const handleCreateProject = () => {
         let json = preparingData()
+        console.log(json);
         axios.post("https://127.0.0.1:3999/api/v3/projects", json, {
             headers: authHeader()
         }).then(res => {
@@ -476,13 +562,17 @@ const NAddProject = () => {
         handleSearchFeature()
     }
     const handleFilterField = (value) => {
-
+        
     }
     const handleFilterStatus = (value) => {
-
+        setState((prev) => {
+            return {...prev, statusOption: parseInt(value)}
+        })
     }
     const handleFilterFormat = (value) => {
-
+        setState((prev) => {
+            return {...prev, formatOption:  parseInt(value)}
+        })
     }
     // Sub-components
     const columns = [
@@ -538,24 +628,24 @@ const NAddProject = () => {
         return (<div className={clsx(styles.form)}>
                 {projectDetail===null ? <>
                 <div className={clsx(styles.controlAbove)}>
-                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterField(e.target.value)}>
-                        <option value={0}>Lĩnh vực</option>
+                    {/* <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterField(e.target.value)}>
+                        <option value={0}>Tất cả lĩnh vực</option>
                         {
-                            fields.map((field) => {
-                                return <option value={field.id}>{ field.name.length >= 25 ? field.name.substring(0, 25) : field.name }</option>
+                            fields.map((field, index) => {
+                                return <option  key={index} value={field.id}>{ field.name.length >= 25 ? field.name.substring(0, 25) : field.name }</option>
                             })
                         }
-                    </select>
+                    </select> */}
                     <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterStatus(e.target.value)}>
-                        <option value={0}>Trạng thái</option>
+                        <option value={0}>Tất cả trạng thái</option>
                         {
-                            statuses.map((status) => {
-                                return <option value={status.id}>{ status.name }</option>
+                            statuses.map((status, index) => {
+                                return <option key={index} value={status.id}>{ status.name }</option>
                             })
                         }
                     </select>
                     <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterFormat(e.target.value)}>
-                        <option value={0}>Loại hình</option>
+                        <option value={0}>Tất cả loại hình</option>
                         <option value={1}>Báo cáo</option>
                         <option value={2}>Mẫu</option>
                     </select>
@@ -648,7 +738,31 @@ const NAddProject = () => {
                             onChange={(e)=>handleSetFile(e.target.files[0])}
                         />
                     </div>
-
+                    <div className={clsx(styles.formGroup)}>
+                        <div className={clsx(styles.btn, styles.submit)}
+                            onClick={() => handleChooseForm(2)}
+                        >
+                            Tạo
+                        </div>
+                    </div>
+                </div>
+            )
+        } else if (form === 2) {
+            return (<div className={clsx(styles.form)}>
+                    <div className={clsx(styles.controlAbove)}>
+                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Chọn mẫu</label>
+                        <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
+                            <option value={0} key={0}>Chọn mẫu</option>
+                            {
+                                templates.map((item, index) => {
+                                    return <option value={item.id}  key={index}>{item.name}</option>
+                                })
+                            }
+                        </select>
+                    </div>
                     <div className={clsx(styles.formGroup)}>
                         <label>Lĩnh vực</label>
                         <div className={clsx(styles.selectSearch)}>
@@ -665,8 +779,8 @@ const NAddProject = () => {
                                     fields.map((item, index) => {
                                         return (<div className={clsx(styles.checkBox)} key={index}>
                                             <input  type="checkbox" name="fields" value={item.id}
-                                                onClick={(e) => handleChecked(item.id)}
-                                                defaultChecked={checkFields.includes(item.id)}
+                                                onChange={() => handleChecked(item.id)}
+                                                checked={item.checked}
                                             />
                                             <label htmlFor="fields">{item.name}</label>
                                         </div>)
@@ -674,32 +788,6 @@ const NAddProject = () => {
                                 }
                             </div>
                         </div>
-                    </div>
-
-                    <div className={clsx(styles.formGroup)}>
-                        <div className={clsx(styles.btn, styles.submit)}
-                            onClick={() => handleChooseForm(2)}
-                        >
-                            Tạo
-                        </div>
-                    </div>
-                </div>
-            )
-        } else if (form === 2) {
-            return (<div className={clsx(styles.form)}>
-                                    <div className={clsx(styles.controlAbove)}>
-                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
-                    </div>
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Chọn mẫu</label>
-                        <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
-                            <option value={0} key={0}>Chọn mẫu</option>
-                            {
-                                templates.map((item, index) => {
-                                    return <option value={item.id}  key={index}>{item.name}</option>
-                                })
-                            }
-                        </select>
                     </div>
 
                 {
@@ -826,7 +914,6 @@ const NAddProject = () => {
             }
         </div>)
     }
-
     // Primary render
     return (
         <>
