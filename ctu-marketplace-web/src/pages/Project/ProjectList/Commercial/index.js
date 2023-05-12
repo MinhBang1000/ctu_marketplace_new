@@ -1,19 +1,31 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
-
-// import { retrieveCommercialProjects } from "../../../../store/projectSlice";
 
 import axios from 'axios';
 import {Link} from "react-router-dom"
 import _ from 'lodash';
 import { SEO_PROJECTS } from '../../../../libs/constants-seo';
 import { seo } from '../../../../libs/helper';
-import { Pagination } from '@mui/material';
+// import { Pagination } from '@mui/material';
 import './ProjectsList.scss'
 import Highlighter from 'react-highlight-words';
+
+//swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { Navigation, Scrollbar, A11y } from 'swiper';
+import { useSwiper } from 'swiper/react';
+import SlideNextButton from './SwiperButton/SwiperButtonNext';
+
+//carousel
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+
 
 const ProjectList = (props) => {
     const [projects7, setProjects7] = useState([]);
@@ -32,8 +44,27 @@ const ProjectList = (props) => {
     var fieldFilter7 = [];
 
     const [search, setSearch] = useState('');
-    const [currentPgae, setCurrentPage] = useState(1)
+    const [currentPgae, setCurrentPage] = useState(1);
 
+    
+    // const swiper = useSwiper();
+
+    const [swiper, setSwiper] = React.useState(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const nexto = () => {
+        swiper.slideNext();
+        console.log("swiper: ", swiper);
+        setActiveIndex(swiper.activeIndex);
+        console.log('activeIndex: ', activeIndex)
+    };
+
+    const prev = () => {
+        swiper.slidePrev();
+        setActiveIndex(swiper.activeIndex);
+    }
+
+    console.log("swiper: ", swiper);
 
     useEffect(() => {
         seo({
@@ -225,44 +256,6 @@ const ProjectList = (props) => {
 
     const renderList = () => {
         if(props.projects){
-            // let filteredProjects = [];
-            // if(filteredFields && filteredFields.length > 0){
-            //     if(filteredFields[0].name === "Commercial-Projects" || filteredFields[0].name === "Researching-Projects" || filteredFields[0].name === "Idea-Projects"){
-            //         setFilteredFields([]);
-            //     }
-
-            //     if(isFilterOneField && projectFieldSelector?.id?.toString() !== filteredFields[0]?.id?.toString()){
-            //         setFilteredFields([projectFieldSelector])
-            //     }
-            //     projects.forEach(project => {
-            //         project.projectFieldList.forEach(field => {
-            //             if(filteredFields.some(checkedField => field.field?.id === checkedField.id)){
-            //                 filteredProjects = _.unionWith(filteredProjects, [project], _.isEqual)
-            //             }
-            //         })
-            //     });
-            //
-
-            // console.log("running");
-            // console.log("current page: ", currentPage);
-            // const query = new URLSearchParams(window.location.search).get('s');
-            // console.log("query: ", query);
-
-            // if(query!=='') {
-            //     projects7 = projects.filter((project) => {
-            //         return project.name.toLowerCase().includes(query);
-            //     })
-               
-            // } else {
-            //     projects7 = projects;
-            // }
-
-            // projects7.slice(itemPerPage*(currentPage-1), itemPerPage*(currentPage-1)+itemPerPage)
-            // projects7 = projects;
-            // projects7 = projects.splice(itemPerPage*(currentPage-1), itemPerPage*(currentPage-1)+itemPerPage);
-            
-            // quantityOfPage = Math.ceil(projects.length/itemPerPage);
-
             return (
                 <div className='home'>
                     <div className='home__line' id="home__line" style={{backgroundColor: 'var(--primary)', padding: '20px 0', position: 'sticky', zIndex: 9999, top: 70, display: searchDisplay? 'block' : 'none'}}>
@@ -362,23 +355,84 @@ const ProjectList = (props) => {
                             </div>
                         </div>
                         <div className='home__search__image'>
-                            <div className='home__search__image__item'>
-                                <div className='home__search__image__item__name'>
-                                    MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
-                                </div>
-                                <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
-                            </div>
-                            <div className='home__search__image__item'>
-                                 <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
-                            </div>
-                            <div className='home__search__image__item'>
-                                 <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
-                            </div>
-                            <div className='home__search__image__item'>
-                                 <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
-                            </div>
+                            <button className='home__search__image__button home__search__image__button--prev' style={{opacity: activeIndex===0? 0.5 : 1}} onClick={prev}>
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" >
+                                     <g><path stroke-width="10" d="M732.1,989.9c6.6,0,13.2-2.5,18.3-7.5c10.1-10.1,10.1-26.4,0-36.5l-446-446l446-446c10.1-10.1,10.1-26.4,0-36.5c-10.1-10.1-26.4-10.1-36.5,0L249.7,481.8c-10.1,10.1-10.1,26.4,0,36.5l464.2,464.2C718.9,987.5,725.5,990,732.1,989.9L732.1,989.9z"/></g>
+                                </svg>
+                                <p></p>
+                            </button>
+                            <Swiper
+                                modules={[Navigation, Scrollbar, A11y]}
+                                spaceBetween={50}
+                                slidesPerView={4}
+                                // navigation
+                                // pagination={{ clickable: true }}
+                                // scrollbar={{ draggable: true }}
+                                // onSwiper={(swiper) => console.log(swiper)}
+                                onSwiper={(s) => {
+                                    console.log("initialize swiper", s);
+                                    setSwiper(s);
+                                  }}
+                                onSlideChange={() => console.log('slide change')}
+                                >
+                                {/* <SlideNextButton></SlideNextButton> */}
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <div className='home__search__image__item__name'>
+                                            MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
+                                        </div>
+                                        <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
+                                    </div> 
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <div className='home__search__image__item__name'>
+                                            MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
+                                        </div>
+                                        <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className='home__search__image__item'>
+                                        <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
+                                    </div> 
+                                </SwiperSlide>                                
+                            </Swiper>                                
+                            <button className='home__search__image__button home__search__image__button--next' style={{opacity: activeIndex===4? 0.5 : 1}} onClick={nexto}>
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000">
+                                    <g><path d="M675.7,503.7l-426,425.9c-14.2,14.2-14.2,35.5,0,49.7s35.5,14.2,49.7,0l447.3-447.5c7.1-7.1,14.2-21.3,14.2-28.4s0-21.3-7.1-28.4L299.5,20.7c-14.2-14.2-35.5-14.2-49.7,0c-14.2,14.2-14.2,35.5,0,49.7L675.7,503.7L675.7,503.7z"/></g>
+                                </svg>
+                            </button>
                         </div>
                     </div>
+                    
+                    
+
                     <div className='home__project-list' id='projectsList'>
 {/* Overhere */}
                         {
@@ -447,7 +501,7 @@ const ProjectList = (props) => {
                         /> */}
                     </div>
                     <div className='home__pagination' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px'}}>
-                        <Pagination count={numberOfPage} page={currentPgae} onChange={changePage} />
+                        {/* <Pagination count={numberOfPage} page={currentPgae} onChange={changePage} /> */}
                     </div>
                 </div>
             )

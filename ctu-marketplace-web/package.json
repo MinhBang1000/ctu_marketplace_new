@@ -37,6 +37,7 @@
     "react-highlight-words": "^0.17.0",
     "react-i18next": "^11.17.2",
     "react-redux": "^7.2.6",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
     "react-select": "^5.3.0",
@@ -44,6 +45,7 @@
     "redux-form": "^8.3.8",
     "sass": "^1.62.0",
     "sweetalert2": "^11.7.5",
+    "swiper": "^9.3.1",
     "validator": "^13.7.0",
     "web-vitals": "^2.1.2"
   },
