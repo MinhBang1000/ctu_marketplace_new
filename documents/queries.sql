@@ -55,7 +55,16 @@ alter table new_project add column image varchar(255) not null;
 
 select * from field;
 select MAX(id) from field;
-insert into field(id,name) values (50900,"Mẫu");
+insert into field(id,name) values (6,"Tổng quát lĩnh vực");
+insert into field(id,name) values (601,"Công nghệ");
+insert into field(id,name) values (602,"Công nghệ thông tin");
+insert into field(id,name) values (603,"Khoa học tự nhiên");
+insert into field(id,name) values (604,"Môi trường");
+insert into field(id,name) values (605,"Nông nghiệp");
+insert into field(id,name) values (606,"Thủy sản");
+insert into field(id,name) values (607,"Công nghệ thực phẩm");
+insert into field(id,name) values (608,"Công nghệ sinh học");
+insert into field(id,name) values (609,"Biến đổi khí hậu và phát triển Đồng Bằng Sông Cửu Long");
 select * from user_profile;
 select * from new_project;
 select * from fkey_value;

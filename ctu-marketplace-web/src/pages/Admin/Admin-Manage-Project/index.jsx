@@ -24,7 +24,7 @@ const AdminManageProjectPage = () => {
     // Apis
     useEffect(() => {
 
-        axios.get("https://127.0.0.1:3999/api/v2/admin/status-management", {
+        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/status-management`, {
             headers: authHeader()
         }).then(res => {
             setState((prev) => {
@@ -34,7 +34,7 @@ const AdminManageProjectPage = () => {
             console.log(error)
         }) 
 
-        axios.get("https://127.0.0.1:3999/api/v3/projects")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
         .then(res => {
             setState((prev) => {
                 return {...prev, projects: res.data.data}
@@ -46,10 +46,10 @@ const AdminManageProjectPage = () => {
     }, [])
     // Handle
     const handleDenied = (id) => {
-        axios.put(`https://127.0.0.1:3999/api/v3/projects/approve/${id}?TC=true`,null,{
+        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/approve/${id}?TC=true`,null,{
             headers: authHeader()
         }).then(res => {
-            axios.get("https://127.0.0.1:3999/api/v3/projects")
+            axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
             .then(res => {
                 setState((prev) => {
                     return {...prev, projects: res.data.data}
@@ -62,10 +62,10 @@ const AdminManageProjectPage = () => {
         })
     }
     const handleApprove = (id) => {
-        axios.put(`https://127.0.0.1:3999/api/v3/projects/approve/${id}?DD=true`,null,{
+        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/approve/${id}?DD=true`,null,{
             headers: authHeader()
         }).then(res => {
-            axios.get("https://127.0.0.1:3999/api/v3/projects")
+            axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
             .then(res => {
                 setState((prev) => {
                     return {...prev, projects: res.data.data}
@@ -89,10 +89,10 @@ const AdminManageProjectPage = () => {
             cancelButtonText: 'Hủy bỏ'
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://127.0.0.1:3999/api/v3/projects/${id}`,{
+                axios.delete(`https://marketplace.ctu.edu.vn/api/v3/projects/${id}`,{
                     headers: authHeader()
                 }).then(res => {
-                    axios.get("https://127.0.0.1:3999/api/v3/projects")
+                    axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
                     .then(res => {
                         Swal.fire({
                             icon: "success",

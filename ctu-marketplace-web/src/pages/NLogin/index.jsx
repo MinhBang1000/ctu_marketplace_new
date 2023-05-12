@@ -140,7 +140,8 @@ const NLogin = () => {
                 getNews
             }
         }
-        const url = isResearcher===true?"https://127.0.0.1:3999/api/v2/auth/sign-up/researcher":"https://127.0.0.1:3999/api/v2/auth/sign-up/guest"
+        console.log(data)
+        const url = isResearcher===true?`https://127.0.0.1:3001/api/v2/auth/sign-up/researcher`:`https://127.0.0.1:3001/api/v2/auth/sign-up/guest`
         axios.post(url, data)
         .then((res) => {
             if (!isResearcher) {
@@ -151,6 +152,7 @@ const NLogin = () => {
             }
         })
         .catch((err) => {
+            console.log(err);
             popupSignup(false)
         })
     }
@@ -167,12 +169,11 @@ const NLogin = () => {
             username,
             password
         }
-        console.log("account: ", data);
-        axios.post("https://127.0.0.1:3999/api/v2/auth/login", data)
+        axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/login`, data)
         .then(res => {
             localStorage.setItem('token', JSON.stringify(res.data.data.token))
             // Setting local variables
-            axios.get(`https://127.0.0.1:3999/api/v2/auth?username=${username}`, { headers: authHeader()})
+            axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth?username=${username}`, { headers: authHeader()})
             .then(res => {
                 localStorage.setItem('userData', JSON.stringify(res.data))
                 const expiredTime = new Date().getTime() + (60000 * 30)
@@ -222,17 +223,17 @@ const NLogin = () => {
             <h1 className={clsx(styles.title)}>Đăng nhập</h1>
             <div className={clsx(styles.formGroup)}>
                 <label>Tên đăng nhập</label>
-                <input placeholder="minhbang" value={username} type="text" required onChange={(e) => handleSetUsername(e.target.value)} />
+                <input placeholder="nguyenvana ..." value={username} type="text" required onChange={(e) => handleSetUsername(e.target.value)} />
             </div>
             <div className={clsx(styles.formGroup)}>
                 <label>Mật khẩu</label>
                 {
                     !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
                 }
-                <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
+                <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
             </div>
-            <div className={clsx(styles.link, styles.forgot)}><span>Quên mật khẩu</span></div>
-            <button className={clsx(styles.btn, styles.submit)} type="submit" onClick={handleSubmitLogin} >Đăng nhập</button>
+            {/* <div className={clsx(styles.link, styles.forgot)}><span>Quên mật khẩu</span></div> */}
+            <button className={clsx(styles.btn, styles.submit)} type="submit" >Đăng nhập</button>
             <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
             {/* Google Login Here */}
             <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(false)}><span>Bạn chưa có tài khoản ?</span></div>
@@ -253,11 +254,11 @@ const NLogin = () => {
                     isResearcher===false ? <>
                         <div className={clsx(styles.formGroup)}>
                             <label>Họ tên</label>
-                            <input placeholder="Lê Minh Bằng" value={fullName} type="text" required onChange={(e) => handleSetFullname(e.target.value)} />
+                            <input placeholder="Nguyễn Văn A" value={fullName} type="text" required onChange={(e) => handleSetFullname(e.target.value)} />
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Email</label>
-                            <input placeholder="minhbang@gmail.com" value={email} type="email" required onChange={(e) => handleSetEmail(e.target.value)} />
+                            <input placeholder="nguyenvana@gmail.com" value={email} type="email" required onChange={(e) => handleSetEmail(e.target.value)} />
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Số điện thoại</label>
@@ -277,14 +278,14 @@ const NLogin = () => {
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Tên đăng nhập</label>
-                            <input placeholder="minhbang ..." value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
+                            <input placeholder="nguyenvana ..." value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Mật khẩu</label>
                             {
                                 !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
                             }
-                            <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'}  required onChange={(e) => handleSetPassword(e.target.value)} />
+                            <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'}  required onChange={(e) => handleSetPassword(e.target.value)} />
                         </div>
                     </> : <>
                         <div className={clsx(styles.formGroup)}>
@@ -317,18 +318,18 @@ const NLogin = () => {
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Tên đăng nhập</label>
-                            <input placeholder="minhbang" value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
+                            <input placeholder="nguyenvana ..." value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
                         </div>
                         <div className={clsx(styles.formGroup)}>
                             <label>Mật khẩu</label>
                             {
                                 !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
                             }
-                            <input placeholder="*****" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
+                            <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
                         </div>
                     </>
                 }
-                <button className={clsx(styles.btn, styles.submit)} onClick={handleSubmitSignup} >Đăng ký</button>
+                <button className={clsx(styles.btn, styles.submit)} type="submit">Đăng ký</button>
                 <button className={clsx(styles.btn, styles.reset)} onClick={handleReset} >Nhập lại</button>
                 <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(true)}><span>Bạn đã có tài khoản ?</span></div>
             </>

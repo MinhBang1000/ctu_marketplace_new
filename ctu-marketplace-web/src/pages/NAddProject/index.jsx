@@ -49,7 +49,7 @@ const NAddProject = () => {
 
     useEffect(() => {
         // Get All Status
-        axios.get("https://127.0.0.1:3999/api/v2/admin/status-management")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/status-management`)
         .then((res) => {
             setState((prev) => {
                 return {...prev, statuses: res.data.data}
@@ -59,7 +59,7 @@ const NAddProject = () => {
             console.log(err)
         })
         // Get All Fields
-        axios.get("https://127.0.0.1:3999/api/v3/fields")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/fields`)
         .then(res => {
             let allField = res.data.data.map((field) => {
                 return {
@@ -74,7 +74,7 @@ const NAddProject = () => {
             console.log(error)
         })
         // Get Project Templates
-        axios.get("https://127.0.0.1:3999/api/v3/projects?is_template=true&approve=true")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true&approve=true`)
         .then(res => {
             setState((prev) => {
                 return {...prev, templates: res.data.data}
@@ -84,7 +84,7 @@ const NAddProject = () => {
             console.log(error)
         })
         // Get All Project to List
-        axios.get("https://127.0.0.1:3999/api/v3/projects")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
         .then(res => {
             const auth = JSON.parse(localStorage.getItem('userData'))
             const myProjects = res.data.data.filter((item) => {
@@ -107,7 +107,7 @@ const NAddProject = () => {
     useEffect(() => {
         const format = formatOption
         const status = statusOption
-        axios.get("https://127.0.0.1:3999/api/v3/projects")
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
         .then(res => {
             const auth = JSON.parse(localStorage.getItem('userData'))
             let myProjects = res.data.data.filter((item) => {
@@ -181,7 +181,7 @@ const NAddProject = () => {
         if (projectImage !== null) {
             let formData = new FormData()
             formData.append("file", projectImage)
-            axios.post("https://127.0.0.1:3999/api/v3/projects/upload-image", formData, { headers: authHeader() })
+            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects/upload-image`, formData, { headers: authHeader() })
             .then((res) => {
                 setState((prev) => {
                     return {...prev, projectImageName: res.data.data.name}
@@ -356,7 +356,7 @@ const NAddProject = () => {
     }
     const handleCreatePattern = () => {
         let json = preparingData()
-        axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {
+        axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {
             headers: authHeader()
         }).then(res => {
             resetComponent()
@@ -379,7 +379,7 @@ const NAddProject = () => {
     const handleCreateProject = () => {
         let json = preparingData()
         console.log(json);
-        axios.post("https://127.0.0.1:3999/api/v3/projects", json, {
+        axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json, {
             headers: authHeader()
         }).then(res => {
             resetComponent()
@@ -404,13 +404,13 @@ const NAddProject = () => {
         let json = preparingData()
         let check = true 
         try {
-            await axios.post("https://127.0.0.1:3999/api/v3/projects?is_template=true", json, {headers: authHeader()})
+            await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {headers: authHeader()})
         }catch (err) {
             check = false
         }
         let json1 = preparingData()
         try {
-            await axios.post("https://127.0.0.1:3999/api/v3/projects", json1, {headers: authHeader()})
+            await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json1, {headers: authHeader()})
         }catch (err) {
             check = false
         }
@@ -458,14 +458,14 @@ const NAddProject = () => {
         })
     }
     const handleDetailPage = async(projectId) => {
-        let rawData = await axios.get(`https://127.0.0.1:3999/api/v3/projects/${projectId}`)
+        let rawData = await axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`)
         const project = rawData.data.data
         setState((prev) => {
             return {...prev, projectDetail: project}
         })
     }
     const handleEditPage = async(projectId) => {
-        let rawData = await axios.get(`https://127.0.0.1:3999/api/v3/projects/${projectId}`)
+        let rawData = await axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`)
         const project = rawData.data.data
         const data={
             projectName: project.name,
@@ -483,7 +483,7 @@ const NAddProject = () => {
             return {key: item.key, value: item.value}
         })
         data.keyValues = newKeyValues
-        axios.put(`https://127.0.0.1:3999/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
+        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
         .then((res) => {
             Swal.fire({
                 icon: 'success',
@@ -520,7 +520,7 @@ const NAddProject = () => {
             cancelButtonText: 'Hủy bỏ'
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://127.0.0.1:3999/api/v3/projects/${projectId}`, {headers: authHeader() })
+                axios.delete(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`, {headers: authHeader() })
                 .then((res) => {
                     Swal.fire({
                         icon: "success",

@@ -42,7 +42,7 @@ const ProjectList = (props) => {
         //     setProjects(response.payload)
         // })
 
-        axios.get('https://127.0.0.1:3999/api/v3/projects')
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
             .then(res => {
                 // setProjects(res.data.data.slice(0, itemPerPage));
                 setProjects(res.data.data.filter((project) => {
@@ -65,7 +65,7 @@ const ProjectList = (props) => {
     }
 
     const searchProject = () => {
-        axios.get(`https://127.0.0.1:3999/api/v3/projects?search=${search}`) // api tim kiem 
+        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects?search=${search}`) // api tim kiem 
             .then(res => {
                 console.log("res: ", res.data.data);
                 setProjects(res.data.data.filter((project) => {
@@ -280,7 +280,7 @@ const ProjectList = (props) => {
                                                 objectFit: 'contain',
                                             }}
                                         /> */}
-                                        <img src={`https://127.0.0.1:3999/api/v3/projects/view-image/${project.image}`} />
+                                        <img src={`https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${project.image}`} />
                                     </div>
                                 </div>
                             </div>)
