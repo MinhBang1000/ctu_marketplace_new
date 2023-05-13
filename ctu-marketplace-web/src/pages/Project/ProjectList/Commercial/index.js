@@ -8,7 +8,7 @@ import {Link} from "react-router-dom"
 import _ from 'lodash';
 import { SEO_PROJECTS } from '../../../../libs/constants-seo';
 import { seo } from '../../../../libs/helper';
-// import { Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import './ProjectsList.scss'
 import Highlighter from 'react-highlight-words';
 
@@ -19,8 +19,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar, A11y } from 'swiper';
-import { useSwiper } from 'swiper/react';
-import SlideNextButton from './SwiperButton/SwiperButtonNext';
 
 //carousel
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -30,13 +28,10 @@ import { Carousel } from 'react-responsive-carousel';
 const ProjectList = (props) => {
     const [projects7, setProjects7] = useState([]);
     const [projects, setProjects] = React.useState([]);
-    // const [filteredFields, setFilteredFields] = useState(props.location.state?.projectField ? [props.location.state.projectField] : null);
-    // const [isFilterOneField, setIsFilterOneField] = useState(props.location.state?.projectField ?? false);
+   
     const [numberOfPage, setNumberOfPage] = React.useState(0);
     const [searchDisplay, setSearchDisplay] = useState(false)
 
-    // const dispatch = useDispatch();
-    // const projectFieldSelector = useSelector(state => state.filterProjectField);
     var itemPerPage = 2;
     const [showFilter, setShowFilter] = useState(false);
     const [fields, setFields] = useState([]); 
@@ -46,11 +41,11 @@ const ProjectList = (props) => {
     const [search, setSearch] = useState('');
     const [currentPgae, setCurrentPage] = useState(1);
 
-    
-    // const swiper = useSwiper();
-
     const [swiper, setSwiper] = React.useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [swiperProjects, setSwiperProjects] = useState([]);
+
+    const apiGetProjects = "https://127.0.0.1:3999/api/v3/projects";
 
     const nexto = () => {
         swiper.slideNext();
@@ -64,7 +59,6 @@ const ProjectList = (props) => {
         setActiveIndex(swiper.activeIndex);
     }
 
-    console.log("swiper: ", swiper);
 
     useEffect(() => {
         seo({
@@ -72,12 +66,7 @@ const ProjectList = (props) => {
             metaDescription: SEO_PROJECTS.commercial.metaDescription
         });
 
-        // dispatch(retrieveCommercialProjects())
-        // .then(response => {
-        //     setProjects(response.payload)
-        // })
-
-        axios.get('https://127.0.0.1:3999/api/v3/projects')
+        axios.get(apiGetProjects)
             .then(res => {
                 // setProjects(res.data.data.slice(0, itemPerPage));
                 setProjects(res.data.data.filter((project) => {
@@ -94,11 +83,6 @@ const ProjectList = (props) => {
             .catch(error => {
                 console.log("Error: ", error);
             })
-        axios.get('https://127.0.0.1:3999/api/v3/fields')
-            .then(res => {
-                setFields(res.data.data);
-                console.log("fields: ", res.data.data);
-            })
     }, [])
 
     const changePage = (e, page) =>  {
@@ -107,7 +91,7 @@ const ProjectList = (props) => {
     }
 
     const searchProject = () => {
-        axios.get(`https://127.0.0.1:3999/api/v3/projects?search=${search}`) // api tim kiem 
+        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
             .then(res => {
                 console.log("res: ", res.data.data);
                 setProjects(res.data.data.filter((project) => {
@@ -193,14 +177,10 @@ const ProjectList = (props) => {
         console.log("test: ", checkArrayInArray([1,2,3,4,5,6], [1,2,3]))
     }
 
-    const handleClickFilter = () => {
-        console.log('fieldFilter77: ', fieldFilter);
-       
+    const handleClickFilter = () => {       
         if(fieldFilter.length > 0) {
-
-            axios.get(`https://127.0.0.1:3999/api/v3/projects?search=${search}`) // api tim kiem 
+            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
             .then(res => {
-                console.log("res: ", res.data.data);
                 setProjects(res.data.data.filter((project) => {
                     return project.template===false;
                 }));
@@ -230,11 +210,9 @@ const ProjectList = (props) => {
                 console.log("Error: ", error);
             })
 
-            
         } else {
-            axios.get(`https://127.0.0.1:3999/api/v3/projects?search=${search}`) // api tim kiem 
+            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
                 .then(res => {
-                    console.log("res: ", res.data.data);
                     setProjects(res.data.data.filter((project) => {
                         return project.template===false;
                     }));
@@ -250,10 +228,9 @@ const ProjectList = (props) => {
                     console.log("Error: ", error);
                 })
             }
-        console.log("fieldFiulter7_after: ", fieldFilter7);
     }
 
-
+ 
     const renderList = () => {
         if(props.projects){
             return (
@@ -289,7 +266,7 @@ const ProjectList = (props) => {
                                     <div className='home__search__block__filter__list'>
                                         {
                                             fields.map((field) => <div className='home__search__block__filter__list__item'>
-                                                    <input type='checkbox' id={field.id} value={field.id} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
+                                                    <input type='checkbox' id={field.id} value={field.id} checked={fieldFilter.includes(field.id)} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
                                                     <label for={field.id} >{field.name}</label>
                                                 </div>
                                             )
@@ -342,7 +319,7 @@ const ProjectList = (props) => {
                                     <div className='home__search__block__filter__list'>
                                         {
                                             fields.map((field) => <div className='home__search__block__filter__list__item'>
-                                                    <input type='checkbox' id={field.id} value={field.id} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
+                                                    <input type='checkbox' id={field.id} value={field.id} checked={fieldFilter.includes(field.id)} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
                                                     <label for={field.id} >{field.name}</label>
                                                 </div>
                                             )
@@ -354,154 +331,154 @@ const ProjectList = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='home__search__image'>
-                            <button className='home__search__image__button home__search__image__button--prev' style={{opacity: activeIndex===0? 0.5 : 1}} onClick={prev}>
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" >
-                                     <g><path stroke-width="10" d="M732.1,989.9c6.6,0,13.2-2.5,18.3-7.5c10.1-10.1,10.1-26.4,0-36.5l-446-446l446-446c10.1-10.1,10.1-26.4,0-36.5c-10.1-10.1-26.4-10.1-36.5,0L249.7,481.8c-10.1,10.1-10.1,26.4,0,36.5l464.2,464.2C718.9,987.5,725.5,990,732.1,989.9L732.1,989.9z"/></g>
-                                </svg>
-                                <p></p>
-                            </button>
-                            <Swiper
-                                modules={[Navigation, Scrollbar, A11y]}
-                                spaceBetween={50}
-                                slidesPerView={4}
-                                // navigation
-                                // pagination={{ clickable: true }}
-                                // scrollbar={{ draggable: true }}
-                                // onSwiper={(swiper) => console.log(swiper)}
-                                onSwiper={(s) => {
-                                    console.log("initialize swiper", s);
-                                    setSwiper(s);
-                                  }}
-                                onSlideChange={() => console.log('slide change')}
-                                >
-                                {/* <SlideNextButton></SlideNextButton> */}
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <div className='home__search__image__item__name'>
-                                            MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
-                                        </div>
-                                        <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
-                                    </div> 
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <div className='home__search__image__item__name'>
-                                            MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
-                                        </div>
-                                        <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className='home__search__image__item'>
-                                        <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
-                                    </div> 
-                                </SwiperSlide>                                
-                            </Swiper>                                
-                            <button className='home__search__image__button home__search__image__button--next' style={{opacity: activeIndex===4? 0.5 : 1}} onClick={nexto}>
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000">
-                                    <g><path d="M675.7,503.7l-426,425.9c-14.2,14.2-14.2,35.5,0,49.7s35.5,14.2,49.7,0l447.3-447.5c7.1-7.1,14.2-21.3,14.2-28.4s0-21.3-7.1-28.4L299.5,20.7c-14.2-14.2-35.5-14.2-49.7,0c-14.2,14.2-14.2,35.5,0,49.7L675.7,503.7L675.7,503.7z"/></g>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    
-
-                    <div className='home__project-list' id='projectsList'>
-{/* Overhere */}
-                        {
-                            projects7.map((project, index) => <div className='mk-card-horizontal' key={index}>
-                                <div className="row product-card">
-                                    <div className="col-lg-6 product-card__description" >
-                                        <div className="mk-card-body">
-                                            <div className='product-card__description__header'>
-                                                <ul className='mk-card-horizontal-field'>
-                                                    {
-                                                        project.fields.slice(0,2).map((field) => {
-                                                            return <li style={{color: 'rgba(0, 0, 0, 0.2) !important'}}>{field.name}</li>
-                                                        })
-                                                    }
-                                                    {
-                                                        project.fields.length > 2 ? <li>...</li> : ''
-                                                    }
-                                                </ul>
-                                            </div>
-                                            <Link
-                                                to={`/projects/detail/${project.id}`}
-                                                // to={`/san-pham/chi-tiet/${translateProjectTypeToVN(project.projectType)}/${project.id}`}
-                                                style={{ textDecoration: 'none' }}
-                                            >
-                                                <h4 className="fw-bold text-uppercase product-card__description__name">
-                                                    {renderHighlightOnSearch(project.name)}
-                                                </h4>
-                                                <div className="card-text product-card__description__brief">
-                                                    <span dangerouslySetInnerHTML={{ __html: renderBrief(project.keyValues[0].value)}}></span>
-                                                </div>
-                                                
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 product-card__related-info"> 
-                                        <table>
-                                            <tr>
-                                                <td className='name' style={{width: '65px', verticalAlign: 'top', display: 'table-cell'}}>Tác giả:</td>
-                                                <td className='value'>{project.author.substring(0, 200)} {project.author.length > 200 ? '...' : ''}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div className="col-lg-3 product-card__image">
-                                        {/* <img
-                                            src={projectImage}
-                                            className="img-fluid rounded-3"
-                                            alt="Project Image"
-                                            style={{
-                                                maxHeight: '16rem',
-                                                objectFit: 'contain',
-                                            }}
-                                        /> */}
-                                        <img src={`https://127.0.0.1:3999/api/v3/projects/view-image/${project.image}`} />
-                                    </div>
+                        {projects7.length > 0 && 
+                            <div className='home__search__image'>
+                                <div className='home__search__image__button home__search__image__button--prev' style={{opacity: activeIndex===0? 0.5 : 1, cursor: activeIndex===0? 'auto' : 'pointer'}} onClick={prev}>
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" >
+                                        <g><path stroke-width="10" d="M732.1,989.9c6.6,0,13.2-2.5,18.3-7.5c10.1-10.1,10.1-26.4,0-36.5l-446-446l446-446c10.1-10.1,10.1-26.4,0-36.5c-10.1-10.1-26.4-10.1-36.5,0L249.7,481.8c-10.1,10.1-10.1,26.4,0,36.5l464.2,464.2C718.9,987.5,725.5,990,732.1,989.9L732.1,989.9z"/></g>
+                                    </svg>
+                                    <p></p>
                                 </div>
-                            </div>)
+                                <Swiper
+                                    modules={[Navigation, Scrollbar, A11y]}
+                                    spaceBetween={50}
+                                    slidesPerView={4}
+                                    onSwiper={(s) => {
+                                        console.log("initialize swiper", s);
+                                        setSwiper(s);
+                                    }}
+                                    onSlideChange={() => console.log('slide change')}
+                                >
+                                    {/* {
+                                        swiperProjects.map(project => <SwiperSlide>
+                    
+                                        </SwiperSlide>)
+                                    } */}
+                                    <SwiperSlide>
+                                        <Link
+                                            // to={`/projects/detail/${project.id}`}
+                                        >
+                                            <div className='home__search__image__item'>
+                                                <div className='home__search__image__item__name'>
+                                                    MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
+                                                </div>
+                                                <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                            </div>
+                                        </Link>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
+                                        </div> 
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <div className='home__search__image__item__name'>
+                                                MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
+                                            </div>
+                                            <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
+                                        <div className='home__search__image__item'>
+                                            <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
+                                        </div> 
+                                    </SwiperSlide>                                
+                                </Swiper>                                
+                                <div className='home__search__image__button home__search__image__button--next' style={{opacity: activeIndex===4? 0.5 : 1, cursor: activeIndex===4? 'auto' : 'pointer'}} onClick={nexto}>
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000">
+                                        <g><path d="M675.7,503.7l-426,425.9c-14.2,14.2-14.2,35.5,0,49.7s35.5,14.2,49.7,0l447.3-447.5c7.1-7.1,14.2-21.3,14.2-28.4s0-21.3-7.1-28.4L299.5,20.7c-14.2-14.2-35.5-14.2-49.7,0c-14.2,14.2-14.2,35.5,0,49.7L675.7,503.7L675.7,503.7z"/></g>
+                                    </svg>
+                                </div>
+                            </div>
                         }
-
-{/* Overhere */}
-                        {/* <Projects 
-                            projects={projects} // filteredFields && filteredFields.length > 0 ? filteredProjects : projects
-                            projectType='commercial' 
-                            filteredFields={filteredFields} 
-                            setFilteredFields={setFilteredFields}
-                            setIsFilterOneField={setIsFilterOneField}
-                        /> */}
                     </div>
-                    <div className='home__pagination' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px'}}>
-                        {/* <Pagination count={numberOfPage} page={currentPgae} onChange={changePage} /> */}
+
+                    <div>
+                        {projects7.length > 0 ? 
+                        <>
+                            <div className='home__project-list' id='projectsList'>
+                                {projects7.map((project, index) => <div className='mk-card-horizontal' key={index}>
+                                        <div className="row product-card">
+                                            <div className="col-lg-6 product-card__description" >
+                                                <div className="mk-card-body">
+                                                    <div className='product-card__description__header'>
+                                                        <ul className='mk-card-horizontal-field'>
+                                                            {
+                                                                project.fields.slice(0,2).map((field) => {
+                                                                    return <li style={{color: 'rgba(0, 0, 0, 0.2) !important'}}>{field.name}</li>
+                                                                })
+                                                            }
+                                                            {
+                                                                project.fields.length > 2 ? <li>...</li> : ''
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                    <Link
+                                                        to={`/projects/detail/${project.id}`}
+                                                        // to={`/san-pham/chi-tiet/${translateProjectTypeToVN(project.projectType)}/${project.id}`}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
+                                                        <h4 className="fw-bold text-uppercase product-card__description__name">
+                                                            {renderHighlightOnSearch(project.name)}
+                                                        </h4>
+                                                        <div className="card-text product-card__description__brief">
+                                                            <span dangerouslySetInnerHTML={{ __html: renderBrief(project.keyValues[0].value)}}></span>
+                                                        </div>
+                                                        
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-3 product-card__related-info"> 
+                                                <table>
+                                                    <tr>
+                                                        <td className='name' style={{width: '65px', verticalAlign: 'top', display: 'table-cell'}}>Tác giả:</td>
+                                                        <td className='value'>{project.author.substring(0, 200)} {project.author.length > 200 ? '...' : ''}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div className="col-lg-3 product-card__image">
+                                                <img src={`${apiGetProjects}/view-image/${project.image}`} />
+                                            </div>
+                                        </div>
+                                    </div>)
+                                }
+                            </div>
+                            <div className='home__pagination' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px'}}>
+                                <Pagination count={numberOfPage} page={currentPgae} onChange={changePage} />
+                            </div>
+                        </> 
+                        : 
+                        <>
+                            <div className='row' style={{height: '200px'}}>
+                                <div className='col-md-4'></div>
+                                <div className='col-md-4' style={{textAlign: 'center', lineHeight: '200px', fontSize: '20px'}}>
+                                    {/* <img src={require('../../../../assets/images/nodata.png')} /> */}
+                                    Không có dữ liệu
+                                </div>
+                                <div className='col-md-4'></div>
+                            </div>
+                        </>}
                     </div>
                 </div>
             )

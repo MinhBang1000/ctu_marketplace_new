@@ -245,7 +245,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border-color: none;
+                cursor: pointer;
                 svg {
                     fill: #ffaf00;
                     height: 15px;
@@ -289,6 +289,7 @@
         justify-content: center;
         img {
             height: 90%;
+            max-width: 90%;
         }
     }
     &__description {
