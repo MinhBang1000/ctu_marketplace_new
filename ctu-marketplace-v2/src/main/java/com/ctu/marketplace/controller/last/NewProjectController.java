@@ -110,6 +110,7 @@ public class NewProjectController {
         newProject.setName(newProjectDTO.getName());
         newProject.setAuthor(newProjectDTO.getAuthor());
         newProject.setImage(newProjectDTO.getImage());
+        newProject.setIntroduction(newProjectDTO.getIntroduction());
         if (isTemplate != null) {
             newProject.setTemplate(true);
         }

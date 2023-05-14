@@ -8,6 +8,8 @@ import axios from "axios"
 import authHeader from "../../services/auth.header"
 import Swal from "sweetalert2"
 import { Redirect } from "react-router-dom/cjs/react-router-dom"
+import NValid from "../../components/NValid"
+import { useTransition, animated } from "@react-spring/web"
 
 const NLogin = () => {
     // Init hooks
@@ -18,6 +20,37 @@ const NLogin = () => {
         isLogin: true, // true is login , false is sign up
         isResearcher: false,
         isShow: false,
+        // Validate
+        vUsername: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vPassword: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vFullname: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vAddress: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vPhone: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vEmail: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
         // Signup
         fullName: '',
         email: '',
@@ -26,6 +59,38 @@ const NLogin = () => {
         gender: 1, // 1 Men, 2 Women, 3 Other
         getNews: true, // always true
         dob: new Date(),
+    }
+    const resetValidateState = {
+        vUsername: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vPassword: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vFullname: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vAddress: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vPhone: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vEmail: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
     }
     const resetState = {
         isShow: false,
@@ -41,8 +106,12 @@ const NLogin = () => {
         dob: new Date(),
     }
     const [localState, setState] = useState(initState)
-    const {username, password, redirect, isLogin, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
+    const {username, password, vUsername, vPassword, vFullname, vEmail, vAddress, vPhone, redirect, isLogin, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
     const [state, myDispatch] = useStore()
+    const transitions = useTransition(isLogin, {
+        from: {opacity: 0},
+        enter: {opacity: 1}
+    })
     // Popup
     const popupLogin = (check) => {
         if (check) {
@@ -75,29 +144,82 @@ const NLogin = () => {
         }
     }
     // Handle
+    const handleResetValidate = () => {
+        setState((prev) => {
+            return {...prev, ...resetValidateState}
+        })
+    }
     const handleSetDob = (value) => {
         setState((prev) => {
             return {...prev, dob: value}
         })
     }
+    const validateFullname = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập họ và tên !"
+            validate.isValid = false 
+        }
+        return validate
+    }
     const handleSetFullname = (value) => {
         setState((prev) => {
-            return {...prev, fullName: value}
+            return {...prev, fullName: value, vFullname: {...validateFullname(value)}}
         })
+    }
+    const validateEmail = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập địa chỉ Email !"
+            validate.isValid = false 
+        }
+        return validate
     }
     const handleSetEmail = (value) => {
         setState((prev) => {
-            return {...prev, email: value}
+            return {...prev, email: value, vEmail: {...validateEmail(value)}}
         })
+    }
+    const validatePhone = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập số điện thoại !"
+            validate.isValid = false 
+        }
+        return validate
     }
     const handleSetPhone = (value) => {
         setState((prev) => {
-            return {...prev, phone: value}
+            return {...prev, phone: value, vPhone: {...validatePhone(value)}}
         })
+    }
+    const validateAddress = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập địa chỉ !"
+            validate.isValid = false 
+        }
+        return validate
     }
     const handleSetAddress = (value) => {
         setState((prev) => {
-            return {...prev, address: value}
+            return {...prev, address: value, vAddress: {...validateAddress(value)}}
         })
     }
     const handleSetGender = (value) => {
@@ -105,14 +227,38 @@ const NLogin = () => {
             return {...prev, gender: parseInt(value)}
         })
     }
+    const validateUsername = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập tên tài khoản !"
+            validate.isValid = false 
+        }
+        return validate
+    }
     const handleSetUsername = (value) => {
         setState((prev) => {
-            return {...prev, username: value}
+            return {...prev, username: value, vUsername: { ...prev.vUsername, ...validateUsername(value)}}
         })
+    }
+    const validatePassword = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập mật khẩu !"
+            validate.isValid = false 
+        }
+        return validate
     }
     const handleSetPassword = (value) => {
         setState((prev) => {
-            return {...prev, password: value}
+            return {...prev, password: value, vPassword: {...prev.vPassword, ...validatePassword(value)}}
         })
     }
     const handleSubmitSignup = () => {
@@ -140,8 +286,7 @@ const NLogin = () => {
                 getNews
             }
         }
-        console.log(data)
-        const url = isResearcher===true?`https://127.0.0.1:3001/api/v2/auth/sign-up/researcher`:`https://127.0.0.1:3001/api/v2/auth/sign-up/guest`
+        const url = isResearcher===true?`https://marketplace.ctu.edu.vn/api/v2/auth/sign-up/researcher`:`https://marketplace.ctu.edu.vn/api/v2/auth/sign-up/guest`
         axios.post(url, data)
         .then((res) => {
             if (!isResearcher) {
@@ -156,12 +301,53 @@ const NLogin = () => {
             popupSignup(false)
         })
     }
+    const handleCheckValidLogin = () => {
+        return vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
+    }
+    const handleCheckValidSignUp = () => {
+        let check = true
+        check = vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
+        check = check && vAddress.isValid && !vAddress.first && vEmail.isValid && !vEmail.first
+        check = check && vPhone.isValid && !vPhone.first && vFullname.isValid && !vFullname.first
+        return check
+    }
+    const handleValidationWhenSubmit = () => {
+        setState((prev => {
+            return {
+                ...prev,
+                vUsername: {...validateUsername(prev.username)},
+                vPassword: {...validatePassword(prev.password)},
+                vFullname: {...validateFullname(prev.fullName)},
+                vAddress: {...validateAddress(prev.address)},
+                vPhone: {...validatePhone(prev.phone)},
+                vEmail: {...validateEmail(prev.email)}
+            }
+        }))
+    }
     const handleEnterSubmit = (e) => {
         e.preventDefault()
         if (isLogin) {
-            handleSubmitLogin()
+            if (handleCheckValidLogin()) {
+                handleSubmitLogin()
+            }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Nhập thông tin",
+                    text: "Thông tin đăng nhập chưa đầy đủ! Vui lòng nhập lại"
+                })
+                handleValidationWhenSubmit()
+            }
         }else{
-            handleSubmitSignup()
+            if (handleCheckValidSignUp()) {
+                handleSubmitSignup()
+            }else{
+                Swal.fire({
+                    icon: "error",
+                    title: "Nhập thông tin",
+                    text: "Thông tin đăng nhập chưa đầy đủ! Vui lòng nhập lại"
+                })
+                handleValidationWhenSubmit()
+            }
         }
     }
     const handleSubmitLogin = () => {
@@ -197,7 +383,7 @@ const NLogin = () => {
     }
     const handleReset = () => {
         setState((prev) => {
-            return {...prev, ...resetState}
+            return {...prev, ...resetState, ...resetValidateState}
         })
     }
     const handleChangeFeature = (value) => {
@@ -210,6 +396,7 @@ const NLogin = () => {
                 return {...prev, isLogin: false}
             })
         }
+        handleReset()
     }
     const handleChangeRole = (value) => {
         setState((prev) => {
@@ -219,132 +406,108 @@ const NLogin = () => {
     // Validation
     // Sub components
     const loginComponent = () =>{
-        return (<>
-            <h1 className={clsx(styles.title)}>Đăng nhập</h1>
+        return (<div className={clsx(styles.login)}>
+            <h3 className={clsx(styles.title)}>Đăng nhập !</h3>
+            <div className={clsx(styles.scripts)}>Trình bày nghiên cứu của bạn ...</div>
             <div className={clsx(styles.formGroup)}>
                 <label>Tên đăng nhập</label>
-                <input placeholder="nguyenvana ..." value={username} type="text" required onChange={(e) => handleSetUsername(e.target.value)} />
+                <input placeholder="nguyenvana ..." value={username} type="text"  onChange={(e) => handleSetUsername(e.target.value)} />
+                <NValid isValid={vUsername.first || vUsername.isValid} text={vUsername.text}/>
             </div>
             <div className={clsx(styles.formGroup)}>
                 <label>Mật khẩu</label>
                 {
                     !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
                 }
-                <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
+                <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'}  onChange={(e) => handleSetPassword(e.target.value)} />
+                <NValid isValid={vPassword.first || vPassword.isValid} text={vPassword.text}/>
             </div>
             {/* <div className={clsx(styles.link, styles.forgot)}><span>Quên mật khẩu</span></div> */}
+            <hr></hr>
             <button className={clsx(styles.btn, styles.submit)} type="submit" >Đăng nhập</button>
             <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
             {/* Google Login Here */}
             <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(false)}><span>Bạn chưa có tài khoản ?</span></div>
-        </>)
+        </div>)
     }
     const signupComponent = () => {
         return (
-            <>
-                <h1 className={clsx(styles.title)}>Đăng ký</h1>
-                <div className={clsx(styles.formGroup)}>
-                    <label>Vai trò</label>
-                    <select className={clsx(styles.select)} onChange={(e) => handleChangeRole(e.target.value)}>
-                        <option value={false}>Khách</option>
-                        <option value={true}>Nhà nghiên cứu</option>
-                    </select>
+            <div className={clsx(styles.register)}>
+                <h3 className={clsx(styles.title)}>Đăng ký !</h3>
+                <div className={clsx(styles.scripts)}>Khởi tạo tài khoản của bạn ...</div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Vai trò</label>
+                        <select className={clsx(styles.select)} onChange={(e) => handleChangeRole(e.target.value)}>
+                            <option value={false}>Khách</option>
+                            <option value={true}>Nhà nghiên cứu</option>
+                        </select>
+                        <NValid isValid={true} text={"..."}/>
+                    </div>
+                <div className={clsx(styles.registerGroup)}>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Họ tên <strong className="text-danger">{`(*)`}</strong></label>
+                        <input placeholder="Nguyễn Văn A" value={fullName} type="text"  onChange={(e) => handleSetFullname(e.target.value)} />
+                        <NValid isValid={vFullname.first || vFullname.isValid} text={vFullname.text}/>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Email <strong className="text-danger">{`(*)`}</strong></label>
+                        <input placeholder="nguyenvana@gmail.com" value={email} type="email"  onChange={(e) => handleSetEmail(e.target.value)} />
+                        <NValid isValid={vEmail.first || vEmail.isValid} text={vEmail.text}/>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Số điện thoại <strong className="text-danger">{`(*)`}</strong></label>
+                        <input placeholder="+8436540xxxx" value={phone} type="text"  onChange={(e) => handleSetPhone(e.target.value)} />
+                        <NValid isValid={vPhone.first || vPhone.isValid} text={vPhone.text}/>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Địa chỉ <strong className="text-danger">{`(*)`}</strong></label>
+                        <input placeholder="3/2, Xuân Khánh, Ninh Kiều, Cần Thơ" value={address}  type="text" onChange={(e) => handleSetAddress(e.target.value)} />
+                        <NValid isValid={vAddress.first || vAddress.isValid} text={vAddress.text}/>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Giới tính</label>
+                        <select className={clsx(styles.select)} onChange={(e) => handleSetGender(e.target.value)}>
+                            <option value={1}>Nam</option>
+                            <option value={2}>Nữ</option>
+                            <option value={3}>Khác</option>
+                        </select>
+                        <NValid isValid={true} text={"..."}/>
+                    </div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Ngày sinh</label>
+                        <input value={dob} type="date" onChange={(e) => handleSetDob(e.target.value)}  />
+                        <NValid isValid={true} text={"..."}/>
+                    </div>
                 </div>
-                {
-                    isResearcher===false ? <>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Họ tên</label>
-                            <input placeholder="Nguyễn Văn A" value={fullName} type="text" required onChange={(e) => handleSetFullname(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Email</label>
-                            <input placeholder="nguyenvana@gmail.com" value={email} type="email" required onChange={(e) => handleSetEmail(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Số điện thoại</label>
-                            <input placeholder="+8436540xxxx" value={phone} type="text" required onChange={(e) => handleSetPhone(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Địa chỉ</label>
-                            <input placeholder="3/2, Xuân Khánh, Ninh Kiều, Cần Thơ" value={address} required type="text" onChange={(e) => handleSetAddress(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Giới tính</label>
-                            <select className={clsx(styles.select)} onChange={(e) => handleSetGender(e.target.value)}>
-                                <option value={1}>Nam</option>
-                                <option value={2}>Nữ</option>
-                                <option value={3}>Khác</option>
-                            </select>
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Tên đăng nhập</label>
-                            <input placeholder="nguyenvana ..." value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Mật khẩu</label>
-                            {
-                                !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
-                            }
-                            <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'}  required onChange={(e) => handleSetPassword(e.target.value)} />
-                        </div>
-                    </> : <>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Họ tên</label>
-                            <input placeholder="Lê Minh Bằng" value={fullName} type="text" required onChange={(e) => handleSetFullname(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Email</label>
-                            <input placeholder="minhbang@gmail.com" value={email} type="email" required onChange={(e) => handleSetEmail(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Số điện thoại</label>
-                            <input placeholder="+8436540xxxx" value={phone} type="text" required onChange={(e) => handleSetPhone(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Địa chỉ</label>
-                            <input placeholder="3/2, Xuân Khánh, Ninh Kiều, Cần Thơ" value={address} required type="text" onChange={(e) => handleSetAddress(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Giới tính</label>
-                            <select className={clsx(styles.select)} onChange={(e) => handleSetGender(e.target.value)}>
-                                <option value={1}>Nam</option>
-                                <option value={2}>Nữ</option>
-                                <option value={3}>Khác</option>
-                            </select>
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Ngày sinh</label>
-                            <input value={dob} type="date" onChange={(e) => handleSetDob(e.target.value)} required />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Tên đăng nhập</label>
-                            <input placeholder="nguyenvana ..." value={username} required type="text" onChange={(e) => handleSetUsername(e.target.value)} />
-                        </div>
-                        <div className={clsx(styles.formGroup)}>
-                            <label>Mật khẩu</label>
-                            {
-                                !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
-                            }
-                            <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'} required onChange={(e) => handleSetPassword(e.target.value)} />
-                        </div>
-                    </>
-                }
+                <div className={clsx(styles.formGroup)}>
+                    <label>Tên đăng nhập <strong className="text-danger">{`(*)`}</strong></label>
+                    <input placeholder="nguyenvana ..." value={username}  type="text" onChange={(e) => handleSetUsername(e.target.value)} />
+                    <NValid isValid={vUsername.first || vUsername.isValid} text={vUsername.text}/>
+                </div>
+                <div className={clsx(styles.formGroup)}>
+                    <label>Mật khẩu <strong className="text-danger">{`(*)`}</strong></label>
+                    {
+                        !isShow ? <i className="fa-solid fa-eye" onClick={() => setState((prev) => {return {...prev, isShow: true}})}></i> : <i className="fa-solid fa-eye-slash" onClick={() => setState((prev) => {return {...prev, isShow: false}})}></i>
+                    }
+                    <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'}   onChange={(e) => handleSetPassword(e.target.value)} />
+                    <NValid isValid={vPassword.first || vPassword.isValid} text={vPassword.text}/>
+                </div>
+                <hr></hr>
                 <button className={clsx(styles.btn, styles.submit)} type="submit">Đăng ký</button>
-                <button className={clsx(styles.btn, styles.reset)} onClick={handleReset} >Nhập lại</button>
+                <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
                 <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(true)}><span>Bạn đã có tài khoản ?</span></div>
-            </>
+            </div>
         )
     }
     // Rendering
     return (<>
         {redirect && <Redirect to="/" />}
         <div className={clsx(styles.auth)}  style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}>
-        <div className={clsx(styles.info)}>
-            
-        </div>
         <form className={clsx(styles.content)} onSubmit={(e)=>handleEnterSubmit(e)}>
             {
-                isLogin === true ? loginComponent() : signupComponent()
+                transitions((style, item) => {
+                    return <animated.div style={style}>{item ? loginComponent() : signupComponent()}</animated.div>
+                })
             }
         </form>
     </div>

@@ -6,36 +6,35 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    min-height: 1000px;
+    min-height: 900px; 
     transition: height linear .2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@media only screen and (max-width: 768px) {
-    .auth {
-        flex-direction: column;
-    }
-
-    .info {
-        display: none;
-    }
+.registerGroup {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.info {
-    flex: 6;
-    opacity: 0;
+.registerGroup>.formGroup {
+    width: 30%;
 }
+
 
 .content {
     background-color: white;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    border-radius: 15px;
     padding: 36px;
-    flex: 4;
+    min-height: 921px;
+    width: 40%;
 }
 
-.title {
-    text-align: center;
-    margin-bottom: 24px;
+.scripts {
+    color: var(--secondary);
+    margin-bottom: var(--margin-medium);
 }
 
 /* Form Group */
@@ -53,7 +52,6 @@
     padding: 12px;
     margin-top: 8px;
     border: 2px solid #ced4da;
-    border-radius: 5px;
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
@@ -101,7 +99,6 @@
 .btn {
     box-sizing: border-box;
     margin: 8px 0;
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,4 +124,11 @@
 .reset {
     background-color: #dc3545;
     color: white;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .content {
+        width: 100%;
+    }
 }

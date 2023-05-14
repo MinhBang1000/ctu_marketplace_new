@@ -61,6 +61,7 @@ public class NewProjectService {
         exists.setAuthor(dto.getAuthor());
         exists.setName(dto.getName());
         exists.setImage(dto.getImage());
+        exists.setIntroduction(dto.getIntroduction());
         Set<Field> fieldSet = dto.getFieldIds().stream().map((item) -> {
             return this.fieldRepository.findById(item).get();
         }).collect(Collectors.toSet());

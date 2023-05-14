@@ -46,7 +46,7 @@
 
 .form{
     background-color: var(--white);
-    border-radius: 15px;
+    /* border-radius: 15px; */
     box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 700px;
@@ -58,20 +58,18 @@
     flex-direction: column;
 }
 
-.formGroup>label {
-    font-weight: bold;
-}
+/*  */
 
-.formGroup>input {
+.formGroup>input, .formGroup>textarea {
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
-.formGroup>input:focus {
+.formGroup>input:focus, .formGroup>textarea:focus {
     border-color: var(--box-in-color);
     outline: none;
     box-shadow: 0 0 0 .2rem var(--box-out-color);
@@ -81,7 +79,7 @@
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
@@ -110,7 +108,7 @@
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
     display: flex;
@@ -136,7 +134,7 @@
 .dropdownBox {
     min-height: 128px;
     padding: var(--padding-small);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     border: 2px solid var(--grey);
     overflow: scroll;
     max-height: 400px;
@@ -186,7 +184,7 @@
     z-index: 9999;
     position: absolute;
     padding: var(--padding-small);
-    border-radius: 15px;
+    /* border-radius: 15px; */
     box-shadow: var(--shadow);
     min-width: 300px;
 }
@@ -227,7 +225,7 @@
 /* Detail page */
 .detail {
     background-color: var(--white);
-    border-radius: 15px;
+    /* border-radius: 15px; */
     box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 600px;
@@ -281,7 +279,7 @@
 .btn {
     padding: var(--padding-super-small) var(--padding-small);
     font-weight: bold;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     cursor: pointer;
     transition: opacity linear .2s;
     display: flex;
@@ -344,7 +342,7 @@
 .controlAbove>.search, .controlAbove>.filter {
     padding: 12px;
     border: 2px solid #ced4da;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
 }

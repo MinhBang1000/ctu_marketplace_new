@@ -23,6 +23,7 @@ const NAddProject = () => {
         statusOption: 0,
         tickFields: [],
         // Data
+        projectIntroduction: '',
         projectImageName: '',
         projectImage: null,
         projects: [],
@@ -43,7 +44,7 @@ const NAddProject = () => {
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields,tickFields, statuses, formatOption, statusOption ,fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
+    const {form, checkFields,tickFields, statuses, projectIntroduction ,formatOption, statusOption ,fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
     
     // Apis
 
@@ -149,6 +150,7 @@ const NAddProject = () => {
         projectAuthor: '',
         form: 1,
         checkFields: [],
+        projectIntroduction: '',
         projectImageName: '',
         projectImage: null,
         fields: [],
@@ -263,6 +265,11 @@ const NAddProject = () => {
     const handleProjectName = (value) => {
         setState((prev) => {
             return {...prev, projectName: value}
+        })
+    }
+    const handleProjectIntroduction = (value) => {
+        setState((prev) => {
+            return {...prev, projectIntroduction: value}
         })
     }
     const handleProjectAuthor = (value) => {
@@ -738,11 +745,17 @@ const NAddProject = () => {
                             onChange={(e)=>handleSetFile(e.target.files[0])}
                         />
                     </div>
+
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Tóm tắt</label>
+                        <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
+                    </div>
+
                     <div className={clsx(styles.formGroup)}>
                         <div className={clsx(styles.btn, styles.submit)}
                             onClick={() => handleChooseForm(2)}
                         >
-                            Tạo
+                            Tạo dự án
                         </div>
                     </div>
                 </div>

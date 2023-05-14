@@ -50,6 +50,7 @@ alter table new_project add foreign key (status_id) references status(id);
 alter table new_project modify column created_at datetime default current_timestamp not null;
 alter table new_project drop column field_id;
 alter table new_project add column image varchar(255) not null;
+select * from user_profile;
 
 
 
@@ -78,4 +79,7 @@ delete from new_project;
 delete from new_project_field;
 delete from fkey_value;
 
-
+select * from domain;
+select * from role;
+select * from user_function;
+select * from password_reset_code;

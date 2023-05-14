@@ -20,6 +20,7 @@ public class NewProjectDTO {
     private String name;
     private String author;
     private String image;
+    private String introduction;
     private Date createdAt;
     private UserProfileDTO approver;
     private UserProfileDTO user;
