@@ -408,7 +408,7 @@ const NLogin = () => {
     const loginComponent = () =>{
         return (<div className={clsx(styles.login)}>
             <h3 className={clsx(styles.title)}>Đăng nhập !</h3>
-            <div className={clsx(styles.scripts)}>Trình bày nghiên cứu của bạn ...</div>
+            <div className={clsx(styles.scripts)}>Hãy để mọi người biết đến nghiên cứu của bạn ...</div>
             <div className={clsx(styles.formGroup)}>
                 <label>Tên đăng nhập</label>
                 <input placeholder="nguyenvana ..." value={username} type="text"  onChange={(e) => handleSetUsername(e.target.value)} />
@@ -502,14 +502,22 @@ const NLogin = () => {
     // Rendering
     return (<>
         {redirect && <Redirect to="/" />}
-        <div className={clsx(styles.auth)}  style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}>
-        <form className={clsx(styles.content)} onSubmit={(e)=>handleEnterSubmit(e)}>
-            {
-                transitions((style, item) => {
-                    return <animated.div style={style}>{item ? loginComponent() : signupComponent()}</animated.div>
-                })
-            }
-        </form>
+        {/* style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}} */}
+        <div className={clsx(styles.auth)}  >
+        <div className={clsx(styles.wrapper)}>
+            <div className={clsx(styles.info)}
+                style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}
+            >
+
+            </div>
+            <form className={clsx(styles.content)} onSubmit={(e)=>handleEnterSubmit(e)}>
+                {
+                    transitions((style, item) => {
+                        return <animated.div style={style}>{item ? loginComponent() : signupComponent()}</animated.div>
+                    })
+                }
+            </form>
+        </div>
     </div>
     </>)
 }

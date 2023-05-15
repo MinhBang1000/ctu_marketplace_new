@@ -6,6 +6,7 @@ import axios from "axios"
 import authHeader from "../../services/auth.header";
 import DataTable from "react-data-table-component"
 import Swal from "sweetalert2";
+import NRequire from "../../components/NRequire"
 
 
 const NAddProject = () => {
@@ -39,8 +40,6 @@ const NAddProject = () => {
         // CSS Class
         showAnimation: false    
     }
-    
-    
     
     // Hooks
     const [localState, setState] = useState(initState)
@@ -278,8 +277,11 @@ const NAddProject = () => {
         })
     }
     const handleChooseForm = (id) => {
+        // setState((prev) => {
+        //     return {...prev, form: id}
+        // })
         setState((prev) => {
-            return {...prev, form: id}
+            return { ...prev, pageType: id }
         })
     }
     const handleHideShow = () => {
@@ -673,7 +675,7 @@ const NAddProject = () => {
             </div>)
     }
     const infoComponent = () => {
-        if (form === 1) {
+        if (pageType === 2) {
             return (
                 <div className={clsx(styles.heading)}>
                     <h1>Thông tin dự án</h1>
@@ -684,7 +686,7 @@ const NAddProject = () => {
                     </ul>
                 </div>
             )
-        }else if (form === 2) {
+        }else if (pageType === 3) {
             return (
                 <div className={clsx(styles.heading)}>
                     <h1>Thông tin dự án</h1>
@@ -694,7 +696,7 @@ const NAddProject = () => {
                     </ul>
                 </div>
             )
-        }else if (form===3) {
+        }else if (pageType===4) {
             return (
                 <div className={clsx(styles.heading)}>
                     <h1>Chi tiết dự án</h1>
@@ -709,7 +711,262 @@ const NAddProject = () => {
                 </div>
             )   
         }
+
+
+        // if (form === 1) {
+        //     return (
+        //         <div className={clsx(styles.heading)}>
+        //             <h1>Thông tin dự án</h1>
+        //             <ul>
+        //                 <li>Tên dự án</li>
+        //                 <li>Tác giả của dự án</li>
+        //                 <li>Các lĩnh vực có liên quan</li>
+        //             </ul>
+        //         </div>
+        //     )
+        // }else if (form === 2) {
+        //     return (
+        //         <div className={clsx(styles.heading)}>
+        //             <h1>Thông tin dự án</h1>
+        //             <ul>
+        //                 <li>Hiển thị thông tin chi tiết theo mẫu</li>
+        //                 <li>Chọn mẫu tại thư viện</li>
+        //             </ul>
+        //         </div>
+        //     )
+        // }else if (form===3) {
+        //     return (
+        //         <div className={clsx(styles.heading)}>
+        //             <h1>Chi tiết dự án</h1>
+        //             <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
+        //         </div>
+        //     )
+        // }else{
+        //     return (
+        //         <div className={clsx(styles.heading)}>
+        //             <h1>Danh sách dự án</h1>
+        //             <p>Bao gốm các dự án của bạn</p>
+        //         </div>
+        //     )   
+        // }
     }    
+    const formComponent1 = () => {
+        return (
+            <div className={clsx(styles.form)}>
+                <div className={clsx(styles.controlAbove)}>
+                    <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                </div>
+                <div className={clsx(styles.formGroup)}>
+                    <label>Tên <NRequire /></label>
+                    <input 
+                        type="text"
+                        placeholder="Dự án 1 ..."
+                        value={projectName || ""}
+                        onChange={(e)=>handleProjectName(e.target.value)}
+                    />
+                </div>
+
+                <div className={clsx(styles.formGroup)}>
+                    <label>Tác giả  <NRequire /></label>
+                    <input 
+                        type="text"
+                        placeholder="Nguyễn Văn A ..."
+                        value={projectAuthor || ""}
+                        onChange={(e)=>handleProjectAuthor(e.target.value)}
+                    />
+                </div>
+
+                <div className={clsx(styles.formGroup)}>
+                    <label>Hình đại diện  <NRequire /></label>
+                    <input 
+                        type="file"
+                        accept="image/jpeg" 
+                        onChange={(e)=>handleSetFile(e.target.files[0])}
+                    />
+                </div>
+
+                <div className={clsx(styles.formGroup)}>
+                    <label>Tóm tắt  <NRequire /></label>
+                    <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
+                </div>
+
+                <div className={clsx(styles.formGroup)}>
+                    <div className={clsx(styles.btn, styles.submit)}
+                        onClick={() => handleChooseForm(3)}
+                    >
+                        Tạo dự án
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    const formComponent2 = () => {
+        return (<div className={clsx(styles.form)}>
+        <div className={clsx(styles.controlAbove)}>
+            <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+        </div>
+        <div className={clsx(styles.formGroup)}>
+            <label>Chọn mẫu</label>
+            <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
+                <option value={0} key={0}>Chọn mẫu</option>
+                {
+                    templates.map((item, index) => {
+                        return <option value={item.id}  key={index}>{item.name}</option>
+                    })
+                }
+            </select>
+        </div>
+        <div className={clsx(styles.formGroup)}>
+            <label>Lĩnh vực</label>
+            <div className={clsx(styles.selectSearch)}>
+                <div className={clsx(styles.dropdown)}>
+                    <input 
+                        type="text"
+                        placeholder="Chọn lĩnh vực ..."
+                        onChange={(e) => handleFieldSearch(e.target.value)}
+                    />
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div className={clsx(styles.dropdownBox)}>
+                    {
+                        fields.map((item, index) => {
+                            return (<div className={clsx(styles.checkBox)} key={index}>
+                                <input  type="checkbox" name="fields" value={item.id}
+                                    onChange={() => handleChecked(item.id)}
+                                    checked={item.checked}
+                                />
+                                <label htmlFor="fields">{item.name}</label>
+                            </div>)
+                        })
+                    }
+                </div>
+            </div>
+        </div>
+
+        {
+            kvalues.map((item, index) => {
+                return (
+                    <div className={clsx(styles.formEditor)} key={index}>
+                        <div className={clsx(styles.editorName)}>
+                            <span>{item.key}</span>
+                            <i onClick={() => handleUp(index)} className="fa-sharp text-primary fa-solid fa-arrow-up"></i>
+                            <i onClick={() => handleDown(index)} className="fa-sharp text-success fa-solid fa-arrow-down"></i>
+                            <i onClick={() => handleRemoveField(index)} className="fa-solid text-danger fa-trash"></i>
+                        </div>
+                        <CKEditor 
+                            id={item.key}
+                            name={`CK-${index}`}
+                            initData={item.value || ""}
+                            config={{
+                                filebrowserUploadUrl: 'https://marketplace.ctu.edu.vn/api/v2/upload-file',
+                                removeButtons: 'PasteFormWord',
+                                isReadOnly: true,
+                                height: 400,
+                                extraPlugins: [["embed,autoembed,language,justify,colorbutton,font"]],
+                                embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',    
+                            }}
+                            onChange={(e) => handleEditor(e.editor.getData(), index)}
+                        />
+                    </div>)
+            })
+        }
+
+        {/* Add more field here */}
+        <div className={clsx(styles.formGroup)}>
+            <div className={clsx(styles.btn, styles.btnFeature)}
+                onClick={handleHideShow}
+            >
+                Thêm +
+            </div>
+            <div className={clsx({
+                [styles.formCover]: true,
+                [styles.showAnimation]: showAnimation
+            })}>
+                <div className={clsx(styles.formModal)}>
+                    <div onClick={handleHideShow}><strong>X</strong></div>
+                    <div className={clsx(styles.formGroup)}>
+                        <label>Tên trường</label>
+                        <input 
+                            type="text"
+                            placeholder="Trường xuất xứ ..."
+                            value={newField || ""}
+                            onChange={(e) => handleSetNewField(e.target.value)}
+                        />
+                    </div>
+                    <div className={clsx(styles.btn, styles.submit)}
+                        onClick={handleFields}
+                    >       
+                        Thêm
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div className={clsx(styles.formGroup)}>
+            <div className={clsx(styles.btn, styles.submit)}
+                onClick={() => handleChooseForm(2)}
+            >
+                Quay lại
+            </div>
+            <div className={clsx(styles.btn, styles.primary)}
+                onClick={() => handleChooseForm(4)}
+            >
+                Tiếp tục
+            </div>
+        </div>
+    </div>)
+    }
+    const formComponent3 = () => {
+        return (
+            <div className={clsx(styles.detail)}>
+                <div className={clsx(styles.controlAbove)}>
+                    <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
+                </div>
+                <h1 className={styles.detailTitle}>{projectName}</h1>
+                <h3 className={styles.detailAuthor}>{projectAuthor}</h3>
+                <ul className={styles.detailFields}>
+                    {
+                        fields.filter((item) => {
+                            return checkFields.includes(item.id)
+                        }).map((item, index) => {
+                            return (
+                                <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
+                            )
+                        })
+                    }
+                </ul>
+                {
+                    kvalues.map((item,index) => {
+                        return (<div key={index} className={clsx(styles.detailKeyValues)}>
+                            <div>{item.key}</div>
+                            <div
+                                dangerouslySetInnerHTML={{__html: item.value}}
+                            ></div>
+                        </div>)
+                    })
+                }
+                {
+                    projectDetail===null ? <div className={clsx(styles.detailControl)}>
+                        <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
+                        <div className={clsx(styles.btn, styles.primary)}
+                            onClick={handleCreatePattern}
+                        >Tạo mẫu</div>
+                        <div className={clsx(styles.btn, styles.primary)}
+                            onClick={handleCreateBoth}
+                        >Lưu và Tạo mẫu</div>
+                        <div 
+                            onClick={handleCreateProject}
+                        className={clsx(styles.btn, styles.primary)}>Lưu</div>
+                    </div> : <div className={clsx(styles.detailControl)}>
+                    <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(3)} >Quay lại</div>
+                    <div 
+                        onClick={handleSaveProject}
+                    className={clsx(styles.btn, styles.primary)}>Lưu</div>
+                </div>
+                }
+            </div>)
+    }
     const formComponent = () => {
         if (form === 1) {
             return (
@@ -718,7 +975,7 @@ const NAddProject = () => {
                         <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
                     </div>
                     <div className={clsx(styles.formGroup)}>
-                        <label>Tên</label>
+                        <label>Tên <NRequire /></label>
                         <input 
                             type="text"
                             placeholder="Dự án 1 ..."
@@ -728,7 +985,7 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
-                        <label>Tác giả</label>
+                        <label>Tác giả  <NRequire /></label>
                         <input 
                             type="text"
                             placeholder="Nguyễn Văn A ..."
@@ -738,7 +995,7 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
-                        <label>Hình đại diện</label>
+                        <label>Hình đại diện  <NRequire /></label>
                         <input 
                             type="file"
                             accept="image/jpeg" 
@@ -747,7 +1004,7 @@ const NAddProject = () => {
                     </div>
 
                     <div className={clsx(styles.formGroup)}>
-                        <label>Tóm tắt</label>
+                        <label>Tóm tắt  <NRequire /></label>
                         <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
                     </div>
 
@@ -936,8 +1193,11 @@ const NAddProject = () => {
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
                     { pageType===1 && listComponent()}
-                    { pageType===2 && formComponent()}
-                    { pageType===3 && formComponent()}
+                    {/* { pageType===2 && formComponent()}
+                    { pageType===3 && formComponent()} */}
+                    { pageType===2 && formComponent1() }
+                    { pageType===3 && formComponent2() }
+                    { pageType===4 && formComponent3() }
                 </div>
             </div>
         </>

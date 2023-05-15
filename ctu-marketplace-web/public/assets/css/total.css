@@ -3,7 +3,8 @@
     --white: #fff;
     --black: #000;
     --grey: #ced4da;
-    --secondary: #333;
+    --secondary: #6c757d;
+    --fade: rgba(162, 166, 170, 0.9);
     --bg: #0e1420;
     --primary: #0d47a1;
     --primarya: #f4f4f464;
@@ -25,6 +26,9 @@
     --margin-small: 14px;
     --padding-super-small: 8px;
     --margin-super-small: 8px;
+    /* STATIC HEIGHT AND WITH */
+    --min-height: 900px;
+    --min-width: 500px;
     /* EFFECT */
     --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     --box-in-color: #80bdff;

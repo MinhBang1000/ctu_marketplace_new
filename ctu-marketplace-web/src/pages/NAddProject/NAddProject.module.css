@@ -5,17 +5,6 @@
     background-color: #F4F4F4;
 }
 
-
-@media only screen and (max-width: 768px) {
-    .nAddProject {
-        flex-direction: column;
-    }
-
-    .nAddProjectPart + .nAddProjectPart {
-        margin-top: var(--margin-medium);
-    }
-}
-
 .nAddProject>div:first-child{
     flex: 1;
 }
@@ -41,13 +30,12 @@
 }
 
 .nAddProjectControl {
-    min-height: 600px;
+    min-height: var(--min-height);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
 }
 
 .form{
-    background-color: var(--white);
-    /* border-radius: 15px; */
-    box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 700px;
     position: relative;
@@ -224,9 +212,6 @@
 }
 /* Detail page */
 .detail {
-    background-color: var(--white);
-    /* border-radius: 15px; */
-    box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 600px;
 }
@@ -335,7 +320,7 @@
 
 .controlAbove {
     display: flex;
-    margin-bottom: 8px;
+    margin-bottom: var(--margin-super-small);
     justify-content: flex-end;
 }
 
@@ -378,4 +363,24 @@
 
 .contact>a {
     font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+    .nAddProject {
+        flex-direction: column;
+    }
+
+    .nAddProjectPart + .nAddProjectPart {
+        margin-top: var(--margin-medium);
+    }
+    
+    .controlAbove {
+        flex-direction: column;
+    }
+
+    
+    .controlPart + .controlPart {
+        margin-left: 0px;
+        margin-top: var(--margin-super-small);
+    }
 }

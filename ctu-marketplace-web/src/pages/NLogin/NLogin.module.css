@@ -1,16 +1,15 @@
 .auth {
     display: flex;
-    padding: 48px;
-    background-color: #f4f4f4;
-    /* Center Image Background */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 900px; 
-    transition: height linear .2s;
+    /* padding: var(--padding-super-large); */
+    background-color: #f4f4f4; 
+    height: fit-content;
+}
+
+.wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+    box-shadow: var(--shadow);
 }
 
 .registerGroup {
@@ -23,13 +22,20 @@
     width: 30%;
 }
 
+.info {
+    background-color: var(--white);
+    width: 75%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 .content {
-    background-color: white;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: var(--white);
     padding: 36px;
     min-height: 921px;
-    width: 40%;
+    width: 35%;
 }
 
 .scripts {
@@ -128,7 +134,12 @@
 
 
 @media only screen and (max-width: 768px) {
+    .info {
+        width: 0%;
+    }
+    
     .content {
         width: 100%;
     }
+
 }
