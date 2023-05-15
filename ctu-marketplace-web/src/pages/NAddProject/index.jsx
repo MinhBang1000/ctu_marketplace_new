@@ -867,30 +867,30 @@ const NAddProject = () => {
         if (page === 2) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Thông tin nghiên cứu</h1>
+                    <h1>Thông tin dự án</h1>
                     <ul>
-                        <li>Tên nghiên cứu</li>
-                        <li>Tác giả của nghiên cứu</li>
+                        <li>Tên dự án</li>
+                        <li>Tác giả của dự án</li>
                         <li>Hình đại diện được hiển thị tại trang chủ</li>
-                        <li>Tóm tắt ngắn gọn về nghiên cứu</li>
+                        <li>Tóm tắt ngắn gọn về dự án</li>
                     </ul>
                 </div>
             )
         }else if (page === 3) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Khởi tạo nghiên cứu</h1>
+                    <h1>Khởi tạo dự án</h1>
                     <ul>
-                        <li>Chọn lĩnh vực có liên quan đến nghiên cứu</li>
+                        <li>Chọn lĩnh vực có liên quan đến dự án</li>
                         <li>Chọn mẫu để hiện thị các trường có sẵn</li>
-                        <li>Thêm + giúp tự tạo ra các trường theo báo cáo của nghiên cứu</li>
+                        <li>Thêm + giúp tự tạo ra các trường theo báo cáo của dự án</li>
                     </ul>
                 </div>
             )
         }else if (page===4) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Chi tiết nghiên cứu</h1>
+                    <h1>Chi tiết dự án</h1>
                     <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
                 </div>
             )
@@ -943,7 +943,7 @@ const NAddProject = () => {
 
                 <div className={clsx(styles.formGroup)}>
                     <label>Tóm tắt  <NRequire /></label>
-                    <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
+                    <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về dự án của bạn ..."></textarea>
                     <NValid isValid={vProjectIntroduction.first || vProjectIntroduction.isValid} text={vProjectIntroduction.text}/>
                 </div>
 

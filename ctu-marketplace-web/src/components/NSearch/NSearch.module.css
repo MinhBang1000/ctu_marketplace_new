@@ -1,0 +1,22 @@
+.search {
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid var(--grey);
+    font-size: 14px;
+    transition: all ease-in-out .15s;
+    display: flex;
+    align-items: center;
+}
+
+.search>input {
+    outline: none;
+    border: none;
+    flex: 1;
+    width: 100%;
+}
+
+.search:hover {
+    border-color: var(--box-in-color);
+    outline: none;
+    box-shadow: 0 0 0 .2rem var(--box-out-color);
+}

@@ -1,0 +1,28 @@
+.btn {
+    border: none;
+    outline: none;
+    padding: var(--padding-super-small) var(--padding-small);
+    color: white;
+    font-weight: bold;
+    transition: opacity ease .3s;
+}
+
+.btn:hover {
+    opacity: 0.6;
+}
+
+.btnGreen {
+    background-color: var(--green);
+}
+
+.btnRed {
+    background-color: var(--red);
+}
+
+.btnPrimary {
+    background-color: var(--primary);
+}
+
+.btnFocus {
+    background-color: var(--focus);
+}

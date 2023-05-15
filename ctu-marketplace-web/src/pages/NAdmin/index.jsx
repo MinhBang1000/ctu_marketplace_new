@@ -1,21 +1,27 @@
 import React, { useState } from "react"
 import clsx from "clsx"
 import styles from "./NAdmin.module.css"
-import AdminManageDomain from "../Admin/Admin-Manage-Domain"
-import AdminManageUser from "../Admin/Admin-Manage-User"
-import AdminManageProject from "../Admin/Admin-Manage-Project"
-import AdminField from "../Admin/Admin-Manage-Infomations/Admin-Field"
-import NAdminField from "../NAdminField"
+import { useTransition, animated } from "@react-spring/web"
+import NAdminUser from "../NAdminUser"
+import NAdminProject from "../NAdminProject"
 
 
 const NAdmin = () => {
     // Data
+    /**
+     *  1 -> Project Management
+     *  2 -> User Management
+     */
     const initState = {
-        pageType: 2, //1 --> Admin thông tin, 2 --> Admin dự án, 3 --> Admin người dùng, 4 --> Admin miền
+        pageType: 1, 
     }
     // Hooks
     const [localState, setState] = useState(initState)
     const {pageType} = localState
+    const pageTransitions = useTransition(pageType, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 }
+    })
     // Handle
     const handleChangePage = (type) => {
         setState((prev) => {
@@ -26,17 +32,25 @@ const NAdmin = () => {
         <div className={clsx(styles.admin)}>
             <div className={clsx(styles.sidebar, styles.adminPart)}>
                 <ul className={clsx(styles.list)}>
-                    {/* <li className={clsx(styles.item)} onClick={() => handleChangePage(1)}><i className="fa-solid fa-lightbulb"></i>Quản lý thông tin</li> */}
-                    <li className={clsx(styles.item)} onClick={() => handleChangePage(2)}><i className="fa-solid fa-diagram-project"></i>Quản lý dự án</li>
-                    <li className={clsx(styles.item)} onClick={() => handleChangePage(3)}><i className="fa-solid fa-users"></i>Quản lý người dùng</li>
-                    {/* <li className={clsx(styles.item)} onClick={() => handleChangePage(4)}><i class="fa-solid fa-chart-area"></i>Quản lý miền</li> */}
+                    <li className={clsx({
+                        [styles.item]: true,
+                        [styles.focus]: pageType === 1
+                    })} onClick={() => handleChangePage(1)}><i className="fa-solid fa-diagram-project"></i>Quản lý dự án</li>
+                    <li className={clsx({
+                        [styles.item] : true,
+                        [styles.focus] : pageType === 2
+                    })} onClick={() => handleChangePage(2)}><i className="fa-solid fa-users"></i>Quản lý người dùng</li>
                 </ul>
             </div>
             <div className={clsx(styles.workbar, styles.adminPart)}>
-                {/* {pageType === 1 && <NAdminField />} */}
-                {pageType === 2 && <AdminManageProject />}
-                {pageType === 3 && <AdminManageUser />}
-                {/* {pageType === 4 && <AdminManageDomain />} */}
+                {
+                    pageTransitions((style,item) => {
+                        return <animated.div style={style}>
+                            { item === 1 && <NAdminProject />}
+                            { item === 2 && <NAdminUser />}
+                        </animated.div>
+                    })
+                }
             </div>
         </div>
     )

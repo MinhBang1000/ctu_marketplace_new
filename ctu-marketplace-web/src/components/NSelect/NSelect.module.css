@@ -1,0 +1,14 @@
+.select {
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid var(--grey);
+    font-size: 14px;
+    transition: all ease-in-out .15s;
+    display: block;
+}
+
+.select:focus {
+    border-color: var(--box-in-color);
+    outline: none;
+    box-shadow: 0 0 0 .2rem var(--box-out-color);
+}
