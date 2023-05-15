@@ -7,11 +7,34 @@ import authHeader from "../../services/auth.header";
 import DataTable from "react-data-table-component"
 import Swal from "sweetalert2";
 import NRequire from "../../components/NRequire"
+import NValid from "../../components/NValid"
+import { useTransition, animated } from "@react-spring/web";
 
 
 const NAddProject = () => {
     // Init
     const initState = {
+        // Validation
+        vProjectName: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vAuthor: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vProjectImage: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vProjectIntroduction: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
         // Action
         constFields: [],
         pageType: 1,
@@ -40,13 +63,95 @@ const NAddProject = () => {
         // CSS Class
         showAnimation: false    
     }
+    const resetValidationState = {
+        vProjectName: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vAuthor: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vProjectImage: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vProjectIntroduction: { 
+            first: true,
+            isValid: true,
+            text: '...'
+        }
+    }
+    const resetState = {
+        // Data
+        templates: [],
+        projectName: '',
+        projectAuthor: '',
+        form: 1,
+        checkFields: [],
+        projectIntroduction: '',
+        projectImageName: '',
+        projectImage: null,
+        fields: [],
+        statuses: [],
+        kvalues: [],
+        tickFields: [],
+        newField: "",
+        pageType: 1,
+        formatOption: 0,
+        statusOption: 0,
+        // CSS Class
+        showAnimation: false    
+    }
     
     // Hooks
     const [localState, setState] = useState(initState)
-    const {form, checkFields,tickFields, statuses, projectIntroduction ,formatOption, statusOption ,fields, projectImage, projectImageName, kvalues,reCallApi,searchInput,projectDetail, showAnimation, pageType ,newField, constFields, projectName, projectAuthor, templates,  projects, loading} = localState
-    
-    // Apis
+    const {
+        form, 
+        checkFields,
+        tickFields, 
+        statuses, 
+        projectIntroduction ,
+        formatOption, 
+        statusOption ,
+        fields, 
+        projectImage, 
+        projectImageName, 
+        kvalues,
+        reCallApi,
+        searchInput,
+        projectDetail, 
+        showAnimation, 
+        pageType ,
+        newField, 
+        constFields, 
+        projectName, 
+        projectAuthor, 
+        templates,  
+        projects, 
+        loading,
+        vProjectName,
+        vAuthor,
+        vProjectImage,
+        vProjectIntroduction
+    } = localState
+    const pageTypeTransitions = useTransition(pageType, {
+        from: {opacity: 0},
+        enter: {opacity: 1}
+    })
+    const infoTransitions = useTransition(pageType, {
+        from: {opacity: 0},
+        enter: {opacity: 1}
+    })
+    const detailTransitions = useTransition(projectDetail, {
+        from: {opacity: 0},
+        enter: {opacity: 1}
+    })
 
+    // Apis
     useEffect(() => {
         // Get All Status
         axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/status-management`)
@@ -142,27 +247,6 @@ const NAddProject = () => {
             return {...prev, fields: newCheckedFields}
         })
     }, [checkFields])
-    const resetState = {
-        // Data
-        templates: [],
-        projectName: '',
-        projectAuthor: '',
-        form: 1,
-        checkFields: [],
-        projectIntroduction: '',
-        projectImageName: '',
-        projectImage: null,
-        fields: [],
-        statuses: [],
-        kvalues: [],
-        tickFields: [],
-        newField: "",
-        pageType: 1,
-        formatOption: 0,
-        statusOption: 0,
-        // CSS Class
-        showAnimation: false    
-    }
 
     // Handle 
     const handleUp = (index) => {
@@ -233,8 +317,8 @@ const NAddProject = () => {
         }
     }
     const handleFields = () => {
-        const key = newField
-        if (!kvalues.includes(key)) {
+        const key = newField    
+        if (!kvalues.includes(key) && key!=="") {
             const newKeyValue = {
                 "key": key,
                 "value": ""
@@ -256,6 +340,7 @@ const NAddProject = () => {
         return {
             "name": projectName,
             "image": projectImageName,
+            "introduction": projectIntroduction,
             "author": projectAuthor,
             "fieldIds": checkFields,
             "keyValues": kvalues
@@ -263,17 +348,17 @@ const NAddProject = () => {
     }
     const handleProjectName = (value) => {
         setState((prev) => {
-            return {...prev, projectName: value}
+            return {...prev, projectName: value, vProjectName: {...validateProjectName(value)}}
         })
     }
     const handleProjectIntroduction = (value) => {
         setState((prev) => {
-            return {...prev, projectIntroduction: value}
+            return {...prev, projectIntroduction: value, vProjectIntroduction: {...validationProjectIntroduction(value)}}
         })
     }
     const handleProjectAuthor = (value) => {
         setState((prev) => {
-            return {...prev, projectAuthor: value}
+            return {...prev, projectAuthor: value, vAuthor: {...validationProjectAuthor(value)}}
         })
     }
     const handleChooseForm = (id) => {
@@ -365,80 +450,106 @@ const NAddProject = () => {
     }
     const handleCreatePattern = () => {
         let json = preparingData()
-        axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {
-            headers: authHeader()
-        }).then(res => {
-            resetComponent()
-            Swal.fire({
-                icon: "success",
-                title: "Tạo mẫu",
-                text: "Mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+        if (handleCheckValidProject()) {
+            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {
+                headers: authHeader()
+            }).then(res => {
+                resetComponent()
+                Swal.fire({
+                    icon: "success",
+                    title: "Tạo mẫu",
+                    text: "Mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+                })
+                setState((prev)=> {
+                    return {...prev, reCallApi: !prev.reCallApi}
+                })
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Tạo mẫu",
+                    text: "Mẫu tạo không thành công!"
+                })
             })
-            setState((prev)=> {
-                return {...prev, reCallApi: !prev.reCallApi}
-            })
-        }).catch(error => {
+        }else {
             Swal.fire({
                 icon: "error",
-                title: "Tạo mẫu",
-                text: "Mẫu tạo không thành công!"
+                title: "Nhập thông tin",
+                text: "Thông tin dự án mẫu chưa đầy đủ! Vui lòng nhập lại"
             })
-        })
+            handleValidationWhenSubmit()
+        }
     }
     const handleCreateProject = () => {
         let json = preparingData()
-        console.log(json);
-        axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json, {
-            headers: authHeader()
-        }).then(res => {
-            resetComponent()
-            Swal.fire({
-                icon: "success",
-                title: "Tạo dự án",
-                text: "Dự án được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+        if (handleCheckValidProject()) {
+            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json, {
+                headers: authHeader()
+            }).then(res => {
+                resetComponent()
+                Swal.fire({
+                    icon: "success",
+                    title: "Tạo dự án",
+                    text: "Dự án được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+                })
+                setState((prev)=> {
+                    return {...prev, reCallApi: !prev.reCallApi}
+                })
+            }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Tạo dự án",
+                    text: "Dự án tạo không thành công!"
+                })
             })
-            setState((prev)=> {
-                return {...prev, reCallApi: !prev.reCallApi}
-            })
-        }).catch(error => {
+        }else {
             Swal.fire({
                 icon: "error",
-                title: "Tạo dự án",
-                text: "Dự án tạo không thành công!"
+                title: "Nhập thông tin",
+                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
             })
-        })
+            handleValidationWhenSubmit()
+        }
 
     }
     const handleCreateBoth = async() => {
-        let json = preparingData()
-        let check = true 
-        try {
-            await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {headers: authHeader()})
-        }catch (err) {
-            check = false
-        }
-        let json1 = preparingData()
-        try {
-            await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json1, {headers: authHeader()})
-        }catch (err) {
-            check = false
-        }
-        if (check === true) {
-            resetComponent()
-            Swal.fire({
-                icon: "success",
-                title: "Tạo dự án & mẫu",
-                text: "Dự án & mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
-            })
-            setState((prev)=> {
-                return {...prev, reCallApi: !prev.reCallApi}
-            })
+        if (handleCheckValidProject()) {
+            let json = preparingData()
+            let check = true 
+            try {
+                await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {headers: authHeader()})
+            }catch (err) {
+                check = false
+            }
+            let json1 = preparingData()
+            try {
+                await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json1, {headers: authHeader()})
+            }catch (err) {
+                check = false
+            }
+            if (check === true) {
+                resetComponent()
+                Swal.fire({
+                    icon: "success",
+                    title: "Tạo dự án & mẫu",
+                    text: "Dự án & mẫu được tạo thành công! Vui lòng chờ xét duyệt của Quản trị viên"
+                })
+                setState((prev)=> {
+                    return {...prev, reCallApi: !prev.reCallApi}
+                })
+            }else{
+                Swal.fire({
+                    icon: "error",
+                    title: "Tạo dự án & mẫu",
+                    text: "Dự án & mẫu tạo không thành công!"
+                })
+            }
         }else{
             Swal.fire({
                 icon: "error",
-                title: "Tạo dự án & mẫu",
-                text: "Dự án & mẫu tạo không thành công!"
+                title: "Nhập thông tin",
+                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
             })
+            handleValidationWhenSubmit()
         }
     }
     const handleSetSearch = (value) => {
@@ -487,34 +598,42 @@ const NAddProject = () => {
         })
     }
     const handleSaveProject = () => {
-        let data = preparingData()
-        const newKeyValues = data.keyValues.map((item) => {
-            return {key: item.key, value: item.value}
-        })
-        data.keyValues = newKeyValues
-        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
-        .then((res) => {
+        if (handleCheckValidProject()) {
+            let data = preparingData()
+            const newKeyValues = data.keyValues.map((item) => {
+                return {key: item.key, value: item.value}
+            })
+            data.keyValues = newKeyValues
+            axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
+            .then((res) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cập nhật',
+                    text: 'Cập nhật thành công'
+                })
+                setState((prev) => {
+                    return {...prev, projectDetail: null, pageType: 1, reCallApi: !prev.reCallApi, form: 4}
+                })
+            })
+            .catch((err) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Cập nhật',
+                    text: 'Cập nhật không thành công!'
+                })
+            })
+        }else {
             Swal.fire({
-                icon: 'success',
-                title: 'Cập nhật',
-                text: 'Cập nhật thành công'
+                icon: "error",
+                title: "Nhập thông tin",
+                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
             })
-            setState((prev) => {
-                return {...prev, projectDetail: null, pageType: 1, reCallApi: !prev.reCallApi, form: 4}
-            })
-        })
-        .catch((err) => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Cập nhật',
-                text: 'Cập nhật không thành công!'
-            })
-        })
-
+            handleValidationWhenSubmit()
+        }
     }
     const handleSetFile = (value) => {
         setState((prev) => {
-            return {...prev, projectImage: value}
+            return {...prev, projectImage: value, vProjectImage: {...validateProjectImage(value)}}
         })
     }
     const handleDelete = async(projectId) => {
@@ -570,9 +689,6 @@ const NAddProject = () => {
         e.preventDefault()
         handleSearchFeature()
     }
-    const handleFilterField = (value) => {
-        
-    }
     const handleFilterStatus = (value) => {
         setState((prev) => {
             return {...prev, statusOption: parseInt(value)}
@@ -583,6 +699,71 @@ const NAddProject = () => {
             return {...prev, formatOption:  parseInt(value)}
         })
     }
+    
+    // Validation
+    const validateProjectName = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập tên dự án !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validateProjectImage = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === null) {
+            validate.text = "Bạn chưa chọn hình đại diện cho dự án !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validationProjectAuthor = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập tên tác giả của dự án !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validationProjectIntroduction = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập tóm tắt cho dự án !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const handleCheckValidProject = () => {
+        return vProjectName.isValid && !vProjectName.first && vAuthor.isValid && !vAuthor.first && vProjectImage.isValid && !vProjectImage.first && vProjectIntroduction.isValid && !vProjectIntroduction.first
+    }
+    const handleValidationWhenSubmit = () => {
+        setState((prev => {
+            return {
+                ...prev,
+                vAuthor: {...validationProjectAuthor(prev.projectAuthor)},
+                vProjectName: {...validateProjectName(prev.projectName)},
+                vProjectIntroduction: {...validationProjectIntroduction(prev.projectIntroduction)},
+                vProjectImage: {...validateProjectImage(prev.projectImage)}
+            }
+        }))
+    }
+    
     // Sub-components
     const columns = [
         {
@@ -635,71 +816,81 @@ const NAddProject = () => {
     }
     const listComponent = () => {
         return (<div className={clsx(styles.form)}>
-                {projectDetail===null ? <>
-                <div className={clsx(styles.controlAbove)}>
-                    {/* <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterField(e.target.value)}>
-                        <option value={0}>Tất cả lĩnh vực</option>
+            {
+                detailTransitions((style, item) => {
+                    return <animated.div style={style}>
                         {
-                            fields.map((field, index) => {
-                                return <option  key={index} value={field.id}>{ field.name.length >= 25 ? field.name.substring(0, 25) : field.name }</option>
-                            })
+                            item === null ? <>
+                            <div className={clsx(styles.controlAbove)}>
+                                {/* <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterField(e.target.value)}>
+                                    <option value={0}>Tất cả lĩnh vực</option>
+                                    {
+                                        fields.map((field, index) => {
+                                            return <option  key={index} value={field.id}>{ field.name.length >= 25 ? field.name.substring(0, 25) : field.name }</option>
+                                        })
+                                    }
+                                </select> */}
+                                <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterStatus(e.target.value)}>
+                                    <option value={0}>Tất cả trạng thái</option>
+                                    {
+                                        statuses.map((status, index) => {
+                                            return <option key={index} value={status.id}>{ status.name }</option>
+                                        })
+                                    }
+                                </select>
+                                <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterFormat(e.target.value)}>
+                                    <option value={0}>Tất cả loại hình</option>
+                                    <option value={1}>Báo cáo</option>
+                                    <option value={2}>Mẫu</option>
+                                </select>
+                                <form className={clsx(styles.search, styles.controlPart)} onSubmit={(e) => handleSearchSubmit(e)}>
+                                    <input  value={searchInput} onChange={e => handleSetSearch(e.target.value)} placeholder="Tìm kiếm ..."/>
+                                    <i className="fa-solid fa-magnifying-glass" onClick={handleSearchFeature} ></i>
+                                </form>
+            
+                                <div className={clsx(styles.btn, styles.submit, styles.controlPart)} onClick={handleChangeAddPage}><i className="fa-solid fa-plus"></i> Thêm mới</div>
+                            </div>
+                            <DataTable 
+                                columns={columns}
+                                data={projects}
+                                noDataComponent="Chưa có dự án để hiển thị"
+                                progressPending={loading}
+                                pagination
+                            /></> : detailComponent(item)
                         }
-                    </select> */}
-                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterStatus(e.target.value)}>
-                        <option value={0}>Tất cả trạng thái</option>
-                        {
-                            statuses.map((status, index) => {
-                                return <option key={index} value={status.id}>{ status.name }</option>
-                            })
-                        }
-                    </select>
-                    <select className={clsx(styles.filter,  styles.controlPart)} onChange={(e) => handleFilterFormat(e.target.value)}>
-                        <option value={0}>Tất cả loại hình</option>
-                        <option value={1}>Báo cáo</option>
-                        <option value={2}>Mẫu</option>
-                    </select>
-                    <form className={clsx(styles.search, styles.controlPart)} onSubmit={(e) => handleSearchSubmit(e)}>
-                        <input  value={searchInput} onChange={e => handleSetSearch(e.target.value)} placeholder="Tìm kiếm ..."/>
-                        <i className="fa-solid fa-magnifying-glass" onClick={handleSearchFeature} ></i>
-                    </form>
-
-                    <div className={clsx(styles.btn, styles.submit, styles.controlPart)} onClick={handleChangeAddPage}><i className="fa-solid fa-plus"></i> Thêm mới</div>
-                </div>
-                <DataTable 
-                    columns={columns}
-                    data={projects}
-                    noDataComponent="Chưa có dự án để hiển thị"
-                    progressPending={loading}
-                    pagination
-                /></> : detailComponent(projectDetail)}
+                    </animated.div>
+                })
+            }
             </div>)
     }
-    const infoComponent = () => {
-        if (pageType === 2) {
+    const infoComponent = (page) => {
+        if (page === 2) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Thông tin dự án</h1>
+                    <h1>Thông tin nghiên cứu</h1>
                     <ul>
-                        <li>Tên dự án</li>
-                        <li>Tác giả của dự án</li>
-                        <li>Các lĩnh vực có liên quan</li>
+                        <li>Tên nghiên cứu</li>
+                        <li>Tác giả của nghiên cứu</li>
+                        <li>Hình đại diện được hiển thị tại trang chủ</li>
+                        <li>Tóm tắt ngắn gọn về nghiên cứu</li>
                     </ul>
                 </div>
             )
-        }else if (pageType === 3) {
+        }else if (page === 3) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Thông tin dự án</h1>
+                    <h1>Khởi tạo nghiên cứu</h1>
                     <ul>
-                        <li>Hiển thị thông tin chi tiết theo mẫu</li>
-                        <li>Chọn mẫu tại thư viện</li>
+                        <li>Chọn lĩnh vực có liên quan đến nghiên cứu</li>
+                        <li>Chọn mẫu để hiện thị các trường có sẵn</li>
+                        <li>Thêm + giúp tự tạo ra các trường theo báo cáo của nghiên cứu</li>
                     </ul>
                 </div>
             )
-        }else if (pageType===4) {
+        }else if (page===4) {
             return (
                 <div className={clsx(styles.heading)}>
-                    <h1>Chi tiết dự án</h1>
+                    <h1>Chi tiết nghiên cứu</h1>
                     <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
                 </div>
             )
@@ -710,45 +901,7 @@ const NAddProject = () => {
                     <p>Bao gốm các dự án của bạn</p>
                 </div>
             )   
-        }
-
-
-        // if (form === 1) {
-        //     return (
-        //         <div className={clsx(styles.heading)}>
-        //             <h1>Thông tin dự án</h1>
-        //             <ul>
-        //                 <li>Tên dự án</li>
-        //                 <li>Tác giả của dự án</li>
-        //                 <li>Các lĩnh vực có liên quan</li>
-        //             </ul>
-        //         </div>
-        //     )
-        // }else if (form === 2) {
-        //     return (
-        //         <div className={clsx(styles.heading)}>
-        //             <h1>Thông tin dự án</h1>
-        //             <ul>
-        //                 <li>Hiển thị thông tin chi tiết theo mẫu</li>
-        //                 <li>Chọn mẫu tại thư viện</li>
-        //             </ul>
-        //         </div>
-        //     )
-        // }else if (form===3) {
-        //     return (
-        //         <div className={clsx(styles.heading)}>
-        //             <h1>Chi tiết dự án</h1>
-        //             <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
-        //         </div>
-        //     )
-        // }else{
-        //     return (
-        //         <div className={clsx(styles.heading)}>
-        //             <h1>Danh sách dự án</h1>
-        //             <p>Bao gốm các dự án của bạn</p>
-        //         </div>
-        //     )   
-        // }
+            }
     }    
     const formComponent1 = () => {
         return (
@@ -764,6 +917,7 @@ const NAddProject = () => {
                         value={projectName || ""}
                         onChange={(e)=>handleProjectName(e.target.value)}
                     />
+                    <NValid isValid={vProjectName.first || vProjectName.isValid} text={vProjectName.text}/>
                 </div>
 
                 <div className={clsx(styles.formGroup)}>
@@ -774,6 +928,7 @@ const NAddProject = () => {
                         value={projectAuthor || ""}
                         onChange={(e)=>handleProjectAuthor(e.target.value)}
                     />
+                    <NValid isValid={vAuthor.first || vAuthor.isValid} text={vAuthor.text}/>
                 </div>
 
                 <div className={clsx(styles.formGroup)}>
@@ -783,18 +938,22 @@ const NAddProject = () => {
                         accept="image/jpeg" 
                         onChange={(e)=>handleSetFile(e.target.files[0])}
                     />
+                    <NValid isValid={vProjectImage.first || vProjectImage.isValid} text={vProjectImage.text}/>
                 </div>
 
                 <div className={clsx(styles.formGroup)}>
                     <label>Tóm tắt  <NRequire /></label>
                     <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
+                    <NValid isValid={vProjectIntroduction.first || vProjectIntroduction.isValid} text={vProjectIntroduction.text}/>
                 </div>
 
-                <div className={clsx(styles.formGroup)}>
-                    <div className={clsx(styles.btn, styles.submit)}
-                        onClick={() => handleChooseForm(3)}
-                    >
-                        Tạo dự án
+                <div className={clsx(styles.formControl)}>
+                    <div className={clsx(styles.formGroup)}>
+                        <div className={clsx(styles.btn, styles.primary)}
+                            onClick={() => handleChooseForm(3)}
+                        >
+                            Tạo dự án
+                        </div>
                     </div>
                 </div>
             </div>
@@ -849,9 +1008,9 @@ const NAddProject = () => {
                     <div className={clsx(styles.formEditor)} key={index}>
                         <div className={clsx(styles.editorName)}>
                             <span>{item.key}</span>
-                            <i onClick={() => handleUp(index)} className="fa-sharp text-primary fa-solid fa-arrow-up"></i>
-                            <i onClick={() => handleDown(index)} className="fa-sharp text-success fa-solid fa-arrow-down"></i>
-                            <i onClick={() => handleRemoveField(index)} className="fa-solid text-danger fa-trash"></i>
+                            {/* <i onClick={() => handleUp(index)} className="fa-sharp bg-primary text-white fa-solid fa-arrow-up"></i>
+                            <i onClick={() => handleDown(index)} className="fa-sharp bg-success fa-solid text-white fa-arrow-down"></i> */}
+                            <i onClick={() => handleRemoveField(index)} className="fa-solid bg-danger text-white fa-trash"></i>
                         </div>
                         <CKEditor 
                             id={item.key}
@@ -871,48 +1030,56 @@ const NAddProject = () => {
             })
         }
 
-        {/* Add more field here */}
-        <div className={clsx(styles.formGroup)}>
-            <div className={clsx(styles.btn, styles.btnFeature)}
-                onClick={handleHideShow}
-            >
-                Thêm +
-            </div>
-            <div className={clsx({
-                [styles.formCover]: true,
-                [styles.showAnimation]: showAnimation
-            })}>
-                <div className={clsx(styles.formModal)}>
-                    <div onClick={handleHideShow}><strong>X</strong></div>
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Tên trường</label>
-                        <input 
-                            type="text"
-                            placeholder="Trường xuất xứ ..."
-                            value={newField || ""}
-                            onChange={(e) => handleSetNewField(e.target.value)}
-                        />
-                    </div>
-                    <div className={clsx(styles.btn, styles.submit)}
-                        onClick={handleFields}
-                    >       
-                        Thêm
+            <div className={clsx(styles.formGroup)}>
+                <div className={clsx(styles.btn, styles.btnFeature)}
+                    onClick={handleHideShow}
+                >
+                    Thêm +
+                </div>
+                <div className={clsx({
+                    [styles.formCover]: true,
+                    [styles.showAnimation]: showAnimation
+                })}>
+                    <div className={clsx(styles.formModal)}>
+                        <div onClick={handleHideShow}><strong>X</strong></div>
+                        <div className={clsx(styles.formGroup)}>
+                            <label>Tên trường <NRequire/></label>
+                            <input 
+                                type="text"
+                                placeholder="Trường xuất xứ ..."
+                                value={newField || ""}
+                                onChange={(e) => handleSetNewField(e.target.value)}
+                            />
+                            <NValid  
+                                isValid={newField !== ""}
+                                text={"Bạn cần nhập tên trường muốn thêm!"}
+                            />
+                        </div>
+                        <div className={clsx(styles.btn, styles.submit)}
+                            onClick={handleFields}
+                        >       
+                            Thêm
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-        </div>
+        {/* Add more field here */}
+        <div className={clsx(styles.formControl)}>
+            
 
-        <div className={clsx(styles.formGroup)}>
-            <div className={clsx(styles.btn, styles.submit)}
-                onClick={() => handleChooseForm(2)}
-            >
-                Quay lại
-            </div>
-            <div className={clsx(styles.btn, styles.primary)}
-                onClick={() => handleChooseForm(4)}
-            >
-                Tiếp tục
+            <div className={clsx(styles.formGroup)}>
+                <div className={clsx(styles.btn, styles.submit)}
+                    onClick={() => handleChooseForm(2)}
+                >
+                    Quay lại
+                </div>
+                <div className={clsx(styles.btn, styles.primary)}
+                    onClick={() => handleChooseForm(4)}
+                >
+                    Tiếp tục
+                </div>
             </div>
         </div>
     </div>)
@@ -947,8 +1114,8 @@ const NAddProject = () => {
                     })
                 }
                 {
-                    projectDetail===null ? <div className={clsx(styles.detailControl)}>
-                        <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
+                    projectDetail===null ? <div className={clsx(styles.detailControl, styles.formControl)}>
+                        <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(3)} >Quay lại</div>
                         <div className={clsx(styles.btn, styles.primary)}
                             onClick={handleCreatePattern}
                         >Tạo mẫu</div>
@@ -958,7 +1125,7 @@ const NAddProject = () => {
                         <div 
                             onClick={handleCreateProject}
                         className={clsx(styles.btn, styles.primary)}>Lưu</div>
-                    </div> : <div className={clsx(styles.detailControl)}>
+                    </div> : <div className={clsx(styles.detailContro, styles.formControl)}>
                     <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(3)} >Quay lại</div>
                     <div 
                         onClick={handleSaveProject}
@@ -967,237 +1134,30 @@ const NAddProject = () => {
                 }
             </div>)
     }
-    const formComponent = () => {
-        if (form === 1) {
-            return (
-                <div className={clsx(styles.form)}>
-                    <div className={clsx(styles.controlAbove)}>
-                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
-                    </div>
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Tên <NRequire /></label>
-                        <input 
-                            type="text"
-                            placeholder="Dự án 1 ..."
-                            value={projectName || ""}
-                            onChange={(e)=>handleProjectName(e.target.value)}
-                        />
-                    </div>
-
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Tác giả  <NRequire /></label>
-                        <input 
-                            type="text"
-                            placeholder="Nguyễn Văn A ..."
-                            value={projectAuthor || ""}
-                            onChange={(e)=>handleProjectAuthor(e.target.value)}
-                        />
-                    </div>
-
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Hình đại diện  <NRequire /></label>
-                        <input 
-                            type="file"
-                            accept="image/jpeg" 
-                            onChange={(e)=>handleSetFile(e.target.files[0])}
-                        />
-                    </div>
-
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Tóm tắt  <NRequire /></label>
-                        <textarea cols="30" rows="10" value={projectIntroduction} onChange={(e) => handleProjectIntroduction(e.target.value)} placeholder="Đôi nét về nghiên cứu của bạn ..."></textarea>
-                    </div>
-
-                    <div className={clsx(styles.formGroup)}>
-                        <div className={clsx(styles.btn, styles.submit)}
-                            onClick={() => handleChooseForm(2)}
-                        >
-                            Tạo dự án
-                        </div>
-                    </div>
-                </div>
-            )
-        } else if (form === 2) {
-            return (<div className={clsx(styles.form)}>
-                    <div className={clsx(styles.controlAbove)}>
-                        <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
-                    </div>
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Chọn mẫu</label>
-                        <select onChange={(e) => handleChoosePattern(parseInt(e.target.value))}>
-                            <option value={0} key={0}>Chọn mẫu</option>
-                            {
-                                templates.map((item, index) => {
-                                    return <option value={item.id}  key={index}>{item.name}</option>
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className={clsx(styles.formGroup)}>
-                        <label>Lĩnh vực</label>
-                        <div className={clsx(styles.selectSearch)}>
-                            <div className={clsx(styles.dropdown)}>
-                                <input 
-                                    type="text"
-                                    placeholder="Chọn lĩnh vực ..."
-                                    onChange={(e) => handleFieldSearch(e.target.value)}
-                                />
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                            </div>
-                            <div className={clsx(styles.dropdownBox)}>
-                                {
-                                    fields.map((item, index) => {
-                                        return (<div className={clsx(styles.checkBox)} key={index}>
-                                            <input  type="checkbox" name="fields" value={item.id}
-                                                onChange={() => handleChecked(item.id)}
-                                                checked={item.checked}
-                                            />
-                                            <label htmlFor="fields">{item.name}</label>
-                                        </div>)
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                {
-                    kvalues.map((item, index) => {
-                        return (
-                            <div className={clsx(styles.formEditor)} key={index}>
-                                <div className={clsx(styles.editorName)}>
-                                    <span>{item.key}</span>
-                                    <i onClick={() => handleUp(index)} className="fa-sharp text-primary fa-solid fa-arrow-up"></i>
-                                    <i onClick={() => handleDown(index)} className="fa-sharp text-success fa-solid fa-arrow-down"></i>
-                                    <i onClick={() => handleRemoveField(index)} className="fa-solid text-danger fa-trash"></i>
-                                </div>
-                                <CKEditor 
-                                    id={item.key}
-                                    name={`CK-${index}`}
-                                    initData={item.value || ""}
-                                    config={{
-                                        filebrowserUploadUrl: 'https://marketplace.ctu.edu.vn/api/v2/upload-file',
-                                        removeButtons: 'PasteFormWord',
-                                        isReadOnly: true,
-                                        height: 400,
-                                        extraPlugins: [["embed,autoembed,language,justify,colorbutton,font"]],
-                                        embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',    
-                                    }}
-                                    onChange={(e) => handleEditor(e.editor.getData(), index)}
-                                />
-                            </div>)
-                    })
-                }
-
-                {/* Add more field here */}
-                <div className={clsx(styles.formGroup)}>
-                    <div className={clsx(styles.btn, styles.btnFeature)}
-                        onClick={handleHideShow}
-                    >
-                        Thêm +
-                    </div>
-                    <div className={clsx({
-                        [styles.formCover]: true,
-                        [styles.showAnimation]: showAnimation
-                    })}>
-                        <div className={clsx(styles.formModal)}>
-                            <div onClick={handleHideShow}><strong>X</strong></div>
-                            <div className={clsx(styles.formGroup)}>
-                                <label>Tên trường</label>
-                                <input 
-                                    type="text"
-                                    placeholder="Trường xuất xứ ..."
-                                    value={newField || ""}
-                                    onChange={(e) => handleSetNewField(e.target.value)}
-                                />
-                            </div>
-                            <div className={clsx(styles.btn, styles.submit)}
-                                onClick={handleFields}
-                            >       
-                                Thêm
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div className={clsx(styles.formGroup)}>
-                    <div className={clsx(styles.btn, styles.submit)}
-                        onClick={() => handleChooseForm(1)}
-                    >
-                        Quay lại
-                    </div>
-                    <div className={clsx(styles.btn, styles.primary)}
-                        onClick={() => handleChooseForm(3)}
-                    >
-                        Tiếp tục
-                    </div>
-                </div>
-            </div>)
-        }
-        
-        return (
-        <div className={clsx(styles.detail)}>
-            <div className={clsx(styles.controlAbove)}>
-                <div className={clsx(styles.btn, `bg-primary text-white`, styles.controlPart)} onClick={handleChangeListPage}><i className="fa-solid fa-list"></i> Danh sách</div>
-            </div>
-            <h1 className={styles.detailTitle}>{projectName}</h1>
-            <h3 className={styles.detailAuthor}>{projectAuthor}</h3>
-            <ul className={styles.detailFields}>
-                {
-                    fields.filter((item) => {
-                        return checkFields.includes(item.id)
-                    }).map((item, index) => {
-                        return (
-                            <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
-                        )
-                    })
-                }
-            </ul>
-            {
-                kvalues.map((item,index) => {
-                    return (<div key={index} className={clsx(styles.detailKeyValues)}>
-                        <div>{item.key}</div>
-                        <div
-                            dangerouslySetInnerHTML={{__html: item.value}}
-                        ></div>
-                    </div>)
-                })
-            }
-            {
-                projectDetail===null ? <div className={clsx(styles.detailControl)}>
-                    <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
-                    <div className={clsx(styles.btn, styles.primary)}
-                        onClick={handleCreatePattern}
-                    >Tạo mẫu</div>
-                    <div className={clsx(styles.btn, styles.primary)}
-                        onClick={handleCreateBoth}
-                    >Lưu và Tạo mẫu</div>
-                    <div 
-                        onClick={handleCreateProject}
-                    className={clsx(styles.btn, styles.primary)}>Lưu</div>
-                </div> : <div className={clsx(styles.detailControl)}>
-                <div className={clsx(styles.btn, styles.submit)} onClick={() => handleChooseForm(2)} >Quay lại</div>
-                <div 
-                    onClick={handleSaveProject}
-                className={clsx(styles.btn, styles.primary)}>Lưu</div>
-            </div>
-            }
-        </div>)
-    }
     // Primary render
     return (
         <>
             <div className={clsx(styles.nAddProject)}>
                 <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>
-                    {infoComponent()}
+                    {
+                        infoTransitions((style, item) => {
+                            return <animated.div style={style}>
+                                { infoComponent(item) }
+                            </animated.div>
+                        })
+                    }
                 </div>
-                <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart)}>
-                    { pageType===1 && listComponent()}
-                    {/* { pageType===2 && formComponent()}
-                    { pageType===3 && formComponent()} */}
-                    { pageType===2 && formComponent1() }
-                    { pageType===3 && formComponent2() }
-                    { pageType===4 && formComponent3() }
+                <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart, styles.formParent)}>
+                    {
+                        pageTypeTransitions((style, item) => {
+                            return <animated.div style={style} >
+                                { item === 1 && listComponent() }
+                                { item === 2 && formComponent1() }
+                                { item === 3 && formComponent2() }
+                                { item === 4 && formComponent3() }
+                            </animated.div>
+                        })
+                    }
                 </div>
             </div>
         </>

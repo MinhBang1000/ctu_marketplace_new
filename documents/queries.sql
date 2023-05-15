@@ -12,6 +12,7 @@ create table new_project (
 	id bigint auto_increment,
     name varchar(255) not null,
     image varchar(255) not null,
+    introduction longtext,
     user_id bigint not null,
     approver_id bigint not null,
     status_id bigint not null,
@@ -46,6 +47,7 @@ drop table new_project_field;
 delete from fkey_value;
 delete from new_project;
 alter table new_project add column status_id bigint not null;
+alter table new_project add column introduction longtext;
 alter table new_project add foreign key (status_id) references status(id);
 alter table new_project modify column created_at datetime default current_timestamp not null;
 alter table new_project drop column field_id;

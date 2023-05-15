@@ -502,7 +502,6 @@ const NLogin = () => {
     // Rendering
     return (<>
         {redirect && <Redirect to="/" />}
-        {/* style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}} */}
         <div className={clsx(styles.auth)}  >
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.info)}

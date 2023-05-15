@@ -256,7 +256,7 @@ const ProjectList = (props) => {
                                                     {renderHighlightOnSearch(project.name)}
                                                 </h4>
                                                 <div className="card-text product-card__description__brief">
-                                                    <span dangerouslySetInnerHTML={{ __html: renderBrief(project.keyValues[0].value)}}></span>
+                                                    {/* <span dangerouslySetInnerHTML={{ __html: renderBrief(project.keyValues[0].value)}}></span> */}
                                                 </div>
                                                 
                                             </Link>
