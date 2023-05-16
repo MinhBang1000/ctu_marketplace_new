@@ -395,7 +395,7 @@ const ProjectList = (props) => {
                                                         {project.name}
                                                     </div>
                                                     <img src={`${apiGetProjects}/view-image/${project.image}`}  alt='filter' width={50}/>
-                                               
+                                                </div>
                                             </Link>
                                         </SwiperSlide>)
                                     }
