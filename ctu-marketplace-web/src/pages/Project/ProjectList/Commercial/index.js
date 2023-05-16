@@ -31,11 +31,10 @@ const ProjectList = (props) => {
     const [numberOfPage, setNumberOfPage] = React.useState(0);
     const [searchDisplay, setSearchDisplay] = useState(false)
 
-    var itemPerPage = 2;
+    var itemPerPage = 10;
     const [showFilter, setShowFilter] = useState(false);
     const [fields, setFields] = useState([]); 
     const [fieldFilter, setFieldFilter] = useState([]);
-    var fieldFilter7 = [];
 
     const [search, setSearch] = useState('');
     const [currentPgae, setCurrentPage] = useState(1);
@@ -44,15 +43,14 @@ const ProjectList = (props) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [swiperProjects, setSwiperProjects] = useState([]);
 
-    const apiGetProjects = "https://127.0.0.1:3999/api/v3/projects";
+    const apiGetProjects = "https://marketplace.ctu.edu.vn/api/v3/projects"; //127.0.0.1:3999 marketplace.ctu.edu.vn
 
-    var itemPerSlide = 4;
+    // var itemPerSlide = 4;
+    const [itemPerSlide, setItemPerSlide] = useState(4);
 
     const nexto = () => {
         swiper.slideNext();
-        console.log("swiper: ", swiper);
         setActiveIndex(swiper.activeIndex);
-        console.log('activeIndex: ', activeIndex)
     };
 
     const prev = () => {
@@ -67,9 +65,8 @@ const ProjectList = (props) => {
             metaDescription: SEO_PROJECTS.commercial.metaDescription
         });
 
-        axios.get(apiGetProjects)
+        axios.get(`${apiGetProjects}?approve=true`)
             .then(res => {
-                // setProjects(res.data.data.slice(0, itemPerPage));
                 setProjects(res.data.data.filter((project) => {
                     return project.template===false;
                 }))
@@ -78,7 +75,7 @@ const ProjectList = (props) => {
                 }).slice(0, itemPerPage));
                 setSwiperProjects(res.data.data.filter((project) => {
                     return project.template===false;
-                }).slice(0, 5));
+                }).slice(0, 8));
                 setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
                     return project.template===false;
                 }).length/itemPerPage));
@@ -88,20 +85,39 @@ const ProjectList = (props) => {
                 console.log("Error: ", error);
             })
 
-        axios.get('https://127.0.0.1:3999/api/v3/fields')
+        axios.get('https://marketplace.ctu.edu.vn/api/v3/fields')
             .then(res => {
-                setFields(res.data.data);
-                console.log("fields: ", res.data.data);
+                setFields(
+                res.data.data.map(field => {
+                    var newField = {};
+                    newField.id = field.id;
+                    newField.name = field.name;
+                    newField.status = false;
+                    return newField;
+                }));
             })
-
-        console.log("screen: ", screen.width)
-        
+            
+        var screenWidth = screen.width;
+        if(screenWidth <= 576) {
+            setItemPerSlide(1);
+        } else if(screenWidth <= 768) {
+            setItemPerSlide(2);
+        } else {
+            setItemPerSlide(4);
+        }
         
     }, [])
 
-    var screenWidth = screen.width;
-    if(screenWidth < 768) {
-        itemPerSlide = 2;
+    //responsive
+    onresize = (event) => {
+        var width = screen.width;
+        if(width <= 576) {
+            setItemPerSlide(1);
+        } else if(width <= 768) {
+            setItemPerSlide(2);
+        } else {
+            setItemPerSlide(4);
+        }
     }
 
     const changePage = (e, page) =>  {
@@ -112,7 +128,6 @@ const ProjectList = (props) => {
     const searchProject = () => {
         axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
             .then(res => {
-                console.log("res: ", res.data.data);
                 setProjects(res.data.data.filter((project) => {
                     return project.template===false;
                 }));
@@ -123,6 +138,8 @@ const ProjectList = (props) => {
                 setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
                     return project.template===false;
                 }).length/itemPerPage));
+                if(projects.length > 0 && search !== '')
+                    window.scrollBy(0, 900 - document.documentElement.scrollTop);
             })
             .catch(error => {
                 console.log("Error: ", error);
@@ -133,23 +150,25 @@ const ProjectList = (props) => {
         setShowFilter(false)
         if(document.documentElement.scrollTop > 500 || document.body.scrollTop > 500) {
             setSearchDisplay(true);
-            console.log("search display")
         } else {
             setSearchDisplay(false)
         }
     }
 
     const renderBrief = (line) => {
-        var lastDotIndex = line.lastIndexOf('.<');
-        line=line.split('');
-        if(lastDotIndex!==-1) {
-            line[lastDotIndex] = '';    
+        if(line !== undefined) {
+            var lastDotIndex = line.lastIndexOf('.<');
+            line=line.split('');
+            if(lastDotIndex!==-1) {
+                line[lastDotIndex] = '';    
+            }
+            var lineJoin = line.join('');
+            if(lineJoin.length > 500) {
+                lineJoin = lineJoin.substring(0, 500) + "...";
+            }
+            return lineJoin;
         }
-        var lineJoin = line.join('');
-        if(lineJoin.length > 500) {
-            lineJoin = lineJoin.substring(0, 500) + "...";
-        }
-        return lineJoin;
+        return '';
     }
 
     const renderHighlightOnSearch = (text) => {
@@ -172,27 +191,18 @@ const ProjectList = (props) => {
         setShowFilter(false);
     }
 
-    const checkArrayInArray = (parentArray, childArray) => {
-        for(var i=0; i<childArray.length; i++) {
-            if(!parentArray.includes(childArray[i])) {
-                return false;
+    const handleUpdateCheckboxList = (id) => {  //tim ra mang check    
+        fields.map(field => {
+            return field.id === id ? field.status = ! field.status : '';
+        })
+        setFields([...fields]);
+        var newFields = [];
+        for(var i=0; i<fields.length; i++) {
+            if(fields[i].status === true) {
+                newFields.push(fields[i].id);
             }
         }
-        return true;
-    }
-
-    const handleUpdateCheckboxList = (id) => {
-        fieldFilter7 = fieldFilter;
-        console.log("field change");
-        if(fieldFilter7.includes(id)) {
-            fieldFilter7 = fieldFilter7.filter((field) => {
-                return field !== id;
-            });
-        } else {
-            fieldFilter7.push(id);
-        }
-        setFieldFilter(fieldFilter7);
-        console.log("fieldFilter7: ", fieldFilter);
+        setFieldFilter(newFields);
     }
 
     const handleClickFilter = () => {       
@@ -223,13 +233,14 @@ const ProjectList = (props) => {
             setProjects7(projectsTemp.slice(0, itemPerPage));
             setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
             setCurrentPage(1);
+            window.scrollBy(0, 900 - document.documentElement.scrollTop);
             })
             .catch(error => {
                 console.log("Error: ", error);
             })
 
         } else {
-            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
+            axios.get(`${apiGetProjects}?approve=true`) // api tim kiem 
                 .then(res => {
                     setProjects(res.data.data.filter((project) => {
                         return project.template===false;
@@ -278,7 +289,7 @@ const ProjectList = (props) => {
                                         Tìm kiếm
                                 </div>
                             </div>
-                        <div class="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
+                        <div className="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
                             <div className={showFilter? 'home__search__block__filter home__search__block__filter--active' : 'home__search__block__filter'}   onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                                 <div className={showFilter? 'home__search__block__filter__virtual home__search__block__filter__virtual--active' : 'home__search__block__filter__virtual'}>
                                     <div className='home__search__block__filter__title'>
@@ -286,9 +297,9 @@ const ProjectList = (props) => {
                                     </div>
                                     <div className='home__search__block__filter__list'>
                                         {
-                                            fields.map((field) => <div className='home__search__block__filter__list__item'>
-                                                    <input type='checkbox' id={field.id} value={field.id} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
-                                                    <label for={field.id} >{field.name}</label>
+                                            fields.map((field, index) => <div className='home__search__block__filter__list__item'>
+                                                    <input type='checkbox' key={index} id={field.id + '2'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
+                                                    <label htmlFor={field.id + '2'} >{field.name}</label>
                                                 </div>
                                             )
                                         }
@@ -298,10 +309,8 @@ const ProjectList = (props) => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>
-                     
+                    </div>                     
                     <div className='home__search' id='home__search' >
                         <div className='home__search__header'>
                             <div className='home__search__header__unit'>
@@ -336,19 +345,18 @@ const ProjectList = (props) => {
                                         Tìm kiếm
                                 </div>
                             </div>
-                            <div class="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
-                            
-                            <div className={showFilter? 'home__search__block__filter home__search__block__filter--active' : 'home__search__block__filter'} style={{display: !searchDisplay? 'block' : 'none'}} onMouseOver={handleFilter} onMouseLeave={hideFilter}>
+                            <div className="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
+                            {/* style={{display: !searchDisplay? 'block' : 'none'}} */}
+                            <div className={showFilter? 'home__search__block__filter home__search__block__filter--active' : 'home__search__block__filter'}  onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                                 <div className={showFilter? 'home__search__block__filter__virtual home__search__block__filter__virtual--active' : 'home__search__block__filter__virtual'}>
                                     <div className='home__search__block__filter__title'>
                                         Lọc theo lĩnh vực
                                     </div>
                                     <div className='home__search__block__filter__list'>
                                         {
-                                            fields.map((field) => <div className='home__search__block__filter__list__item'>
-                                                {/* checked={fieldFilter.includes(field.id)} */}
-                                                    <input type='checkbox' id={field.id} value={field.id} onClick={(e) => handleUpdateCheckboxList(field.id)}/>
-                                                    <label for={field.id} >{field.name}</label>
+                                            fields.map((field, index) => <div className='home__search__block__filter__list__item'>
+                                                    <input type='checkbox'  key={index} id={field.id + '1'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
+                                                    <label htmlFor={field.id + '1'} >{field.name}</label>
                                                 </div>
                                             )
                                         }
@@ -362,87 +370,36 @@ const ProjectList = (props) => {
                         {projects7.length > 0 && 
                             <div className='home__search__image'>
                                 <div className='home__search__image__button home__search__image__button--prev' style={{opacity: activeIndex===0? 0.5 : 1, cursor: activeIndex===0? 'auto' : 'pointer'}} onClick={prev}>
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" >
-                                        <g><path stroke-width="10" d="M732.1,989.9c6.6,0,13.2-2.5,18.3-7.5c10.1-10.1,10.1-26.4,0-36.5l-446-446l446-446c10.1-10.1,10.1-26.4,0-36.5c-10.1-10.1-26.4-10.1-36.5,0L249.7,481.8c-10.1,10.1-10.1,26.4,0,36.5l464.2,464.2C718.9,987.5,725.5,990,732.1,989.9L732.1,989.9z"/></g>
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enableBackground="new 0 0 1000 1000" >
+                                        <g><path strokeWidth="10" d="M732.1,989.9c6.6,0,13.2-2.5,18.3-7.5c10.1-10.1,10.1-26.4,0-36.5l-446-446l446-446c10.1-10.1,10.1-26.4,0-36.5c-10.1-10.1-26.4-10.1-36.5,0L249.7,481.8c-10.1,10.1-10.1,26.4,0,36.5l464.2,464.2C718.9,987.5,725.5,990,732.1,989.9L732.1,989.9z"/></g>
                                     </svg>
                                 </div>
                                 <Swiper
                                     modules={[Navigation, Scrollbar, A11y]}
-                                    spaceBetween={50}
+                                    spaceBetween={30}
                                     slidesPerView={itemPerSlide}
                                     onSwiper={(s) => {
-                                        console.log("initialize swiper", s);
                                         setSwiper(s);
                                     }}
-                                    onSlideChange={() => console.log('slide change')}
+                                    onSlideChange={() => ''}
                                 >
                                     {
-                                        swiperProjects.map(project => <SwiperSlide>
-                                             <Link
+                                        swiperProjects.map((project, index) => <SwiperSlide key={index}>
+                                             <Link 
                                                 to={`/projects/detail/${project.id}`}
                                             >
                                                 <div className='home__search__image__item'>
                                                     <div className='home__search__image__item__name'>
                                                         {project.name}
                                                     </div>
-                                                    <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
+                                                    <img src={`${apiGetProjects}/view-image/${project.image}`}  alt='filter' width={50}/>
                                                 </div>
                                             </Link>
                                         </SwiperSlide>)
                                     }
-                                    {/* <SwiperSlide>
-                                        <Link
-                                            // to={`/projects/detail/${project.id}`}
-                                        >
-                                            <div className='home__search__image__item'>
-                                                <div className='home__search__image__item__name'>
-                                                    MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
-                                                </div>
-                                                <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
-                                            </div>
-                                        </Link>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
-                                        </div> 
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <div className='home__search__image__item__name'>
-                                                MÁY CHO TÔM ĂN/CÁ ĂN DFH DFJA ASFAJAKS ASJGAS
-                                            </div>
-                                            <img src={require('../../../../assets/images/home_image1.jpg')}  alt='filter' width={50}/>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image2.png')}  alt='filter' width={50}/>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image4.jpg')}  alt='filter' width={50}/>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className='home__search__image__item'>
-                                            <img src={require('../../../../assets/images/home_image5.png')}  alt='filter' width={50}/>
-                                        </div> 
-                                    </SwiperSlide>                                 */}
                                 </Swiper>                                
-                                <div className='home__search__image__button home__search__image__button--next' style={{opacity: activeIndex===4? 0.5 : 1, cursor: activeIndex===4? 'auto' : 'pointer'}} onClick={nexto}>
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000">
+                                <div className='home__search__image__button home__search__image__button--next' style={{opacity: activeIndex===swiperProjects.length-itemPerSlide? 0.5 : 1, cursor: activeIndex===4? 'auto' : 'pointer'}} onClick={nexto}>
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1000 1000" enableBackground="new 0 0 1000 1000">
                                         <g><path d="M675.7,503.7l-426,425.9c-14.2,14.2-14.2,35.5,0,49.7s35.5,14.2,49.7,0l447.3-447.5c7.1-7.1,14.2-21.3,14.2-28.4s0-21.3-7.1-28.4L299.5,20.7c-14.2-14.2-35.5-14.2-49.7,0c-14.2,14.2-14.2,35.5,0,49.7L675.7,503.7L675.7,503.7z"/></g>
                                     </svg>
                                 </div>
@@ -454,7 +411,7 @@ const ProjectList = (props) => {
                         {projects7.length > 0 ? 
                         <>
                             <div className='home__project-list' id='projectsList'>
-                                {projects7.map((project, index) => <div className='mk-card-horizontal' key={index}>
+                                {projects7.map((project, index) => <div className='mk-card-horizontal' key={project.id}>
                                         <div className="row product-card row">
                                             <div className="col-lg-6 product-card__description">
                                                 <div className="mk-card-body">
@@ -462,7 +419,7 @@ const ProjectList = (props) => {
                                                         <ul className='mk-card-horizontal-field'>
                                                             {
                                                                 project.fields.slice(0,2).map((field) => {
-                                                                    return <li style={{color: 'rgba(0, 0, 0, 0.2) !important'}}>{field.name}</li>
+                                                                    return <li id={field.id + '3'} style={{color: 'rgba(0, 0, 0, 0.2) !important'}}>{field.name}</li>
                                                                 })
                                                             }
                                                             {
@@ -479,7 +436,14 @@ const ProjectList = (props) => {
                                                             {renderHighlightOnSearch(project.name)}
                                                         </h4>
                                                         <div className="card-text product-card__description__brief">
-                                                            <span dangerouslySetInnerHTML={{ __html: renderBrief(project.keyValues[0].value)}}></span>
+                                                            {
+                                                                project.introduction && project.introduction.length > 0 ? <>
+                                                                    <span>{project.introduction.substring(0, 300)}</span>
+                                                                    {project.introduction.length > 300 && <span>...</span>}
+                                                                </>
+                                                                :  
+                                                                <span dangerouslySetInnerHTML={{ __html: renderBrief(project?.keyValues[0]?.value)}}></span>
+                                                            }
                                                         </div>
                                                         
                                                     </Link>
@@ -487,15 +451,16 @@ const ProjectList = (props) => {
                                             </div>
                                             <div className="col-lg-3 product-card__related-info"> 
                                                 <table>
-                                                    <tr>
-                                                        <td className='name' style={{width: '65px', verticalAlign: 'top', display: 'table-cell'}}>Tác giả:</td>
-                                                        <td className='value'>{project.author.substring(0, 200)} {project.author.length > 200 ? '...' : ''}</td>
-                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td className='name' style={{width: '65px', verticalAlign: 'top', display: 'table-cell'}}>Tác giả:</td>
+                                                            <td className='value'>{project.author.substring(0, 200)} {project.author.length > 200 ? '...' : ''}</td>
+                                                        </tr>
+                                                    </tbody>
                                                 </table>
                                             </div>
                                             <div className="col-lg-3 product-card__image">
-                                                {/* <img src={`${apiGetProjects}/view-image/${project.image}`} /> */}
-                                                <img src={require('../../../../assets/images/home_image2.png')}  alt='filter'/>
+                                                <img src={`${apiGetProjects}/view-image/${project.image}`} alt='filter'/>
                                             </div>
                                         </div>
                                     </div>)
@@ -510,7 +475,6 @@ const ProjectList = (props) => {
                             <div className='row' style={{height: '200px'}}>
                                 <div className='col-md-4'></div>
                                 <div className='col-md-4' style={{textAlign: 'center', lineHeight: '200px', fontSize: '20px'}}>
-                                    {/* <img src={require('../../../../assets/images/nodata.png')} /> */}
                                     Không có dữ liệu
                                 </div>
                                 <div className='col-md-4'></div>
