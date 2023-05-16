@@ -438,3 +438,16 @@
         }
     }
 }
+
+@media only screen and (max-width: 768px){
+    .product-card {
+        &__description {
+            ul {
+                display: block;
+                li + li {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
