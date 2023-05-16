@@ -22,6 +22,10 @@
     flex: 1;
 }
 
+.mheading {
+    display: none;
+}
+
 .contact>div:nth-child(2) {
     font-weight: bold;
     text-decoration: underline;
@@ -373,42 +377,38 @@
     position: absolute;
     right: var(--padding-large);
     bottom: var(--padding-large);
-}
-
-@media only screen and (max-width: 600px) {
-    .detailFields {
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: column;
-        margin-top: var(--margin-super-small);
-        padding: 0;
-    }
-
-    .detailItem + .detailItem{
-        margin-left: 0;
-        margin-top: var(--margin-super-small);
-    }
-    
-
-    .formControl {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .formControl>.formGroup {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .btn + .btn {
-        margin-left: 0;
-        margin-top: var(--margin-super-small);
-    }
+    display: flex;
 }
 
 @media only screen and (max-width: 768px) {
+    .form {
+        padding: var(--padding-small);
+    }
+
+    .heading {
+        display: none;
+    }
+
+    .mheading {
+        display: block;
+        padding: var(--padding-small);
+    }
+
+    .formControl {
+        position: absolute;
+        right: var(--padding-small);
+        bottom: var(--padding-small);
+        display: flex;
+    }
+
     .nAddProject {
         flex-direction: column;
+        padding: 0;
+        background-color: var(--white);
+    }
+
+    .nAddProjectControl {
+        box-shadow: none;
     }
 
     .nAddProjectPart + .nAddProjectPart {

@@ -44,7 +44,7 @@ const NNavbar = () => {
                             src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
                             alt="Logo"
                         />
-                        <h3>CTU Market Place</h3>
+                        <h3>CTU Marketplace</h3>
                     </Link>
                 </div>
                 <i className={clsx(styles.open,styles.toggle, `fa-solid fa-bars`)}
@@ -60,7 +60,7 @@ const NNavbar = () => {
                     <i className={clsx(styles.close,styles.toggle, `fa-solid fa-xmark`)}
                         onClick={() => handleShowHide(false)}
                     ></i>
-                    <h3>CTU Market Place</h3>
+                    <h3>CTU Marketplace</h3>
                     <img 
                         src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
                         alt="Logo"
@@ -73,14 +73,14 @@ const NNavbar = () => {
                     <i className="fa-solid fa-house"></i> Trang chủ
                 </Link>
                 {
-                    admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/administrators"
+                    admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/administrator"
                         onClick={() => handleShowHide(false)}
                     >
                         <i className="fa-solid fa-lock"></i> Quản trị
                     </Link> : ''
                 }
                 {
-                    roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/projects"
+                    !admin.includes(roleCode) && roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.mitem)} to="/projects"
                         onClick={() => handleShowHide(false)}
                     >
                         <i className="fa-solid fa-microscope"></i> Dự án
@@ -132,7 +132,7 @@ const NNavbar = () => {
                         src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
                         alt="Logo"
                     />
-                    <h3>CTU Market Place</h3>
+                    <h3>CTU Marketplace</h3>
                 </Link>
             </div>
             <Link className={clsx(styles.item)} to="/">
@@ -144,7 +144,7 @@ const NNavbar = () => {
                 </Link> : ''
             }
             {
-                roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/projects">
+                !admin.includes(roleCode) && roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/projects">
                     Dự án
                 </Link> : ''
             }
