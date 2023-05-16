@@ -16,6 +16,7 @@ public class NewProjectRequestDTO {
     private String name;
     private String author;
     private String image;
+    private String introduction;
     private Long approverId;
     private Long userId;
     private List<Long> fieldIds;

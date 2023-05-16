@@ -1,0 +1,27 @@
+@keyframes open {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes close {
+    to {
+        opacity: 0;
+    }
+}
+
+.valid {
+    color: var(--green);
+    animation: close .2s ease forwards;
+}
+
+.invalid {
+    color: var(--red);
+    animation: open .2s ease forwards;
+}
+
+.validate {
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+}

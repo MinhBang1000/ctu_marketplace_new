@@ -31,7 +31,7 @@ const App = () => {
       dispatch(logout(history));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetch("https://127.0.0.1:3999/api/v2/public/fields")
+    fetch(`https://marketplace.ctu.edu.vn/api/v2/public/fields`)
       .then(res => res.json())
       .then(res => console.log("Test: ", res))
   }, []);

@@ -61,7 +61,12 @@ const NNavbar = () => {
                         onClick={() => handleShowHide(false)}
                     ></i>
                     <h3>CTU Market Place</h3>
+                    <img 
+                        src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
+                        alt="Logo"
+                    />
                 </div>
+                <hr></hr>
                 <Link className={clsx(styles.mitem)} to="/"
                     onClick={() => handleShowHide(false)}
                 >

@@ -126,6 +126,7 @@ const ProjectList = (props) => {
     }
 
     const searchProject = () => {
+
         axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
             .then(res => {
                 setProjects(res.data.data.filter((project) => {
@@ -388,12 +389,13 @@ const ProjectList = (props) => {
                                              <Link 
                                                 to={`/projects/detail/${project.id}`}
                                             >
+
                                                 <div className='home__search__image__item'>
                                                     <div className='home__search__image__item__name'>
                                                         {project.name}
                                                     </div>
                                                     <img src={`${apiGetProjects}/view-image/${project.image}`}  alt='filter' width={50}/>
-                                                </div>
+                                               
                                             </Link>
                                         </SwiperSlide>)
                                     }

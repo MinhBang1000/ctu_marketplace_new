@@ -1,40 +1,46 @@
 .auth {
     display: flex;
-    padding: 48px;
-    background-color: #f4f4f4;
-    /* Center Image Background */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 1000px;
+    /* padding: var(--padding-super-large); */
+    background-color: #f4f4f4; 
+    height: fit-content;
 }
 
-@media only screen and (max-width: 768px) {
-    .auth {
-        flex-direction: column;
-    }
+.wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    box-shadow: var(--shadow);
+}
 
-    .info {
-        display: none;
-    }
+.registerGroup {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.registerGroup>.formGroup {
+    width: 30%;
 }
 
 .info {
-    flex: 6;
-    opacity: 0;
+    background-color: var(--white);
+    width: 75%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
 
 .content {
-    background-color: white;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    border-radius: 15px;
+    background-color: var(--white);
     padding: 36px;
-    flex: 4;
+    min-height: 921px;
+    width: 35%;
 }
 
-.title {
-    text-align: center;
-    margin-bottom: 24px;
+.scripts {
+    color: var(--secondary);
+    margin-bottom: var(--margin-medium);
 }
 
 /* Form Group */
@@ -44,20 +50,19 @@
     flex-direction: column;
 }
 
-.formGroup>label {
-    font-weight: bold;
-}
+/* .formGroup>label {
+    font-weight: lighter;
+} */
 
 .formGroup>input, .formGroup>.select {
     padding: 12px;
     margin-top: 8px;
     border: 2px solid #ced4da;
-    border-radius: 5px;
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
-.formGroup>input:focus {
+.formGroup>input:focus, .formGroup>.select:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 .2rem #bfdeff;
@@ -100,7 +105,6 @@
 .btn {
     box-sizing: border-box;
     margin: 8px 0;
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,4 +130,26 @@
 .reset {
     background-color: #dc3545;
     color: white;
+}
+
+
+@media only screen and (max-width: 1466px) {
+    .registerGroup {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .registerGroup>.formGroup {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .info {
+        width: 0%;
+    }
+    
+    .content {
+        width: 100%;
+    }
 }

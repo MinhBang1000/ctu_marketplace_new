@@ -5,17 +5,6 @@
     background-color: #F4F4F4;
 }
 
-
-@media only screen and (max-width: 768px) {
-    .nAddProject {
-        flex-direction: column;
-    }
-
-    .nAddProjectPart + .nAddProjectPart {
-        margin-top: var(--margin-medium);
-    }
-}
-
 .nAddProject>div:first-child{
     flex: 1;
 }
@@ -41,16 +30,16 @@
 }
 
 .nAddProjectControl {
-    min-height: 600px;
+    min-height: var(--min-height);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+    padding-bottom: 100px;
 }
 
 .form{
-    background-color: var(--white);
-    border-radius: 15px;
-    box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 700px;
-    position: relative;
 }
 
 .formGroup {
@@ -58,20 +47,18 @@
     flex-direction: column;
 }
 
-.formGroup>label {
-    font-weight: bold;
-}
+/*  */
 
-.formGroup>input {
+.formGroup>input, .formGroup>textarea {
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
-.formGroup>input:focus {
+.formGroup>input:focus, .formGroup>textarea:focus {
     border-color: var(--box-in-color);
     outline: none;
     box-shadow: 0 0 0 .2rem var(--box-out-color);
@@ -81,7 +68,6 @@
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
@@ -110,7 +96,7 @@
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
     display: flex;
@@ -127,6 +113,7 @@
     outline: none;
     border: none;
     flex: 1;
+    max-width: 97%;
 }
 
 .selectSearch {
@@ -136,7 +123,7 @@
 .dropdownBox {
     min-height: 128px;
     padding: var(--padding-small);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     border: 2px solid var(--grey);
     overflow: scroll;
     max-height: 400px;
@@ -186,7 +173,7 @@
     z-index: 9999;
     position: absolute;
     padding: var(--padding-small);
-    border-radius: 15px;
+    /* border-radius: 15px; */
     box-shadow: var(--shadow);
     min-width: 300px;
 }
@@ -212,12 +199,12 @@
 
 .editorName>span{
     flex: 1;
-    font-weight: bold;
 }
 
 .editorName>i {
-    margin-left: var(--margin-small);
+    margin-left: var(--margin-super-small);
     cursor: pointer;
+    padding: var(--padding-super-small);
     transition: opacity ease .2s;
 }
 
@@ -226,9 +213,6 @@
 }
 /* Detail page */
 .detail {
-    background-color: var(--white);
-    border-radius: 15px;
-    box-shadow: var(--shadow);
     padding: var(--padding-large);
     min-height: 600px;
 }
@@ -281,7 +265,7 @@
 .btn {
     padding: var(--padding-super-small) var(--padding-small);
     font-weight: bold;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     cursor: pointer;
     transition: opacity linear .2s;
     display: flex;
@@ -337,23 +321,26 @@
 
 .controlAbove {
     display: flex;
-    margin-bottom: 8px;
+    margin-bottom: var(--margin-super-small);
     justify-content: flex-end;
 }
 
 .controlAbove>.search, .controlAbove>.filter {
     padding: 12px;
     border: 2px solid #ced4da;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
-.controlAbove>.filter {
-    max-width: 150px;
+.search {
+    display: flex;
+    align-items: center;
 }
 
 .search>input {
+    flex: 1;
+    max-width: 97%;
     outline: none;
     border: none;
 }
@@ -363,11 +350,6 @@
     outline: none;
     box-shadow: 0 0 0 .2rem #bfdeff;
 }
-
-/* .cellBtn {
-    display: block;
-    min-height: 100%;
-} */
 
 .controlPart + .controlPart {
     margin-left: 8px;
@@ -380,4 +362,83 @@
 
 .contact>a {
     font-weight: bold;
+}
+
+/* Form Control */
+.formParent {
+    position: relative;
+}
+
+.formControl {
+    position: absolute;
+    right: var(--padding-large);
+    bottom: var(--padding-large);
+}
+
+@media only screen and (max-width: 600px) {
+    .detailFields {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        margin-top: var(--margin-super-small);
+        padding: 0;
+    }
+
+    .detailItem + .detailItem{
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+    
+
+    .formControl {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formControl>.formGroup {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn + .btn {
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .nAddProject {
+        flex-direction: column;
+    }
+
+    .nAddProjectPart + .nAddProjectPart {
+        margin-top: var(--margin-medium);
+    }
+    
+    .controlAbove {
+        flex-direction: column;
+    }
+
+    
+    .controlPart + .controlPart {
+        margin-left: 0px;
+        margin-top: var(--margin-super-small);
+    }
+
+    .control {
+        flex-direction: column;
+    }
+
+    .cellBtn:first-child {
+        margin-top: var(--margin-super-small)
+    }
+
+    .cellBtn:last-child {
+        margin-bottom: var(--margin-super-small);
+    }
+
+    .cellBtn + .cellBtn {
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
 }

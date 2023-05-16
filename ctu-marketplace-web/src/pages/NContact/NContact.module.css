@@ -1,0 +1,59 @@
+.contact{
+    display: flex;
+}
+
+.contactPart {
+    background-color: var(--white);
+}
+
+.info {
+    width: 60%;
+}
+
+/* Work */
+.work {
+    width: 40%;
+    padding: var(--padding-large);
+}
+
+.define + .define{
+    margin-top: var(--margin-super-small);
+}
+
+.define>i{
+    color: var(--primary);
+    width: 24px;
+}
+
+
+.scripts {
+    color: var(--secondary);
+    margin-bottom: var(--margin-small);
+}
+
+.form {
+    min-height: var(--min-height);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup + .formGroup {
+    margin-top: var(--margin-small);
+}
+
+.formBtn + .formBtn{
+    margin-top: var(--margin-small);
+}
+/* Responsive */
+@media only screen and (max-width: 768px) {
+    .contact {
+        flex-direction: column;
+    }
+
+    .contactPart {
+        width: 100%;
+    }
+}

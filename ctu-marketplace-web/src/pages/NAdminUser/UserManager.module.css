@@ -1,0 +1,63 @@
+/* Board */
+.board {
+    margin-bottom: var(--margin-small);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.boardItem + .boardItem {
+    margin-left: var(--margin-small);
+}
+
+.boardItem {
+    width: 200px;
+}
+
+.btn {
+    width: 32px;
+    text-align: center;
+    padding: var(--padding-super-small);
+    cursor: pointer;
+    transition: opacity ease .2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn + .btn {
+    margin-left: var(--margin-super-small);
+}
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+    .board {
+        flex-direction: column;
+    }
+
+    .boardItem + .boardItem {
+        margin-left: 0;
+        margin-top: var(--margin-small);
+    }
+
+    .boardItem {
+        width: 100%;
+    }
+    .control {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cellBtn:first-child{
+        margin-top: var(--margin-super-small);
+    }
+
+    .cellBtn:last-child {
+        margin-bottom: var(--margin-super-small);
+    }
+
+    .cellBtn + .cellBtn {
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+}

@@ -12,6 +12,7 @@ create table new_project (
 	id bigint auto_increment,
     name varchar(255) not null,
     image varchar(255) not null,
+    introduction longtext,
     user_id bigint not null,
     approver_id bigint not null,
     status_id bigint not null,
@@ -46,16 +47,27 @@ drop table new_project_field;
 delete from fkey_value;
 delete from new_project;
 alter table new_project add column status_id bigint not null;
+alter table new_project add column introduction longtext;
 alter table new_project add foreign key (status_id) references status(id);
 alter table new_project modify column created_at datetime default current_timestamp not null;
 alter table new_project drop column field_id;
 alter table new_project add column image varchar(255) not null;
+select * from user_profile;
 
 
 
 select * from field;
 select MAX(id) from field;
-insert into field(id,name) values (50900,"Mẫu");
+insert into field(id,name) values (6,"Tổng quát lĩnh vực");
+insert into field(id,name) values (601,"Công nghệ");
+insert into field(id,name) values (602,"Công nghệ thông tin");
+insert into field(id,name) values (603,"Khoa học tự nhiên");
+insert into field(id,name) values (604,"Môi trường");
+insert into field(id,name) values (605,"Nông nghiệp");
+insert into field(id,name) values (606,"Thủy sản");
+insert into field(id,name) values (607,"Công nghệ thực phẩm");
+insert into field(id,name) values (608,"Công nghệ sinh học");
+insert into field(id,name) values (609,"Biến đổi khí hậu và phát triển Đồng Bằng Sông Cửu Long");
 select * from user_profile;
 select * from new_project;
 select * from fkey_value;
@@ -69,4 +81,7 @@ delete from new_project;
 delete from new_project_field;
 delete from fkey_value;
 
-
+select * from domain;
+select * from role;
+select * from user_function;
+select * from password_reset_code;

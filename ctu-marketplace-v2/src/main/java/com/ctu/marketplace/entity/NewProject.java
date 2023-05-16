@@ -44,6 +44,8 @@ public class NewProject {
     private String author;
     @Column(name = "image")
     private String image;
+    @Column(name = "introduction")
+    private String introduction;
     @Column(name = "is_template")
     private boolean isTemplate;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
