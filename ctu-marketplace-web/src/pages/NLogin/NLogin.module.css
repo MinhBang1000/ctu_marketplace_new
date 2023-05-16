@@ -151,5 +151,6 @@
     
     .content {
         width: 100%;
+        padding: var(--padding-small);
     }
 }

@@ -54,18 +54,6 @@
     background-color: var(--primarya);
 }
 
-
-/* Mobile navbar */
-@media only screen and (max-width: 768px) {
-    .navbar {
-        display: none;
-    }
-
-    .mnavbar {
-        display: block;
-    }
-}
-
 .mnavbar {
     background-color: var(--primary);
     color: white !important;
@@ -211,4 +199,20 @@
 
 .hide {
     animation: hide .3s ease-in-out forwards;
+}
+
+
+/* Mobile navbar */
+@media only screen and (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
+    .mnavbar {
+        display: block;
+    }
+
+    .mtitle>h3{
+        font-size: 14px;
+    }
 }

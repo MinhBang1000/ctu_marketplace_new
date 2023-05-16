@@ -88,6 +88,7 @@ const NAddProject = () => {
     const resetState = {
         // Data
         templates: [],
+        isUpdate: false,
         projectName: '',
         projectAuthor: '',
         form: 1,
@@ -110,7 +111,8 @@ const NAddProject = () => {
     // Hooks
     const [localState, setState] = useState(initState)
     const {
-        form, 
+        form,
+        isUpdate,
         checkFields,
         tickFields, 
         statuses, 
@@ -247,7 +249,18 @@ const NAddProject = () => {
             return {...prev, fields: newCheckedFields}
         })
     }, [checkFields])
-
+    useEffect(() => {
+        if (pageType === 1) {
+            setState((prev) => {
+                return {
+                    ...prev, 
+                    ...resetState,
+                    ...resetValidationState
+                }
+            })
+        }
+        console.log("hi")
+    },[pageType])
     // Handle 
     const handleUp = (index) => {
         // At least two element
@@ -362,9 +375,6 @@ const NAddProject = () => {
         })
     }
     const handleChooseForm = (id) => {
-        // setState((prev) => {
-        //     return {...prev, form: id}
-        // })
         setState((prev) => {
             return { ...prev, pageType: id }
         })
@@ -474,7 +484,7 @@ const NAddProject = () => {
             Swal.fire({
                 icon: "error",
                 title: "Nhập thông tin",
-                text: "Thông tin dự án mẫu chưa đầy đủ! Vui lòng nhập lại"
+                text: "Thông tin dự án mẫu chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
             })
             handleValidationWhenSubmit()
         }
@@ -505,7 +515,7 @@ const NAddProject = () => {
             Swal.fire({
                 icon: "error",
                 title: "Nhập thông tin",
-                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
+                text: "Thông tin dự án chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
             })
             handleValidationWhenSubmit()
         }
@@ -547,7 +557,7 @@ const NAddProject = () => {
             Swal.fire({
                 icon: "error",
                 title: "Nhập thông tin",
-                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
+                text: "Thông tin dự án chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
             })
             handleValidationWhenSubmit()
         }
@@ -588,16 +598,40 @@ const NAddProject = () => {
         let rawData = await axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`)
         const project = rawData.data.data
         const data={
+            vProjectName: { 
+                first: false,
+                isValid: true,
+                text: '...'
+            },
+            vAuthor: { 
+                first: false,
+                isValid: true,
+                text: '...'
+            },
+            vProjectImage: { 
+                first: false,
+                isValid: true,
+                text: '...'
+            },
+            vProjectIntroduction: { 
+                first: false,
+                isValid: true,
+                text: '...'
+            },
+            // data
             projectName: project.name,
             projectAuthor: project.author,
+            isUpdate: true,
+            projectIntroduction: project.introduction,
             checkFields: project.fields.map((item) => { return item.id }),
             kvalues: project.keyValues
         }
         setState((prev) => {
-            return {...prev, projectDetail: project, pageType: 3, form: 1,...data}
+            return {...prev, projectDetail: project, pageType: 2, form: 1,...data}
         })
     }
     const handleSaveProject = () => {
+        console.log(handleCheckValidProject());
         if (handleCheckValidProject()) {
             let data = preparingData()
             const newKeyValues = data.keyValues.map((item) => {
@@ -626,15 +660,21 @@ const NAddProject = () => {
             Swal.fire({
                 icon: "error",
                 title: "Nhập thông tin",
-                text: "Thông tin dự án chưa đầy đủ! Vui lòng nhập lại"
+                text: "Thông tin dự án chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
             })
             handleValidationWhenSubmit()
         }
     }
     const handleSetFile = (value) => {
-        setState((prev) => {
-            return {...prev, projectImage: value, vProjectImage: {...validateProjectImage(value)}}
-        })
+        if (value.length > 0) {
+            setState((prev) => {
+                return {...prev, projectImage: value[0], vProjectImage: {...validateProjectImage(value[0])}}
+            })
+        }else{
+            setState((prev) => {
+                return {...prev, projectImage: null, vProjectImage: {...validateProjectImage(null)}}
+            })
+        }
     }
     const handleDelete = async(projectId) => {
         Swal.fire({
@@ -722,6 +762,9 @@ const NAddProject = () => {
         if (value === null) {
             validate.text = "Bạn chưa chọn hình đại diện cho dự án !"
             validate.isValid = false 
+        }else if (value.size >= 10485760) {
+            validate.text = "Kích thước file nhỏ hơn 10MB! Vui lòng cập nhật lại"
+            validate.isValid = false 
         }
         return validate
     }
@@ -750,7 +793,8 @@ const NAddProject = () => {
         return validate
     }
     const handleCheckValidProject = () => {
-        return vProjectName.isValid && !vProjectName.first && vAuthor.isValid && !vAuthor.first && vProjectImage.isValid && !vProjectImage.first && vProjectIntroduction.isValid && !vProjectIntroduction.first
+        const imageCheck = !vProjectImage.first && vProjectImage.isValid || isUpdate
+        return vProjectName.isValid && !vProjectName.first && vAuthor.isValid && !vAuthor.first && vProjectIntroduction.isValid && imageCheck && !vProjectIntroduction.first
     }
     const handleValidationWhenSubmit = () => {
         setState((prev => {
@@ -903,6 +947,46 @@ const NAddProject = () => {
             )   
             }
     }    
+    const infoMobileComponent = (page) => {
+        if (page === 2) {
+            return (
+                <div className={clsx(styles.mheading)}>
+                    <h3>Thông tin dự án</h3>
+                    <ul>
+                        <li>Tên dự án</li>
+                        <li>Tác giả của dự án</li>
+                        <li>Hình đại diện được hiển thị tại trang chủ</li>
+                        <li>Tóm tắt ngắn gọn về dự án</li>
+                    </ul>
+                </div>
+            )
+        }else if (page === 3) {
+            return (
+                <div className={clsx(styles.mheading)}>
+                    <h3>Khởi tạo dự án</h3>
+                    <ul>
+                        <li>Chọn lĩnh vực có liên quan đến dự án</li>
+                        <li>Chọn mẫu để hiện thị các trường có sẵn</li>
+                        <li>Thêm trường thông tin giúp tự tạo ra các trường theo báo cáo của dự án</li>
+                    </ul>
+                </div>
+            )
+        }else if (page===4) {
+            return (
+                <div className={clsx(styles.mheading)}>
+                    <h3>Chi tiết dự án</h3>
+                    <p>Đánh giá lại thông tin chi tiết bạn đã nhập</p>
+                </div>
+            )
+        }else{
+            return (
+                <div className={clsx(styles.mheading)}>
+                    <h3>Danh sách dự án</h3>
+                    <p>Bao gốm các dự án của bạn</p>
+                </div>
+            )   
+            }
+    }  
     const formComponent1 = () => {
         return (
             <div className={clsx(styles.form)}>
@@ -936,7 +1020,7 @@ const NAddProject = () => {
                     <input 
                         type="file"
                         accept="image/jpeg" 
-                        onChange={(e)=>handleSetFile(e.target.files[0])}
+                        onChange={(e)=>handleSetFile(e.target.files)}
                     />
                     <NValid isValid={vProjectImage.first || vProjectImage.isValid} text={vProjectImage.text}/>
                 </div>
@@ -1034,7 +1118,7 @@ const NAddProject = () => {
                 <div className={clsx(styles.btn, styles.btnFeature)}
                     onClick={handleHideShow}
                 >
-                    Thêm +
+                    Thêm trường thông tin +
                 </div>
                 <div className={clsx({
                     [styles.formCover]: true,
@@ -1148,6 +1232,13 @@ const NAddProject = () => {
                     }
                 </div>
                 <div className={clsx(styles.nAddProjectControl, styles.nAddProjectPart, styles.formParent)}>
+                    {
+                        infoTransitions((style, item) => {
+                            return <animated.div style={style}>
+                                { infoMobileComponent(item) }
+                            </animated.div>
+                        })
+                    }
                     {
                         pageTypeTransitions((style, item) => {
                             return <animated.div style={style} >
