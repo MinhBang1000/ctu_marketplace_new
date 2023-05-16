@@ -7,6 +7,7 @@ import Loading from '../../pages/Loading';
 import PrivateRouter from './PrivateRoute';
 
 
+const NContact = lazy(() => import('../../pages/NContact'))
 const NAdmin = lazy(() => import("../../pages/NAdmin"))
 const NAddProject = lazy(() => import("../../pages/NAddProject"));
 const NIntro = lazy(() => import("../../pages/NIntro"));
@@ -91,7 +92,7 @@ const RouterCustom = () => {
                 <Route exact path="/login" component={NLogin} />
                 <Route exact path="/register" component={SignUp} />
                 <Route exact path="/introduction" component={NIntro} />
-                <Route exact path="/contact" component={Contact} />
+                <Route exact path="/contact" component={NContact} />
                 <Route exact path="/administrator" component={NAdmin} />
                 <Route exact path="/projects/detail/:id" component={NDetail} />
 

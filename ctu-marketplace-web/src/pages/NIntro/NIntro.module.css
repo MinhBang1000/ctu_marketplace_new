@@ -4,6 +4,12 @@
     background-color: #F4F4F4;
 }
 
+@media only screen and (max-width: 600px) {
+    .intro .content {
+        overflow-x: scroll;
+    }   
+}
+
 @media only screen and (max-width: 768px) {
     .intro {
         flex-direction: column;
@@ -14,7 +20,6 @@
     flex: 7;
     padding: var(--padding-large);
     background-color: white;
-    border-radius: 15px;
     box-shadow: var(--shadow);
 }
 

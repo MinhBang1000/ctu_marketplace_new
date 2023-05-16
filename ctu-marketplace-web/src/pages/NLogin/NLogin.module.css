@@ -62,7 +62,7 @@
     transition: all ease-in-out .15s;
 }
 
-.formGroup>input:focus {
+.formGroup>input:focus, .formGroup>.select:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 .2rem #bfdeff;
@@ -133,6 +133,17 @@
 }
 
 
+@media only screen and (max-width: 1466px) {
+    .registerGroup {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .registerGroup>.formGroup {
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .info {
         width: 0%;
@@ -141,5 +152,4 @@
     .content {
         width: 100%;
     }
-
 }

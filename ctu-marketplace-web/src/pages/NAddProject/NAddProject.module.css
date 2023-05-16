@@ -113,6 +113,7 @@
     outline: none;
     border: none;
     flex: 1;
+    max-width: 97%;
 }
 
 .selectSearch {
@@ -332,11 +333,14 @@
     transition: all ease-in-out .15s;
 }
 
-.controlAbove>.filter {
-    max-width: 150px;
+.search {
+    display: flex;
+    align-items: center;
 }
 
 .search>input {
+    flex: 1;
+    max-width: 97%;
     outline: none;
     border: none;
 }
@@ -371,6 +375,37 @@
     bottom: var(--padding-large);
 }
 
+@media only screen and (max-width: 600px) {
+    .detailFields {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        margin-top: var(--margin-super-small);
+        padding: 0;
+    }
+
+    .detailItem + .detailItem{
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+    
+
+    .formControl {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formControl>.formGroup {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn + .btn {
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .nAddProject {
         flex-direction: column;
@@ -387,6 +422,23 @@
     
     .controlPart + .controlPart {
         margin-left: 0px;
+        margin-top: var(--margin-super-small);
+    }
+
+    .control {
+        flex-direction: column;
+    }
+
+    .cellBtn:first-child {
+        margin-top: var(--margin-super-small)
+    }
+
+    .cellBtn:last-child {
+        margin-bottom: var(--margin-super-small);
+    }
+
+    .cellBtn + .cellBtn {
+        margin-left: 0;
         margin-top: var(--margin-super-small);
     }
 }

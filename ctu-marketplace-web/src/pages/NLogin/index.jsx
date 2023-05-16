@@ -154,68 +154,20 @@ const NLogin = () => {
             return {...prev, dob: value}
         })
     }
-    const validateFullname = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập họ và tên !"
-            validate.isValid = false 
-        }
-        return validate
-    }
     const handleSetFullname = (value) => {
         setState((prev) => {
             return {...prev, fullName: value, vFullname: {...validateFullname(value)}}
         })
-    }
-    const validateEmail = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập địa chỉ Email !"
-            validate.isValid = false 
-        }
-        return validate
     }
     const handleSetEmail = (value) => {
         setState((prev) => {
             return {...prev, email: value, vEmail: {...validateEmail(value)}}
         })
     }
-    const validatePhone = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập số điện thoại !"
-            validate.isValid = false 
-        }
-        return validate
-    }
     const handleSetPhone = (value) => {
         setState((prev) => {
             return {...prev, phone: value, vPhone: {...validatePhone(value)}}
         })
-    }
-    const validateAddress = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập địa chỉ !"
-            validate.isValid = false 
-        }
-        return validate
     }
     const handleSetAddress = (value) => {
         setState((prev) => {
@@ -227,34 +179,10 @@ const NLogin = () => {
             return {...prev, gender: parseInt(value)}
         })
     }
-    const validateUsername = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập tên tài khoản !"
-            validate.isValid = false 
-        }
-        return validate
-    }
     const handleSetUsername = (value) => {
         setState((prev) => {
             return {...prev, username: value, vUsername: { ...prev.vUsername, ...validateUsername(value)}}
         })
-    }
-    const validatePassword = (value) => {
-        let validate = {
-            first: false,
-            text: "...",
-            isValid: true
-        }
-        if (value === "") {
-            validate.text = "Bạn chưa nhập mật khẩu !"
-            validate.isValid = false 
-        }
-        return validate
     }
     const handleSetPassword = (value) => {
         setState((prev) => {
@@ -300,29 +228,6 @@ const NLogin = () => {
             console.log(err);
             popupSignup(false)
         })
-    }
-    const handleCheckValidLogin = () => {
-        return vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
-    }
-    const handleCheckValidSignUp = () => {
-        let check = true
-        check = vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
-        check = check && vAddress.isValid && !vAddress.first && vEmail.isValid && !vEmail.first
-        check = check && vPhone.isValid && !vPhone.first && vFullname.isValid && !vFullname.first
-        return check
-    }
-    const handleValidationWhenSubmit = () => {
-        setState((prev => {
-            return {
-                ...prev,
-                vUsername: {...validateUsername(prev.username)},
-                vPassword: {...validatePassword(prev.password)},
-                vFullname: {...validateFullname(prev.fullName)},
-                vAddress: {...validateAddress(prev.address)},
-                vPhone: {...validatePhone(prev.phone)},
-                vEmail: {...validateEmail(prev.email)}
-            }
-        }))
     }
     const handleEnterSubmit = (e) => {
         e.preventDefault()
@@ -404,6 +309,112 @@ const NLogin = () => {
         })
     }
     // Validation
+    const regexPatterns = {
+        rEmail: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        rPhone: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+
+    }
+    const validateFullname = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập họ và tên !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validateEmail = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập địa chỉ Email !"
+            validate.isValid = false 
+        }else if (!regexPatterns.rEmail.test(value)) {
+            validate.text = "Bạn chưa nhập đúng định dạng Email !"
+            validate.isValid = false  
+        }
+        return validate
+    }
+    const validateAddress = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập địa chỉ !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validatePhone = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập số điện thoại !"
+            validate.isValid = false 
+        }else if (!regexPatterns.rPhone.test(value)) {
+            validate.text = "Số điện thoại bao gồm 10 chữ số và bắt đầu bằng 0 !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validateUsername = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập tên tài khoản !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const validatePassword = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập mật khẩu !"
+            validate.isValid = false 
+        }
+        return validate
+    }
+    const handleCheckValidLogin = () => {
+        return vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
+    }
+    const handleCheckValidSignUp = () => {
+        let check = true
+        check = vUsername.isValid && !vUsername.first && vPassword.isValid && !vPassword.first
+        check = check && vAddress.isValid && !vAddress.first && vEmail.isValid && !vEmail.first
+        check = check && vPhone.isValid && !vPhone.first && vFullname.isValid && !vFullname.first
+        return check
+    }
+    const handleValidationWhenSubmit = () => {
+        setState((prev => {
+            return {
+                ...prev,
+                vUsername: {...validateUsername(prev.username)},
+                vPassword: {...validatePassword(prev.password)},
+                vFullname: {...validateFullname(prev.fullName)},
+                vAddress: {...validateAddress(prev.address)},
+                vPhone: {...validatePhone(prev.phone)},
+                vEmail: {...validateEmail(prev.email)}
+            }
+        }))
+    }
     // Sub components
     const loginComponent = () =>{
         return (<div className={clsx(styles.login)}>

@@ -167,26 +167,26 @@ const NAdminProject = () => {
         if (status.code === "CD") {
             return (
                 <div className={clsx(styles.control)}>
-                    <i onClick={() => handleApprove(projectId)} className={clsx(styles.btn, styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
-                    <i onClick={() => handleDenied(projectId)} className={clsx(styles.btn, styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i>
-                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
-                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
+                    <i onClick={() => handleApprove(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
+                    <i onClick={() => handleDenied(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i>
+                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
+                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
                 </div>
             )
         }else if (status.code === "DD") {
             return (
                 <div className={clsx(styles.control)}>
-                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
-                    <i onClick={() => handleDenied(projectId)} className={clsx(styles.btn, styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i>
-                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
+                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
+                    <i onClick={() => handleDenied(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i>
+                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
                 </div>
             )
         }else if (status.code === "TC") {
             return (
                 <div className={clsx(styles.control)}>
-                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
-                    <i onClick={() => handleApprove(projectId)} className={clsx(styles.btn, styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
-                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
+                    <i onClick={() => detailPage(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.view,`fa-solid fa-eye`,`bg-success`, `text-white`)}></i>
+                    <i onClick={() => handleApprove(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
+                    <i onClick={() => handleDelete(projectId)} className={clsx(styles.btn, styles.cellBtn,styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
                 </div>
             )
         }

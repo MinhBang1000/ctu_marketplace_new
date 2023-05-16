@@ -143,9 +143,9 @@ const NAdminUser = () => {
     const handleRenderButton = (status, userId, username) => {
         return <div className={clsx(styles.control)}>
             {
-                status ? <i onClick={() => handleDenied(userId)} className={clsx(styles.btn, styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i> : <i onClick={() => handleApprove(userId)} className={clsx(styles.btn, styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
+                status ? <i onClick={() => handleDenied(userId)} className={clsx(styles.btn, styles.cellBtn, styles.denied,`fa-solid fa-xmark`, `bg-warning`)}></i> : <i onClick={() => handleApprove(userId)} className={clsx(styles.btn,styles.cellBtn, styles.approved,`fa-solid fa-check`,`bg-primary`, `text-white`)}></i>
             }
-            <i onClick={() => handleDelete(username)} className={clsx(styles.btn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
+            <i onClick={() => handleDelete(username)} className={clsx(styles.btn, styles.cellBtn, styles.delete,`fa-solid fa-trash`,`bg-danger`,  `text-white`)}></i>
         </div>
     }
     const handleRecallApis = () => {
