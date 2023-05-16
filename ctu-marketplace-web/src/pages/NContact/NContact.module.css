@@ -53,6 +53,10 @@
         flex-direction: column;
     }
 
+    .work {
+        padding: var(--padding-small);
+    }
+
     .contactPart {
         width: 100%;
     }

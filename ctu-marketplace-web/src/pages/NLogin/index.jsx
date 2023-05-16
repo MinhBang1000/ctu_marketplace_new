@@ -238,7 +238,7 @@ const NLogin = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Nhập thông tin",
-                    text: "Thông tin đăng nhập chưa đầy đủ! Vui lòng nhập lại"
+                    text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
                 })
                 handleValidationWhenSubmit()
             }
@@ -249,7 +249,7 @@ const NLogin = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Nhập thông tin",
-                    text: "Thông tin đăng nhập chưa đầy đủ! Vui lòng nhập lại"
+                    text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
                 })
                 handleValidationWhenSubmit()
             }

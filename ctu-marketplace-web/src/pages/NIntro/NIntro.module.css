@@ -4,18 +4,6 @@
     background-color: #F4F4F4;
 }
 
-@media only screen and (max-width: 600px) {
-    .intro .content {
-        overflow-x: scroll;
-    }   
-}
-
-@media only screen and (max-width: 768px) {
-    .intro {
-        flex-direction: column;
-    }
-}
-
 .content {
     flex: 7;
     padding: var(--padding-large);
@@ -27,3 +15,23 @@
     flex: 3;
 }
 
+@media only screen and (max-width: 600px) {
+    .intro .content {
+        overflow-x: scroll;
+    }   
+}
+
+@media only screen and (max-width: 768px) {
+    .info {
+        display: none;
+    }
+    .intro {
+        flex-direction: column;
+        padding: var(--padding-small);
+        background-color: white;
+    }
+    .content {
+        padding: var(--padding-small);
+        box-shadow: none;
+    }
+}
