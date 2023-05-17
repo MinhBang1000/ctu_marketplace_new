@@ -2,7 +2,7 @@ import React from "react"
 import clsx from "clsx"
 import styles from "./NLogin.module.css"
 import { useState } from "react"
-import { useStore } from "../../store/globalstate"
+import { reCheckAuth, useStore } from "../../store/globalstate"
 import { myLogin } from "../../store/globalstate"
 import axios from "axios"
 import authHeader from "../../services/auth.header"
@@ -271,6 +271,7 @@ const NLogin = () => {
                 localStorage.setItem('expiredTime', JSON.stringify(expiredTime));
                 // Setup global state for logStatus
                 myDispatch(myLogin())
+                myDispatch(reCheckAuth())
                 popupLogin(true)
                 // Redirect to home page
                 setState((prev) => {

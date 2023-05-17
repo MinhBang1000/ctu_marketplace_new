@@ -258,6 +258,11 @@ const NAddProject = () => {
                     ...resetValidationState
                 }
             })
+        }else if (pageType === 3) {
+            // Get Project Templates
+            setState((prev) => {
+                return {...prev, reCallApi:!prev.reCallApi}
+            })
         }
     },[pageType])
     // Handle 

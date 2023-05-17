@@ -19,7 +19,7 @@ const NNavbar = () => {
     const [localState, setState] = useState(initState)
     const {showNavbar, showAccount, userInformations} = localState
     const [state, myDispatch] = useStore()
-    const {logStatus, roleCode} = state
+    const {logStatus, roleCode, reCheckAuth} = state
     const accountTransitions = useTransition(showAccount, {
         from: { opacity: 0 },
         enter: { opacity: 1 }
@@ -32,7 +32,7 @@ const NNavbar = () => {
                 return {...prev, userInformations: userData.data}
             })
         }
-    }, [])
+    }, [reCheckAuth])
     useEffect(() =>{
         document.addEventListener('click', handleEffectToggle)
         return () => {
@@ -88,8 +88,8 @@ const NNavbar = () => {
                     logStatus ? <div className={clsx(styles.maccount)}>
                         <img src={`${process.env.PUBLIC_URL}/images/ctu.jpg`}/>
                         <div className={clsx(styles.maccountInfo)}>
-                            <div className={clsx(styles.maccountName)}>{userInformations.fullName}</div>
-                            <div className={clsx(styles.maccountEmail)}>{userInformations.email}</div>
+                            <div className={clsx(styles.maccountName)}>{userInformations && userInformations.fullName}</div>
+                            <div className={clsx(styles.maccountEmail)}>{userInformations && userInformations.email}</div>
                         </div>
                         <i className={clsx(styles.accountClose,styles.toggle, `fa-solid fa-xmark`)}
                             onClick={() => handleShowHide(false)}
@@ -203,10 +203,10 @@ const NNavbar = () => {
             </Link>
             {
                 logStatus===true ? <div className={clsx(styles.account)}>
-                <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/ctu.jpg`}/>
+                <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/>
                 <div className={clsx(styles.accountInfo)}>
-                    <div className={clsx(styles.accountName)}>{userInformations.fullName}</div>
-                    <div className={clsx(styles.accountEmail)}>{userInformations.email}</div>
+                    <div className={clsx(styles.accountName)}>{userInformations && userInformations.fullName}</div>
+                    <div className={clsx(styles.accountEmail)}>{userInformations && userInformations.email}</div>
                 </div>
                     {
                         accountTransitions((style,item) => {

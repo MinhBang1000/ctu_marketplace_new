@@ -1,9 +1,16 @@
 const LOGIN = "LOGIN"
 const LOGOUT = "LOGOUT"
 const SET_PROJECT = "SPR"
+const RE_CHECK_AUTH = "RECHECKAUTH"
 
 // payload is boolean
 // after login to setting global state
+const reCheckAuth = () => {
+    return {
+        type: RE_CHECK_AUTH
+    }
+}
+
 const myLogin = () => {
     return {
         type: LOGIN
@@ -24,4 +31,4 @@ const setProject = (payload) => {
     }
 }
 
-export {LOGIN, myLogin, myLogout, setProject,SET_PROJECT, LOGOUT}
+export {LOGIN, myLogin, myLogout, setProject,SET_PROJECT, LOGOUT, RE_CHECK_AUTH, reCheckAuth}
