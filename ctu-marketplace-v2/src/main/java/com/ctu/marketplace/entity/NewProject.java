@@ -27,7 +27,7 @@ public class NewProject {
             joinColumns = @JoinColumn(name  = "new_project_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "field_id", referencedColumnName = "id")
     )
-    private Set<Field> fields = new HashSet<>();
+    private Set<NewField> fields = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserProfile user;
@@ -54,11 +54,11 @@ public class NewProject {
         this.keyValues.add(newInstance);
     }
 
-    public void addField(Field field) {
+    public void addField(NewField field) {
         this.fields.add(field);
     }
 
-    public void removeField(Field field) {
+    public void removeField(NewField field) {
         this.setFields(this.fields.stream().filter((item) -> {
             return item.getId() != field.getId();
         }).collect(Collectors.toSet()));

@@ -38,7 +38,7 @@
 
 .item {
     color: white !important;
-    font-weight: bold;
+    /* font-weight: bold; */
     position: relative;
     user-select: none;
     text-align: center;
@@ -146,7 +146,7 @@
 
 .mitem {
     color: white !important;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 16px;
     padding: 12px 24px;
     position: relative;
@@ -200,7 +200,116 @@
 .hide {
     animation: hide .3s ease-in-out forwards;
 }
+/* Desktop account */
+.account {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    padding: 0 var(--padding-small);
+    position: relative;
+}
 
+.account:hover .accountToggle{
+    background-color: var(--primarya);
+}
+
+.accountAvatar {
+    width: 36px;
+    height: 36px;
+    margin-right: var(--margin-super-small);
+    border-radius: 100px;
+}
+
+.accountInfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+.accountName {
+    font-weight: bold;
+}
+
+.accountToggle {
+    margin-left: var(--margin-super-small);
+    border-radius: 100px;
+    padding: var(--padding-super-small);
+    transition: all ease 0.3s;
+}
+
+.accountItem {
+    padding: var(--padding-super-small) var(--padding-small);
+    transition: opacity ease .3s;
+    color: var(--primary);
+}
+
+.accountItem i {
+    width: 21px;
+    margin-right: 2px;
+}
+
+.accountItem:hover {
+    opacity: 0.6;
+}
+
+.accountLogout {
+    color: var(--red);
+}
+
+/* Account dropdown */
+.accountDropdown {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: -90px;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    right: 15px;
+    padding: 0;
+    font-size: 14px;
+    background-color: white;
+}
+
+/* Mobile account */
+.mtitle, .maccount {
+    box-sizing: border-box;
+    height: 60px;
+    border-bottom: 1px solid white;
+}
+
+.maccount {
+    box-sizing: border-box;
+    padding: var(--padding-super-small) var(--padding-medium);
+    display: flex;
+    align-items: center;
+    font-size: 14px;    
+}
+
+.maccount>img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+    border: 3px solid #f4f4f4;
+    margin-right: var(--margin-super-small);
+}
+
+.maccountEmail {
+    font-size: 9px;
+}
+
+.maccountName {
+    font-weight: bold;
+}
+
+.maccountInfo {
+    width: 100%;
+    overflow: hidden;
+}
 
 /* Mobile navbar */
 @media only screen and (max-width: 768px) {

@@ -259,7 +259,6 @@ const NAddProject = () => {
                 }
             })
         }
-        console.log("hi")
     },[pageType])
     // Handle 
     const handleUp = (index) => {

@@ -23,7 +23,7 @@ public class NewProjectService {
     @Autowired
     private UserProfileRepository userProfileRepository;
     @Autowired
-    private FieldRepository fieldRepository;
+    private NewFieldRepository fieldRepository;
     @Autowired
     private StatusRepository statusRepository;
     @Autowired
@@ -38,7 +38,7 @@ public class NewProjectService {
                 }
         );
         fieldIds.stream().forEach((item) -> {
-            Field field = this.fieldRepository.findById(item).get();
+            NewField field = this.fieldRepository.findById(item).get();
             newProject.addField(field);
         });
         return this.newProjectRepository.save(newProject);
@@ -62,7 +62,7 @@ public class NewProjectService {
         exists.setName(dto.getName());
         exists.setImage(dto.getImage());
         exists.setIntroduction(dto.getIntroduction());
-        Set<Field> fieldSet = dto.getFieldIds().stream().map((item) -> {
+        Set<NewField> fieldSet = dto.getFieldIds().stream().map((item) -> {
             return this.fieldRepository.findById(item).get();
         }).collect(Collectors.toSet());
         exists.setFields(fieldSet);

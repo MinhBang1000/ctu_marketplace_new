@@ -85,3 +85,63 @@ select * from domain;
 select * from role;
 select * from user_function;
 select * from password_reset_code;
+
+select * from field;
+
+alter table field modify column id bigint not null auto_increment;
+alter table field drop foreign key FK1bynjb8iw58x2gt01gualp00p;
+alter table field add constraint FK1bynjb8iw58x2gt01gualp00p foreign key (child_of_field_id) references field(id);
+-- 1 
+create table new_field(
+	id bigint primary key auto_increment,
+    name varchar(1000) not null,
+    parent_id bigint,
+    foreign key (parent_id) references new_field(id)
+);
+
+-- 2
+drop table fkey_value;
+drop table new_project;
+drop table new_project_field;
+
+-- 3
+ create table new_project (
+	id bigint auto_increment,
+    name varchar(255) not null,
+    image varchar(255) not null,
+    introduction longtext,
+    user_id bigint not null,
+    approver_id bigint not null,
+    status_id bigint not null,
+    created_at datetime default current_timestamp,
+    author varchar(255) not null,
+    is_template boolean default 0,
+    foreign key (user_id) references user_profile(id) ON DELETE CASCADE,
+    foreign key (approver_id) references user_profile(id) ON DELETE CASCADE,
+    foreign key (status_id) references status(id) ON DELETE CASCADE,
+    primary key (id)
+);
+
+create table new_project_field (
+	id bigint auto_increment primary key,
+    field_id bigint not null,
+    new_project_id bigint not null,
+    foreign key (field_id) references new_field(id) ON DELETE CASCADE,
+    foreign key (new_project_id) references new_project(id) ON DELETE CASCADE
+);
+
+create table fkey_value(
+	id bigint primary key auto_increment,
+    fkey varchar(255) not null,
+    fvalue longtext,
+    new_project_id bigint not null,
+    foreign key (new_project_id) references new_project(id) ON DELETE CASCADE
+);
+
+insert into field(id, name) values (50901,'Công nghệ thực phẩm');
+insert into field(id, name) values (50901,'Công nghệ thực phẩm');
+insert into field(id, name) values (50901,'Công nghệ thực phẩm');
+insert into field(id, name) values (50901,'Công nghệ thực phẩm');
+insert into field(id, name) values (50901,'Công nghệ thực phẩm');
+
+select MAX(id) from field;

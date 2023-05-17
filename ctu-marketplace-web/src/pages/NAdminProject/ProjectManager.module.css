@@ -30,6 +30,10 @@
 }
 
 /* Detail */
+.content {
+    padding: var(--padding-medium) 0;
+}
+
 .content>.title, .content>.author{
     text-align: center;
 }

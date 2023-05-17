@@ -4,26 +4,49 @@ import styles from "./NNavbar.module.css"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useStore, myLogout, myLogin } from "../../store/globalstate"
+import { useTransition, animated } from "@react-spring/web"
 
 const NNavbar = () => {
     // Init Data
     const roles = ["NNC", "SAD", "AD"]
     const admin = ["SAD", "AD"]
     const initState = {
-        showNavbar: true
+        showNavbar: true,
+        showAccount: false,
+        userInformations: null,
     }
     // Hooks
     const [localState, setState] = useState(initState)
-    const {showNavbar} = localState
+    const {showNavbar, showAccount, userInformations} = localState
     const [state, myDispatch] = useStore()
     const {logStatus, roleCode} = state
+    const accountTransitions = useTransition(showAccount, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 }
+    })
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('userData')) 
         if (userData !== null) {
             myDispatch(myLogin())
+            setState((prev) => {
+                return {...prev, userInformations: userData.data}
+            })
         }
     }, [])
+    useEffect(() =>{
+        document.addEventListener('click', handleEffectToggle)
+        return () => {
+            document.removeEventListener('click', handleEffectToggle)
+        }
+    }, [showAccount])
     // Handle
+    const handleEffectToggle = () => {
+        if (showAccount) {
+            setState((prev) => {
+                return {...prev, showAccount: false}
+            })
+        }
+    }
     const handleLogout = () => {
         localStorage.clear()
         // dispatch logout here
@@ -32,6 +55,11 @@ const NNavbar = () => {
     const handleShowHide = (value) => {
         setState((prev) => {
             return {...prev, showNavbar: value}
+        })
+    }
+    const handleToggle = () => {
+        setState((prev) => {
+            return {...prev, showAccount: !prev.showAccount}
         })
     }
     // Sub-Components
@@ -56,17 +84,28 @@ const NNavbar = () => {
                 [styles.show]: showNavbar,
                 [styles.hide]: !showNavbar
             })}>
-                <div className={clsx(styles.mtitle)}>
-                    <i className={clsx(styles.close,styles.toggle, `fa-solid fa-xmark`)}
-                        onClick={() => handleShowHide(false)}
-                    ></i>
-                    <h3>CTU Marketplace</h3>
-                    <img 
-                        src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
-                        alt="Logo"
-                    />
-                </div>
-                <hr></hr>
+                {
+                    logStatus ? <div className={clsx(styles.maccount)}>
+                        <img src={`${process.env.PUBLIC_URL}/images/ctu.jpg`}/>
+                        <div className={clsx(styles.maccountInfo)}>
+                            <div className={clsx(styles.maccountName)}>{userInformations.fullName}</div>
+                            <div className={clsx(styles.maccountEmail)}>{userInformations.email}</div>
+                        </div>
+                        <i className={clsx(styles.accountClose,styles.toggle, `fa-solid fa-xmark`)}
+                            onClick={() => handleShowHide(false)}
+                        ></i>
+                    </div> : <div className={clsx(styles.mtitle)}>
+                        <i className={clsx(styles.close,styles.toggle, `fa-solid fa-xmark`)}
+                            onClick={() => handleShowHide(false)}
+                        ></i>
+                        <h3>CTU Marketplace</h3>
+                        <img 
+                            src={`${process.env.PUBLIC_URL}/images/0305-logo-ctu.png`}
+                            alt="Logo"
+                        />
+                    </div>
+                }
+
                 <Link className={clsx(styles.mitem)} to="/"
                     onClick={() => handleShowHide(false)}
                 >
@@ -97,14 +136,23 @@ const NNavbar = () => {
                     <i className="fa-solid fa-phone"></i> Liên hệ
                 </Link>
                 {
-                    logStatus===true ? <Link className={clsx(styles.mitem)} to="/"
+                    logStatus===true ? <>
+                        <Link className={clsx(styles.mitem)} to="/"
+                            onClick={() => {
+                                handleShowHide(false)
+                            }}
+                        >
+                            <i className="fa-solid fa-user"></i> Tài khoản
+                        </Link>
+                        <Link className={clsx(styles.mitem)} to="/"
                             onClick={() => {
                                 handleShowHide(false)
                                 handleLogout()
                             }}
                         >
                             <i className="fa-solid fa-arrow-left"></i> Đăng xuất
-                        </Link> : <>
+                        </Link>
+                    </> : <>
                             <Link className={clsx(styles.mitem)} to="/login"
                                 onClick={() => handleShowHide(false)}
                             >
@@ -112,7 +160,6 @@ const NNavbar = () => {
                             </Link>
                         </>
                 }
-
             </div>
             <div className={clsx({
                 [styles.cover]: true,
@@ -155,11 +202,26 @@ const NNavbar = () => {
                 Liên hệ
             </Link>
             {
-                logStatus===true ? <Link className={clsx(styles.item)} to="/"
-                        onClick={() => handleLogout()}
-                    >
-                        Đăng xuất
-                    </Link> : <>
+                logStatus===true ? <div className={clsx(styles.account)}>
+                <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/ctu.jpg`}/>
+                <div className={clsx(styles.accountInfo)}>
+                    <div className={clsx(styles.accountName)}>{userInformations.fullName}</div>
+                    <div className={clsx(styles.accountEmail)}>{userInformations.email}</div>
+                </div>
+                    {
+                        accountTransitions((style,item) => {
+                            return <animated.div style={style}>
+                                { item ? <>
+                                    <i onClick={handleToggle} className={clsx(styles.accountToggle, `fa-solid fa-chevron-up`)}></i>
+                                    <ul className={clsx(styles.accountDropdown)}>
+                                        <Link to="/"><li className={clsx(styles.accountItem)}><i className="fa-solid fa-user"></i>Tài khoản</li></Link>
+                                        <Link to="/"><li className={clsx(styles.accountItem, styles.accountLogout)} onClick={handleLogout}><i className="fa-solid fa-power-off"></i>Đăng xuất</li></Link>
+                                    </ul>
+                                </>: <i onClick={handleToggle} className={clsx(styles.accountToggle, `fa-solid fa-chevron-down`)}></i> }
+                            </animated.div>
+                        })
+                    }
+                </div> : <>
                         <Link className={clsx(styles.item)} to="/login">
                             Đăng nhập
                         </Link>
