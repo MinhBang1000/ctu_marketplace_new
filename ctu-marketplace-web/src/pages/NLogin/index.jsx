@@ -211,6 +211,7 @@ const NLogin = () => {
                 password,
                 fullName,
                 address,
+                dob,
                 gender,
                 email,
                 phoneNumber: phone, 

@@ -465,10 +465,20 @@ const NAccount = () => {
             return {...prev, ...resetValidatePasswordState, ...resetPassword}
         })
     }
+    const handleSubmitPasswordError = () => {
+        setState((prev) => {
+            return {
+                ...prev,
+                vPassword: {...validatePassword(password)},
+                vOldPassword: {...validatePassword(oldPassword)},
+                vConfirm: {...validatePassword(confirm)},
+            }
+        })
+    }
     const handlePasswordSubmit = () => {
         if (checkValidPasswordSubmit()) {
             let json = prepareDataPassword()
-            axios.put(`https://marketplace.ctu.edu.vn/api/v2/researcher/users/update-password/${currentUser.id}`, json, { headers: authHeader() })
+            axios.put(`https://marketplace.ctu.edu.vn/api/v3/users/update-password/${currentUser.id}`, json, { headers: authHeader() })
             .then(res => {
                 Swal.fire({
                     icon: 'success',
@@ -490,6 +500,7 @@ const NAccount = () => {
                 title: 'Thay đổi mật khẩu',
                 text: 'Mật khẩu thay đổi không thành công! Vui lòng kiểm tra mật khẩu xác nhận có trúng khớp'
             })               
+            handleSubmitPasswordError()
         }
     }
 
