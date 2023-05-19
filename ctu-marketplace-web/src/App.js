@@ -31,17 +31,12 @@ const App = () => {
       dispatch(logout(history));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetch(`https://marketplace.ctu.edu.vn/api/v2/public/fields`)
-      .then(res => res.json())
-      .then(res => console.log("Test: ", res))
   }, []);
 
   const getComercialProject = async () => {
     try {
       const res = await projectService.getAll();
-      console.log("Comercial list: ", res);
     } catch (error) {
-      console.log("Error: ", error);
     }
   }
   getComercialProject();
