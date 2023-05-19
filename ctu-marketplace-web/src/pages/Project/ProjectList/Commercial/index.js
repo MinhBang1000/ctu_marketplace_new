@@ -99,7 +99,7 @@ const ProjectList = (props) => {
             })
 
         //responsive
-        setHeightNavbarSearch(document.getElementById('home__line').offsetHeight);
+        setHeightNavbarSearch(document.getElementById('home__line')?.offsetHeight || 0);
         var screenWidth = screen.width;
         if(screenWidth <= 576) {
             setItemPerSlide(1);
@@ -115,7 +115,7 @@ const ProjectList = (props) => {
 
     //responsive
     onresize = (event) => {
-        setHeightNavbarSearch(document.getElementById('home__line').offsetHeight);
+        setHeightNavbarSearch(document.getElementById('home__line')?.offsetHeight || 0);
         var width = screen.width;
         if(width <= 576) {
             setItemPerSlide(1);
@@ -131,7 +131,7 @@ const ProjectList = (props) => {
     const changePage = (e, page) =>  {
         setCurrentPage(page)
         setProjects7(projects.slice(itemPerPage*(page-1), itemPerPage*(page-1)+itemPerPage));
-        document.getElementById('home__project-list').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('home__project-list')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     const searchProject = () => {

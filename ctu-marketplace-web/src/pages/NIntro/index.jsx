@@ -8,14 +8,14 @@ const NIntro = () => {
         <div className={clsx(styles.info)}>
             <h1>Thông tin giới thiệu</h1>
             <ul className={clsx(styles.infoList)}>
-                <li className={clsx(styles.infoItem)}>Giới thiệu</li>
-                <li className={clsx(styles.infoItem)}>Chức năng nhiệm vụ</li>
-                <li className={clsx(styles.infoItem)}>Một số nội dung hợp tác nghiên cứu tiêu biểu</li>
+                <li className={clsx(styles.infoItem)}><a href="#intro_1">Giới thiệu</a></li>
+                <li className={clsx(styles.infoItem)}><a href="#intro_2">Chức năng nhiệm vụ</a></li>
+                <li className={clsx(styles.infoItem)}><a href="#intro_3">Một số nội dung hợp tác nghiên cứu tiêu biểu</a></li>
             </ul>
         </div>
 
         <div className={clsx(styles.content)}>
-            <h3>1. Giới thiệu</h3>
+            <h3  id="intro_1">1. Giới thiệu</h3>
             <p><strong>Trung tâm Chuyển giao Công nghệ và Dịch vụ là đơn vị trực thuộc Trường Đại học Cần Thơ.</strong></p>
             <ul>
                 <li>Tên giao dịch tiếng Việt: Trung tâm Chuyển giao công nghệ và Dịch vụ.</li>
@@ -27,7 +27,7 @@ const NIntro = () => {
                 <li>Email: ttcgcndv@ctu.edu.vn</li>
             </ul>
 
-            <h3>2.  Chức năng nhiệm vụ</h3>
+            <h3  id="intro_2">2.  Chức năng nhiệm vụ</h3>
             <h4>a. Vị trí của Trung tâm</h4>
             <ul>
                 <li>Trung tâm là đơn vị sự nghiệp có thu, tự đảm bảo chi phí hoạt động, trực thuộc Trường Đại học Cần Thơ.</li>
@@ -47,7 +47,7 @@ const NIntro = () => {
                 <li>Thực hiện các lớp tập huấn, bồi dưỡng kiến kiến chuyên ngành bao gồm các lĩnh vực: Nông nghiệp, Thủy sản, Môi trường, Kinh tế, …</li>
             </ul>
 
-            <h3>3. Một số nội dung hợp tác nghiên cứu tiêu biểu</h3>
+            <h3  id="intro_3">3. Một số nội dung hợp tác nghiên cứu tiêu biểu</h3>
             <p>Hiện nay, đơn vị đang hợp tác cùng với cán bộ thuộc các Khoa của Trường Đại học Cần Thơ và các địa phương ĐBSCL, thực hiện các đề tài nghiên cứu khoa học và chuyển giao các quy trình, công nghệ phục vụ cho sự phát triển KT-XH của từng địa phương như sau:</p>
             <ul>
                 <li>Nghiên cứu chế biến đa dạng các sản phẩm từ khóm Cầu Đúc Hậu Giang và tận dụng phế liệu cho quá trình ly trích enzyme bromelin.</li>
