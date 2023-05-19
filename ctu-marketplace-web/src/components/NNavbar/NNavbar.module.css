@@ -4,7 +4,7 @@
 }
 
 .navbar {
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     padding: 0 36px;
     display: block;
 }
@@ -51,11 +51,11 @@
 }
 
 .item:hover {
-    background-color: var(--primarya);
+    background-color: var(--primarya, #f4f4f464);
 }
 
 .mnavbar {
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     color: white !important;
 }
 
@@ -111,7 +111,7 @@
 }
 
 .mlist {
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     width: 70%;
     height: 100%;
     z-index: 9999;
@@ -156,7 +156,7 @@
 }
 
 .mitem:hover {
-    background-color: var(--primarya);
+    background-color: var(--primarya, #f4f4f464);
     color: #f4f4f4;
 }
 
@@ -208,19 +208,19 @@
     color: white;
     cursor: pointer;
     user-select: none;
-    padding: 0 var(--padding-small);
+    padding: 0 var(--padding-small, 14px);
     position: relative;
 }
 
 .account:hover .accountToggle{
-    background-color: var(--primarya);
+    background-color: var(--primarya, #f4f4f464);
 }
 
 .accountAvatar {
     width: 36px;
     height: 36px;
     border-radius: 5px;
-    margin-right: var(--margin-super-small);
+    margin-right: var(--margin-super-small, 8px);
 }
 
 .accountInfo {
@@ -235,16 +235,16 @@
 }
 
 .accountToggle {
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
     border-radius: 100px;
-    padding: var(--padding-super-small);
+    padding: var(--padding-super-small, 8px);
     transition: all ease 0.3s;
 }
 
 .accountItem {
-    padding: var(--padding-super-small) var(--padding-small);
+    padding: var(--padding-super-small, 8px) var(--padding-small, 14px);
     transition: opacity ease .3s;
-    color: var(--primary);
+    color: var(--primary, #0d47a1);
 }
 
 .accountItem i {
@@ -257,7 +257,7 @@
 }
 
 .accountLogout {
-    color: var(--red);
+    color: var(--red, #dc3545);
 }
 
 /* Account dropdown */
@@ -267,7 +267,7 @@
     flex-direction: column;
     position: absolute;
     bottom: -91px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     right: 15px;
     padding: 0;
     font-size: 14px;
@@ -283,7 +283,7 @@
 
 .maccount {
     box-sizing: border-box;
-    padding: var(--padding-super-small) var(--padding-medium);
+    padding: var(--padding-super-small, 8px) var(--padding-medium, 24px);
     display: flex;
     align-items: center;
     font-size: 14px;    
@@ -294,7 +294,7 @@
     height: 36px;
     border-radius: 5px;
     /* border: 1px solid #f4f4f4; */
-    margin-right: var(--margin-super-small);
+    margin-right: var(--margin-super-small, 8px);
 }
 
 .maccountEmail {

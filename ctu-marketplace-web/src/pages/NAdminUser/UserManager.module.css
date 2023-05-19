@@ -1,12 +1,12 @@
 /* Board */
 .board {
-    margin-bottom: var(--margin-small);
+    margin-bottom: var(--margin-small, 14px);
     display: flex;
     justify-content: flex-end;
 }
 
 .boardItem + .boardItem {
-    margin-left: var(--margin-small);
+    margin-left: var(--margin-small, 14px);
 }
 
 .boardItem {
@@ -16,7 +16,7 @@
 .btn {
     width: 32px;
     text-align: center;
-    padding: var(--padding-super-small);
+    padding: var(--padding-super-small, 8px);
     cursor: pointer;
     transition: opacity ease .2s;
 }
@@ -26,7 +26,7 @@
 }
 
 .btn + .btn {
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
 }
 
 /* Responsive */
@@ -37,7 +37,7 @@
 
     .boardItem + .boardItem {
         margin-left: 0;
-        margin-top: var(--margin-small);
+        margin-top: var(--margin-small, 14px);
     }
 
     .boardItem {
@@ -49,15 +49,15 @@
     }
 
     .cellBtn:first-child{
-        margin-top: var(--margin-super-small);
+        margin-top: var(--margin-super-small, 8px);
     }
 
     .cellBtn:last-child {
-        margin-bottom: var(--margin-super-small);
+        margin-bottom: var(--margin-super-small, 8px);
     }
 
     .cellBtn + .cellBtn {
         margin-left: 0;
-        margin-top: var(--margin-super-small);
+        margin-top: var(--margin-super-small, 8px);
     }
 }

@@ -3,7 +3,7 @@
 }
 
 .contactPart {
-    background-color: var(--white);
+    background-color: var(--white, #fff);
 }
 
 .info {
@@ -13,26 +13,26 @@
 /* Work */
 .work {
     width: 40%;
-    padding: var(--padding-large);
+    padding: var(--padding-large, 36px);
 }
 
 .define + .define{
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .define>i{
-    color: var(--primary);
+    color: var(--primary, #0d47a1);
     width: 24px;
 }
 
 
 .scripts {
-    color: var(--secondary);
-    margin-bottom: var(--margin-small);
+    color: var(--secondary, #6c757d);
+    margin-bottom: var(--margin-small, 14px);
 }
 
 .form {
-    min-height: var(--min-height);
+    min-height: var(--min-height, 900px);
 }
 
 .formGroup {
@@ -41,11 +41,11 @@
 }
 
 .formGroup + .formGroup {
-    margin-top: var(--margin-small);
+    margin-top: var(--margin-small, 14px);
 }
 
 .formBtn + .formBtn{
-    margin-top: var(--margin-small);
+    margin-top: var(--margin-small, 14px);
 }
 /* Responsive */
 @media only screen and (max-width: 768px) {
@@ -54,7 +54,7 @@
     }
 
     .work {
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
     }
 
     .contactPart {

@@ -135,7 +135,7 @@ const ProjectList = (props) => {
     }
 
     const searchProject = () => {
-
+        event.preventDefault();
         axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
             .then(res => {
                 setProjects(res.data.data.filter((project) => {
@@ -307,7 +307,7 @@ const ProjectList = (props) => {
                 <div className='home'>
                     <div className={searchDisplay? 'home_line home__line--active' : 'home__line'} id="home__line" style={{backgroundColor: 'var(--primary)', padding: '20px 0', position: 'sticky', zIndex: 4, top: 70}}>
                     <div id='home__search__block' className='home__search__block' style={{margin: 'auto'}}> 
-                        <div className='home__search__block__search row'>
+                        <form className='home__search__block__search row' onSubmit={searchProject}>
                             <div className='col-md-10 col-sm-12 group-icon-input'>
                                 <div className='home__search__block__search__icon'>
                                     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px">
@@ -315,7 +315,7 @@ const ProjectList = (props) => {
                                     </svg>
                                 </div>
                                 <div className='home__search__block__search__input' id='projectsList'>
-                                    <input type='text' value={search} onInput={(e) => setSearch(e.target.value)} placeholder='Nhập tên sản phẩm'/>
+                                    <input type='text' value={search} onInput={(e) => setSearch(e.target.value)} placeholder='Nhập tên sản phẩm, từ khóa...'/>
                                 </div>
                                 <div className='home__search__block__search__filter' onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                                     {/* <img src={require('../../../../assets/images/filter.png')}  alt='filter' width={50}/> */}
@@ -324,13 +324,13 @@ const ProjectList = (props) => {
                                         <path id="Path_17" data-name="Path 17" d="M-136.028-34.24c-4.64,0-9.281.006-13.921-.008a.636.636,0,0,0-.723.517,8.825,8.825,0,0,1-6.667,6.088,8.747,8.747,0,0,1-8.4-2.412,8.587,8.587,0,0,1-2.277-3.753.533.533,0,0,0-.615-.437q-6.013.013-12.026.005c-2.292,0-4.585-.007-6.877.006-.363,0-.5-.083-.494-.48.023-1.235.014-2.471-.012-3.706-.008-.364.192-.366.44-.366h9.761c3.031,0,6.062-.006,9.093.009a.67.67,0,0,0,.764-.53,8.843,8.843,0,0,1,7.366-6.208,8.7,8.7,0,0,1,7.288,2.177,8.784,8.784,0,0,1,2.684,4.156c.113.367.343.4.653.4q3.913-.007,7.825,0h19.852c.927,0,.831-.042.832.812q0,1.524,0,3.048c0,.686,0,.686-.667.686Zm-23.343,2.291a4.58,4.58,0,0,0,4.619-4.534,4.613,4.613,0,0,0-4.525-4.6,4.589,4.589,0,0,0-4.635,4.484A4.57,4.57,0,0,0-159.371-31.949Z" transform="translate(188.054 84.575)"/>
                                         <path id="Path_18" data-name="Path 18" d="M-141.742-506.927h-17.875c-.59,0-1.181.019-1.77-.006a.515.515,0,0,0-.583.439,9.022,9.022,0,0,1-3.236,4.6,8.926,8.926,0,0,1-4.538,1.782,8.741,8.741,0,0,1-4.73-.795,8.915,8.915,0,0,1-4.838-5.485.667.667,0,0,0-.777-.548c-2.553.019-5.107,0-7.661.02-.388,0-.442-.117-.438-.462q.022-1.914-.021-3.829c-.007-.31.17-.219.313-.219,2.595,0,5.19-.011,7.784.013a.706.706,0,0,0,.808-.573,8.9,8.9,0,0,1,7.664-6.237,8.479,8.479,0,0,1,5.544,1.167,8.936,8.936,0,0,1,4.078,5.07.716.716,0,0,0,.825.572q19.358-.018,38.716-.009a3.175,3.175,0,0,0,.37,0c.362-.042.48.113.475.471q-.024,1.812,0,3.624c0,.328-.1.414-.426.413q-6.692-.017-13.384-.009Zm-24.341-2.226a4.636,4.636,0,0,0-4.61-4.613,4.584,4.584,0,0,0-4.522,4.6,4.559,4.559,0,0,0,4.57,4.583A4.62,4.62,0,0,0-166.083-509.153Z" transform="translate(188.209 518.3)"/>
                                     </svg>
-                                    <span>Lọc</span>
+                                    <span>Chọn lĩnh vực</span>
                                 </div>
                             </div>
-                            <div className='home__search__block__search__button col-md-2' onClick={searchProject}>
+                            <button type='submit' className='home__search__block__search__button col-md-2' >
                                     Tìm kiếm
-                            </div>
-                        </div>
+                            </button>
+                        </form>
                         <div className="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
                         <div className={showFilter && searchDisplay? 'home__search__block__filter home__search__block__filter--active' : 'home__search__block__filter'}   onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                             <div className={showFilter && searchDisplay? 'home__search__block__filter__virtual home__search__block__filter__virtual--active' : 'home__search__block__filter__virtual'}>
@@ -339,16 +339,16 @@ const ProjectList = (props) => {
                                 </div>
                                 <div className='home__search__block__filter__list'>
                                     {
-                                        fields.map((field, index) => <div className='home__search__block__filter__list__item'>
-                                                <input type='checkbox' key={index} id={field.id + '2'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
+                                        fields.map((field, index) => <div key={field + '2'} className='home__search__block__filter__list__item'>
+                                                <input type='checkbox' id={field.id + '2'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
                                                 <label htmlFor={field.id + '2'} >{field.name}</label>
                                             </div>
                                         )
                                     }
                                 </div>
                                 <div className='home__search__block__filter__button'>
-                                    <div className='home__search__block__filter__button__remove' onClick={(e) => removeFilter()}>Bỏ chọn</div>
-                                    <div className='home__search__block__filter__button__filter'  onClick={(e) => handleClickFilter()}>Lọc</div>
+                                    <div className='home__search__block__filter__button__remove' onClick={(e) => removeFilter()}>Bỏ lọc</div>
+                                    <div className='home__search__block__filter__button__filter'  onClick={(e) => handleClickFilter()}>Lọc theo lĩnh vực</div>
                                 </div>
                             </div>
                         </div>
@@ -364,7 +364,7 @@ const ProjectList = (props) => {
                             </div>
                         </div>
                         <div id='home__search__block' className='home__search__block'> 
-                            <div className='home__search__block__search row'>
+                            <form className='home__search__block__search row' onSubmit={searchProject}>
                                 <div className='col-md-10 col-sm-12 group-icon-input'>
                                     <div className='home__search__block__search__icon'>
                                         <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px">
@@ -372,7 +372,7 @@ const ProjectList = (props) => {
                                         </svg>
                                     </div>
                                     <div className='home__search__block__search__input' id='projectsList'>
-                                        <input type='text' value={search} onInput={(e) => setSearch(e.target.value)} placeholder='Nhập tên sản phẩm'/>
+                                        <input type='text' value={search} onInput={(e) => setSearch(e.target.value)} placeholder='Nhập tên sản phẩm, từ khóa...'/>
                                     </div>
                                     <div className='home__search__block__search__filter' onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                                         {/* <img src={require('../../../../assets/images/filter.png')}  alt='filter' width={50}/> */}
@@ -381,13 +381,13 @@ const ProjectList = (props) => {
                                             <path id="Path_17" data-name="Path 17" d="M-136.028-34.24c-4.64,0-9.281.006-13.921-.008a.636.636,0,0,0-.723.517,8.825,8.825,0,0,1-6.667,6.088,8.747,8.747,0,0,1-8.4-2.412,8.587,8.587,0,0,1-2.277-3.753.533.533,0,0,0-.615-.437q-6.013.013-12.026.005c-2.292,0-4.585-.007-6.877.006-.363,0-.5-.083-.494-.48.023-1.235.014-2.471-.012-3.706-.008-.364.192-.366.44-.366h9.761c3.031,0,6.062-.006,9.093.009a.67.67,0,0,0,.764-.53,8.843,8.843,0,0,1,7.366-6.208,8.7,8.7,0,0,1,7.288,2.177,8.784,8.784,0,0,1,2.684,4.156c.113.367.343.4.653.4q3.913-.007,7.825,0h19.852c.927,0,.831-.042.832.812q0,1.524,0,3.048c0,.686,0,.686-.667.686Zm-23.343,2.291a4.58,4.58,0,0,0,4.619-4.534,4.613,4.613,0,0,0-4.525-4.6,4.589,4.589,0,0,0-4.635,4.484A4.57,4.57,0,0,0-159.371-31.949Z" transform="translate(188.054 84.575)"/>
                                             <path id="Path_18" data-name="Path 18" d="M-141.742-506.927h-17.875c-.59,0-1.181.019-1.77-.006a.515.515,0,0,0-.583.439,9.022,9.022,0,0,1-3.236,4.6,8.926,8.926,0,0,1-4.538,1.782,8.741,8.741,0,0,1-4.73-.795,8.915,8.915,0,0,1-4.838-5.485.667.667,0,0,0-.777-.548c-2.553.019-5.107,0-7.661.02-.388,0-.442-.117-.438-.462q.022-1.914-.021-3.829c-.007-.31.17-.219.313-.219,2.595,0,5.19-.011,7.784.013a.706.706,0,0,0,.808-.573,8.9,8.9,0,0,1,7.664-6.237,8.479,8.479,0,0,1,5.544,1.167,8.936,8.936,0,0,1,4.078,5.07.716.716,0,0,0,.825.572q19.358-.018,38.716-.009a3.175,3.175,0,0,0,.37,0c.362-.042.48.113.475.471q-.024,1.812,0,3.624c0,.328-.1.414-.426.413q-6.692-.017-13.384-.009Zm-24.341-2.226a4.636,4.636,0,0,0-4.61-4.613,4.584,4.584,0,0,0-4.522,4.6,4.559,4.559,0,0,0,4.57,4.583A4.62,4.62,0,0,0-166.083-509.153Z" transform="translate(188.209 518.3)"/>
                                         </svg>
-                                        <span>Lọc</span>
+                                        <span>Chọn lĩnh vực</span>
                                     </div>
                                 </div>
-                                <div className='home__search__block__search__button col-md-2' onClick={searchProject}>
+                                <button type='submit' className='home__search__block__search__button col-md-2'>
                                         Tìm kiếm
-                                </div>
-                            </div>
+                                </button>
+                            </form>
                             <div className="none"  onMouseOver={handleFilter} onMouseLeave={hideFilter}></div>
                             <div className={showFilter? 'home__search__block__filter home__search__block__filter--active' : 'home__search__block__filter'}  onMouseOver={handleFilter} onMouseLeave={hideFilter}>
                                 <div className={showFilter? 'home__search__block__filter__virtual home__search__block__filter__virtual--active' : 'home__search__block__filter__virtual'}>
@@ -404,13 +404,13 @@ const ProjectList = (props) => {
                                         }
                                     </div>
                                     <div className='home__search__block__filter__button'>
-                                        <div className='home__search__block__filter__button__remove' onClick={(e) => removeFilter()}>Bỏ chọn</div>
-                                        <div className='home__search__block__filter__button__filter'  onClick={(e) => handleClickFilter()}>Lọc</div>
+                                        <div className='home__search__block__filter__button__remove' onClick={(e) => removeFilter()}>Bỏ lọc</div>
+                                        <div className='home__search__block__filter__button__filter'  onClick={(e) => handleClickFilter()}>Lọc theo lĩnh vực</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {projects7.length > 0 && 
+                        {swiperProjects.length > 0 && 
                             <div className='home__search__image'>
                                 <div className='home__search__image__button home__search__image__button--prev' style={{opacity: activeIndex===0? 0.5 : 1, cursor: activeIndex===0? 'auto' : 'pointer'}} onClick={prev}>
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"x="0px" y="0px" viewBox="0 0 1000 1000" enableBackground="new 0 0 1000 1000" >
@@ -431,7 +431,6 @@ const ProjectList = (props) => {
                                              <Link 
                                                 to={`/projects/detail/${project.id}`}
                                             >
-
                                                 <div className='home__search__image__item'>
                                                     <div className='home__search__image__item__name'>
                                                         {project.name}

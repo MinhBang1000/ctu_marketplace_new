@@ -1,6 +1,6 @@
 .admin {
     box-sizing: border-box;
-    padding: var(--padding-super-large);
+    padding: var(--padding-super-large, 48px);
     display: flex;
     background-color: #F4F4F4;
 }
@@ -14,7 +14,7 @@
 }
 
 .adminPart + .adminPart {
-    margin-top: var(--margin-small);
+    margin-top: var(--margin-small, 14px);
 }
 
 
@@ -28,12 +28,12 @@
 }
 
 .item {
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     color: white;
     font-weight: bold;
     display: block;
-    padding: var(--padding-small) var(--padding-medium);
-    box-shadow: var(--shadow);
+    padding: var(--padding-small, 14px) var(--padding-medium, 24px);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     cursor: pointer;
     transition: transform ease .3s, background-color ease .3s;
 }
@@ -53,16 +53,16 @@
 
 .workbar {
     box-sizing: border-box;
-    background-color: var(--white);
-    box-shadow: var(--shadow);
-    padding: var(--padding-large);
-    min-height: var(--min-height);
+    background-color: var(--white, #fff);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
+    padding: var(--padding-large, 36px);
+    min-height: var(--min-height, 900px);
     position: relative;
 }
 
 /* Focus */
 .focus {
-    background-color: var(--focus);
+    background-color: var(--focus, #ffaf00);
 }
 
 /* Responsive */
@@ -77,6 +77,6 @@
         margin-top: 12px; 
     }
     .admin {
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
     }
 }

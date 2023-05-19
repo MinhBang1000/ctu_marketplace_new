@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     padding: 24px 36px;
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     color: white;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .right {
-    background-color: var(--primary);
+    background-color: var(--primary, #0d47a1);
     text-align: center;
     padding: 12px;
     color: white;
@@ -54,7 +54,7 @@
 
 @media only screen and (max-width: 768px) {
     .footer {
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
         flex-direction: column;
     }
 

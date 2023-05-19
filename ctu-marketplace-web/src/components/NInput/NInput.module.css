@@ -1,15 +1,15 @@
 .input {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
 .input:focus {
-    border-color: var(--box-in-color);
+    border-color: var(--box-in-color, #80bdff);
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem var(--box-out-color, #bfdeff);
 }
 
 .password {
@@ -24,7 +24,7 @@
 .toggle {
     top: 23px;
     right: 10px;
-    color: var(--primary);
+    color: var(--primary, #0d47a1);
     cursor: pointer;
     position: absolute;
 }

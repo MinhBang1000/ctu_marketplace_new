@@ -11,12 +11,12 @@
 }
 
 .valid {
-    color: var(--green);
+    color: var(--green, #2D9E64);
     animation: close .2s ease forwards;
 }
 
 .invalid {
-    color: var(--red);
+    color: var(--red, #dc3545);
     animation: open .2s ease forwards;
 }
 

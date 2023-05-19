@@ -1,7 +1,7 @@
 .search {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     font-size: 14px;
     transition: all ease-in-out .15s;
     display: flex;
@@ -16,7 +16,7 @@
 }
 
 .search:hover {
-    border-color: var(--box-in-color);
+    border-color: var(--box-in-color, #80bdff);
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem var(--box-out-color, #bfdeff);
 }

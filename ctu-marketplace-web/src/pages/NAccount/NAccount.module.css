@@ -1,22 +1,22 @@
 /* Layout */
 .account {
-    min-height: var(--min-height);
+    min-height: var(--min-height, 900px);
     background-color: #f4f4f4;
     display: flex;
     justify-content: space-between;
-    padding: var(--padding-large);
+    padding: var(--padding-large, 36px);
 }
 
 .accountPart {
-    background-color: var(--white);
+    background-color: var(--white, #fff);
     flex: 2;
     box-sizing: border-box;
-    padding: var(--padding-medium);
-    box-shadow: var(--shadow);
+    padding: var(--padding-medium, 24px);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
 }
 
 .accountPart + .accountPart {
-    margin-left: var(--margin-small);
+    margin-left: var(--margin-small, 14px);
 }
 
 /* Introduction */
@@ -30,7 +30,7 @@
 }
 
 .avatar {
-    margin-bottom: var(--margin-medium);
+    margin-bottom: var(--margin-medium, 24px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,8 +42,8 @@
     bottom: 0;
     cursor: pointer;
     font-size: 64px;
-    color: var(--white);
-    background-color: var(--primarya);
+    color: var(--white, #fff);
+    background-color: var(--primarya, #f4f4f464);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -73,20 +73,20 @@
 }
 
 .item + .item {
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .review .item i {
-    margin-right: var(--margin-super-small);
+    margin-right: var(--margin-super-small, 8px);
     width: 32px;
-    color: var(--primary);
+    color: var(--primary, #0d47a1);
 }
 
 /* title + scripts */
 
 .script {
-    color: var(--secondary);
-    margin-bottom: var(--margin-small);
+    color: var(--secondary, #6c757d);
+    margin-bottom: var(--margin-small, 14px);
 }
 
 /* formGroup */
@@ -96,25 +96,25 @@
 }
 
 .formGroup + .formGroup{
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .button + .button{
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 @media only screen and (max-width: 768px) {
     .account {
         flex-direction: column;
         padding: 0;
-        background-color: var(--white);
+        background-color: var(--white, #fff);
     }
 
     .accountPart {
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
     }
     .accountPart + .accountPart {
         margin-left: 0;
-        margin-top: var(--margin-super-small);
+        margin-top: var(--margin-super-small, 8px);
     }
 }

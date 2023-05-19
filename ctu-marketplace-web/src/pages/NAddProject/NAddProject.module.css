@@ -1,6 +1,6 @@
 .nAddProject {
     box-sizing: border-box;
-    padding: var(--padding-super-large);
+    padding: var(--padding-super-large, 48px);
     display: flex;
     background-color: #F4F4F4;
 }
@@ -34,15 +34,15 @@
 }
 
 .nAddProjectControl {
-    min-height: var(--min-height);
-    background-color: var(--white);
-    box-shadow: var(--shadow);
+    min-height: var(--min-height, 900px);
+    background-color: var(--white, #fff);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     box-sizing: border-box;
     padding-bottom: 100px;
 }
 
 .form{
-    padding: var(--padding-large);
+    padding: var(--padding-large, 36px);
     min-height: 700px;
 }
 
@@ -56,7 +56,7 @@
 .formGroup>input, .formGroup>.input, .formGroup>textarea {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
@@ -77,13 +77,13 @@
 
 .formGroup>.input>.inputText {
     flex: 1;
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
 }
 
 .formGroup>input:focus, .formGroup>.input:hover, .formGroup>textarea:focus {
-    border-color: var(--box-in-color);
+    border-color: var(--box-in-color, #80bdff);
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem var(--box-out-color, #bfdeff);
 }
 
 .fileInput {
@@ -93,23 +93,23 @@
 .formGroup>select {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     font-size: 14px;
     transition: all ease-in-out .15s;
 }
 
 .formGroup>select:focus {
-    border-color: var(--box-in-color);
+    border-color: var(--box-in-color, #80bdff);
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem var(--box-out-color, #bfdeff);
 }
 
 .formGroup>input {
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .formGroup + .formGroup {
-    margin-top: var(--margin-medium);
+    margin-top: var(--margin-medium, 24px);
 }
 
 .formGroup:last-child {
@@ -121,7 +121,7 @@
 .dropdown {
     padding: 12px;
     margin-top: 8px;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     /* border-radius: 5px; */
     font-size: 14px;
     transition: all ease-in-out .15s;
@@ -130,9 +130,9 @@
 }
 
 .dropdown:hover {
-    border-color: var(--box-in-color);
+    border-color: var(--box-in-color, #80bdff);
     outline: none;
-    box-shadow: 0 0 0 .2rem var(--box-out-color);
+    box-shadow: 0 0 0 .2rem var(--box-out-color, #bfdeff);
 }
 
 .dropdown>input {
@@ -148,12 +148,12 @@
 
 .dropdownBox {
     min-height: 128px;
-    padding: var(--padding-small);
+    padding: var(--padding-small, 14px);
     /* border-radius: 5px; */
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey, #ced4da);
     overflow: scroll;
     max-height: 400px;
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .checkBox {
@@ -162,7 +162,7 @@
 }
 
 .checkBox>input {
-    margin-right: var(--margin-super-small);
+    margin-right: var(--margin-super-small, 8px);
 }
 
 .hide {
@@ -195,32 +195,32 @@
 }
 
 .formModal {
-    background-color: var(--white);
+    background-color: var(--white, #fff);
     z-index: 9999;
     position: absolute;
-    padding: var(--padding-small);
+    padding: var(--padding-small, 14px);
     /* border-radius: 15px; */
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     min-width: 300px;
 }
 
 .formModal>div:first-child {
     position: absolute;
-    right: var(--padding-small);
-    top: var(--padding-small);
+    right: var(--padding-small, 14px);
+    top: var(--padding-small, 14px);
     cursor: pointer;
 }
 
 /* Editor */
 .formEditor {
-    margin-bottom: var(--margin-super-small);
+    margin-bottom: var(--margin-super-small, 8px);
 }
 
 .editorName {
     display: flex;
     align-items: center;
-    margin: var(--margin-super-small) 0;
-    margin-top: var(--margin-medium);
+    margin: var(--margin-super-small, 8px) 0;
+    margin-top: var(--margin-medium, 24px);
 }
 
 .editorName>span{
@@ -228,9 +228,9 @@
 }
 
 .editorName>i {
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
     cursor: pointer;
-    padding: var(--padding-super-small);
+    padding: var(--padding-super-small, 8px);
     transition: opacity ease .2s;
 }
 
@@ -239,7 +239,7 @@
 }
 /* Detail page */
 .detail {
-    padding: var(--padding-large);
+    padding: var(--padding-large, 36px);
     min-height: 600px;
 }
 
@@ -250,7 +250,7 @@
 .detailAuthor {
     text-align: center;
     font-size: 18px;
-    color: var(--secondary);
+    color: var(--secondary, #6c757d);
 }
 
 .detailFields {
@@ -259,11 +259,11 @@
     flex-wrap: wrap;
     list-style-type: none;
     padding: 0;
-    margin-top: var(--margin-super-small);
+    margin-top: var(--margin-super-small, 8px);
 }
 
 .detailItem + .detailItem{
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
 }
 
 .detailItem {
@@ -271,7 +271,7 @@
 }
 
 .detailKeyValues {
-    margin: var(--margin-small) 0;
+    margin: var(--margin-small, 14px) 0;
 }
 
 .detailKeyValues>div:first-child{
@@ -279,7 +279,7 @@
 }
 
 .detailControl {
-    margin-top: var(--margin-large);
+    margin-top: var(--margin-large, 36px);
     display: flex;
     justify-content: flex-end;
 }
@@ -290,7 +290,7 @@
 }
 
 .btn {
-    padding: var(--padding-super-small) var(--padding-small);
+    padding: var(--padding-super-small, 8px) var(--padding-small, 14px);
     font-weight: bold;
     /* border-radius: 5px; */
     cursor: pointer;
@@ -309,7 +309,7 @@
 }
 
 .btn + .btn {
-    margin-left: var(--margin-super-small);
+    margin-left: var(--margin-super-small, 8px);
 }
 
 .btnPrimary {
@@ -348,7 +348,7 @@
 
 .controlAbove {
     display: flex;
-    margin-bottom: var(--margin-super-small);
+    margin-bottom: var(--margin-super-small, 8px);
     justify-content: flex-end;
 }
 
@@ -398,14 +398,14 @@
 
 .formControl {
     position: absolute;
-    right: var(--padding-large);
-    bottom: var(--padding-large);
+    right: var(--padding-large, 36px);
+    bottom: var(--padding-large, 36px);
     display: flex;
 }
 
 @media only screen and (max-width: 768px) {
     .form {
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
     }
 
     .heading {
@@ -414,20 +414,20 @@
 
     .mheading {
         display: block;
-        padding: var(--padding-small);
+        padding: var(--padding-small, 14px);
     }
 
     .formControl {
         position: absolute;
-        right: var(--padding-small);
-        bottom: var(--padding-small);
+        right: var(--padding-small, 14px);
+        bottom: var(--padding-small, 14px);
         display: flex;
     }
 
     .nAddProject {
         flex-direction: column;
         padding: 0;
-        background-color: var(--white);
+        background-color: var(--white, #fff);
     }
 
     .nAddProjectControl {
@@ -435,7 +435,7 @@
     }
 
     .nAddProjectPart + .nAddProjectPart {
-        margin-top: var(--margin-medium);
+        margin-top: var(--margin-medium, 24px);
     }
     
     .controlAbove {
@@ -445,7 +445,7 @@
     
     .controlPart + .controlPart {
         margin-left: 0px;
-        margin-top: var(--margin-super-small);
+        margin-top: var(--margin-super-small, 8px);
     }
 
     .control {
@@ -453,15 +453,15 @@
     }
 
     .cellBtn:first-child {
-        margin-top: var(--margin-super-small)
+        margin-top: var(--margin-super-small, 8px)
     }
 
     .cellBtn:last-child {
-        margin-bottom: var(--margin-super-small);
+        margin-bottom: var(--margin-super-small, 8px);
     }
 
     .cellBtn + .cellBtn {
         margin-left: 0;
-        margin-top: var(--margin-super-small);
+        margin-top: var(--margin-super-small, 8px);
     }
 }

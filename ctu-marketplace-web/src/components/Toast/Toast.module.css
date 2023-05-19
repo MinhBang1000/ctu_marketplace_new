@@ -2,14 +2,14 @@
     position: fixed;
     right: 4px;
     box-sizing: border-box;
-    top: var(--margin-small);
+    top: var(--margin-small, 14px);
     z-index: 9999;
-    background-color: var(--white);
+    background-color: var(--white, #fff);
     min-width: 500px;
-    padding: var(--padding-small) var(--padding-medium);
+    padding: var(--padding-small, 14px) var(--padding-medium, 24px);
     padding-left: 50px;
     border-radius: 5px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow, rgba(99, 99, 99, 0.2) 0px 2px 8px 0px);
     transform: translateX(104%);
 }
 

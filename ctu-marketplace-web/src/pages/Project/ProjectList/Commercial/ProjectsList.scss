@@ -64,7 +64,7 @@
                     }
                 }
                 &__filter {
-                    min-width: 100px;
+                    min-width: 160px;
                     min-height: 80px;
                     background-color: rgba(0, 0, 0, 0.05);
                     display: flex;
@@ -93,6 +93,7 @@
                     line-height: 76px;
                     cursor: pointer;
                     transition: all 0.3s ease;
+                    border: none !important;
                     &:hover {
                         background-color: #f3a601;
                         transition: all 0.3s ease;
@@ -105,7 +106,7 @@
                 top: 75px;
                 height: 20px;
                 right: 13.5%;
-                width: 10%;
+                width: 17%;
             }
             &__filter {
                 position: absolute;
@@ -136,7 +137,7 @@
                     height: 260px;
                     max-height: 260px;
                     overflow-y: auto;
-                    padding-left: 10px;
+                    padding-left: 15px;
                     &__item {
                         display: flex;
                         align-items: center;
@@ -191,8 +192,8 @@
                    
                 }
                 &--active {
-                    height: 400px;
-                    padding: 10px 10px 10px 10px;
+                    height: 410px;
+                    padding: 15px 15px 15px 15px;
                     transition: height .3s ease;
                 }
             }
@@ -293,8 +294,9 @@
       align-items: center;
     }
     &__line {
+        background-color: #3D69A0 !important;
         width: 100%;
-        top: -60px !important;
+        top: -150px !important;
         position: absolute !important;
     }
     &__line--active {
@@ -443,6 +445,7 @@
                         line-height: 70px;
                     }
                     &__filter {
+                        min-width: 100px;
                         span {
                             display: none;
                         }
@@ -496,9 +499,24 @@
             }
         }
     }
-    .home__search__image__button {
-        background-color: transparent;
+    .home__search {
+        &__image__button {
+            background-color: transparent;
+        }
+        &__block {
+            &__search {
+                &__input {
+                   input {
+                    // min-width: 180px;
+                    white-space:nowrap;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                   }
+                }
+            }
+        }
     }
+
 }
 
 @media only screen and (max-height: 900px) {
