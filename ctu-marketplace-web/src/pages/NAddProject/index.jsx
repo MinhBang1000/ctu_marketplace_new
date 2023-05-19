@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import styles from  "./NAddProject.module.css"
 import { CKEditor } from 'ckeditor4-react';
@@ -9,7 +9,8 @@ import Swal from "sweetalert2";
 import NRequire from "../../components/NRequire"
 import NValid from "../../components/NValid"
 import { useTransition, animated } from "@react-spring/web";
-
+import {useStore} from "../../store/globalstate"
+import { Redirect } from "react-router-dom/cjs/react-router-dom";
 
 const NAddProject = () => {
     // Init
@@ -50,6 +51,7 @@ const NAddProject = () => {
         projectIntroduction: '',
         projectImageName: '',
         projectImage: null,
+        projectListImage: [],
         projects: [],
         loading: false,
         templates: [],
@@ -96,6 +98,7 @@ const NAddProject = () => {
         projectIntroduction: '',
         projectImageName: '',
         projectImage: null,
+        projectListImage: [],
         fields: [],
         statuses: [],
         kvalues: [],
@@ -107,6 +110,7 @@ const NAddProject = () => {
         // CSS Class
         showAnimation: false    
     }
+    const roles = ["NNC"]
     
     // Hooks
     const [localState, setState] = useState(initState)
@@ -122,6 +126,7 @@ const NAddProject = () => {
         fields, 
         projectImage, 
         projectImageName, 
+        projectListImage,
         kvalues,
         reCallApi,
         searchInput,
@@ -140,6 +145,8 @@ const NAddProject = () => {
         vProjectImage,
         vProjectIntroduction
     } = localState
+    const [state, myDispatch] = useStore()
+    const {logStatus, roleCode} = state
     const pageTypeTransitions = useTransition(pageType, {
         from: {opacity: 0},
         enter: {opacity: 1}
@@ -152,6 +159,7 @@ const NAddProject = () => {
         from: {opacity: 0},
         enter: {opacity: 1}
     })
+    const inputFileRef = useRef()
 
     // Apis
     useEffect(() => {
@@ -670,6 +678,9 @@ const NAddProject = () => {
         }
     }
     const handleSetFile = (value) => {
+        setState((prev) => {
+            return {...prev, projectListImage: value}
+        })
         if (value.length > 0) {
             setState((prev) => {
                 return {...prev, projectImage: value[0], vProjectImage: {...validateProjectImage(value[0])}}
@@ -694,13 +705,35 @@ const NAddProject = () => {
             if (result.isConfirmed) {
                 axios.delete(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`, {headers: authHeader() })
                 .then((res) => {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Xóa dự án",
-                        text: "Dự án đã được xóa thành công"
-                    })
-                    setState((prev)=> {
-                        return {...prev, reCallApi: !prev.reCallApi}
+                    const format = formatOption
+                    const status = statusOption
+                    axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+                    .then(res => {
+                        const auth = JSON.parse(localStorage.getItem('userData'))
+                        let myProjects = res.data.data.filter((item) => {
+                            return item.user.id === auth.data.id
+                        })
+                        if (format !== 0) {
+                            myProjects = myProjects.filter((project) => {
+                                const check = handleConvertFormat()
+                                return project.template === check
+                            })       
+                        }
+                        if (status !== 0) {
+                            myProjects = myProjects.filter((project) => {
+                                return project.status.id === status 
+                            })
+                        }
+                        Swal.fire({
+                            icon: "success",
+                            title: "Xóa dự án",
+                            text: "Dự án đã được xóa thành công"
+                        })
+                        setState((prev) => {
+                            return {...prev, projects: myProjects}
+                        })
+                    }).catch(error => {
+                        console.log(error)
                     })
                 })
                 .catch((err) => {
@@ -743,6 +776,15 @@ const NAddProject = () => {
             return {...prev, formatOption:  parseInt(value)}
         })
     }
+    const handleResetAll = () => {
+        setState((prev) => {
+            return {...prev, ...resetState, ...resetValidationState}
+        })
+    }
+    // Trigger
+    const triggerFileInput = () => {
+        inputFileRef.current.click()
+    }
     
     // Validation
     const validateProjectName = (value) => {
@@ -753,6 +795,9 @@ const NAddProject = () => {
         }
         if (value === "") {
             validate.text = "Bạn chưa nhập tên dự án !"
+            validate.isValid = false 
+        }else if (value.length >= 1000) {
+            validate.text = "Tên dự án phải ít hơn 1000 ký tự !"
             validate.isValid = false 
         }
         return validate
@@ -769,6 +814,9 @@ const NAddProject = () => {
         }else if (value.size >= 10485760) {
             validate.text = "Kích thước file nhỏ hơn 10MB! Vui lòng cập nhật lại"
             validate.isValid = false 
+        }else if (getExtension(value.name).toLowerCase() !== "jpg"){
+            validate.text = "Định dạng hình phải là *.jpg! Vui lòng cập nhật lại"
+            validate.isValid = false
         }
         return validate
     }
@@ -780,6 +828,9 @@ const NAddProject = () => {
         }
         if (value === "") {
             validate.text = "Bạn chưa nhập tên tác giả của dự án !"
+            validate.isValid = false 
+        }else if (value.length >= 1000) {
+            validate.text = "Tên tác giả / nhóm tác giả phải ít hơn 1000 ký tự !"
             validate.isValid = false 
         }
         return validate
@@ -793,6 +844,9 @@ const NAddProject = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập tóm tắt cho dự án !"
             validate.isValid = false 
+        }else if (value >= 2000) {
+            validate.text = "Tóm tắt phải ít hơn 2000 ký tự !"
+            validate.isValid = false
         }
         return validate
     }
@@ -810,6 +864,12 @@ const NAddProject = () => {
                 vProjectImage: {...validateProjectImage(prev.projectImage)}
             }
         }))
+    }
+
+    // Tools 
+    const getExtension = (filename) => {
+        let parts = filename.split('.');
+        return parts[parts.length - 1];
     }
     
     // Sub-components
@@ -1020,14 +1080,22 @@ const NAddProject = () => {
                 </div>
 
                 <div className={clsx(styles.formGroup)}>
-                    <label>Hình đại diện  <NRequire /></label>
-                    <input 
-                        type="file"
-                        accept="image/jpeg" 
-                        onChange={(e)=>handleSetFile(e.target.files)}
-                    />
+                    <label>{`Hình đại diện`}  <NRequire /></label>
+                    <div className={clsx(styles.input)} onClick={triggerFileInput}>
+                        <div className={clsx(styles.inputBtn)}>Chọn ảnh</div>
+                        <div className={clsx(styles.inputText)}>{projectImageName ? projectImageName : "< 10MB, *.jpg"}</div>
+                    </div>
                     <NValid isValid={vProjectImage.first || vProjectImage.isValid} text={vProjectImage.text}/>
                 </div>
+
+                {/* Hidden element */}
+                <input 
+                    type="file"
+                    accept="image/jpeg" 
+                    onChange={(e)=>handleSetFile(e.target.files)}
+                    className={clsx(styles.fileInput)}
+                    ref={inputFileRef}
+                />
 
                 <div className={clsx(styles.formGroup)}>
                     <label>Tóm tắt  <NRequire /></label>
@@ -1155,8 +1223,6 @@ const NAddProject = () => {
 
         {/* Add more field here */}
         <div className={clsx(styles.formControl)}>
-            
-
             <div className={clsx(styles.formGroup)}>
                 <div className={clsx(styles.btn, styles.submit)}
                     onClick={() => handleChooseForm(2)}
@@ -1225,6 +1291,7 @@ const NAddProject = () => {
     // Primary render
     return (
         <>
+            { !logStatus || !roles.includes(roleCode) ? <Redirect to="/" /> : '' }
             <div className={clsx(styles.nAddProject)}>
                 <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>
                     {

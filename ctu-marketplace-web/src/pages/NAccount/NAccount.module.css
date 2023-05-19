@@ -1,0 +1,120 @@
+/* Layout */
+.account {
+    min-height: var(--min-height);
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--padding-large);
+}
+
+.accountPart {
+    background-color: var(--white);
+    flex: 2;
+    box-sizing: border-box;
+    padding: var(--padding-medium);
+    box-shadow: var(--shadow);
+}
+
+.accountPart + .accountPart {
+    margin-left: var(--margin-small);
+}
+
+/* Introduction */
+.introduction {
+    flex: 1;
+}
+
+/* Avatar */
+.avatar>input {
+    display: none;
+}
+
+.avatar {
+    margin-bottom: var(--margin-medium);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.btnUpload {
+    position: absolute; 
+    bottom: 0;
+    cursor: pointer;
+    font-size: 64px;
+    color: var(--white);
+    background-color: var(--primarya);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    transition: opacity ease .3s;
+}
+
+.btnUpload:hover {
+    opacity: 0.6;
+}
+
+.upload {
+    width: 100%;
+}
+
+/* Review */
+
+.review>.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.review .item{
+    display: flex;
+    align-items: center;
+}
+
+.item + .item {
+    margin-top: var(--margin-super-small);
+}
+
+.review .item i {
+    margin-right: var(--margin-super-small);
+    width: 32px;
+    color: var(--primary);
+}
+
+/* title + scripts */
+
+.script {
+    color: var(--secondary);
+    margin-bottom: var(--margin-small);
+}
+
+/* formGroup */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup + .formGroup{
+    margin-top: var(--margin-super-small);
+}
+
+.button + .button{
+    margin-top: var(--margin-super-small);
+}
+
+@media only screen and (max-width: 768px) {
+    .account {
+        flex-direction: column;
+        padding: 0;
+        background-color: var(--white);
+    }
+
+    .accountPart {
+        padding: var(--padding-small);
+    }
+    .accountPart + .accountPart {
+        margin-left: 0;
+        margin-top: var(--margin-super-small);
+    }
+}

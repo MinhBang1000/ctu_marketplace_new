@@ -40,7 +40,7 @@ const NFooter = () => {
         </div>
     </div>
     <div className={clsx(styles.right)}>
-        Copyright ASVM Dictionary. All rights reserved
+        Copyright Can Tho University. All rights reserved
     </div>
     </>)
 

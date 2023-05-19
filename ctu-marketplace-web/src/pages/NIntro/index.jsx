@@ -16,7 +16,7 @@ const NIntro = () => {
 
         <div className={clsx(styles.content)}>
             <h3>1. Giới thiệu</h3>
-            <p>Trung tâm Chuyển giao Công nghệ và Dịch vụ là đơn vị trực thuộc Trường Đại học Cần Thơ.</p>
+            <p><strong>Trung tâm Chuyển giao Công nghệ và Dịch vụ là đơn vị trực thuộc Trường Đại học Cần Thơ.</strong></p>
             <ul>
                 <li>Tên giao dịch tiếng Việt: Trung tâm Chuyển giao công nghệ và Dịch vụ.</li>
                 <li>Tên tiếng Anh: Center for Technology Transfer and Services.</li>

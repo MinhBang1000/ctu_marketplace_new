@@ -53,7 +53,7 @@
 
 /*  */
 
-.formGroup>input, .formGroup>textarea {
+.formGroup>input, .formGroup>.input, .formGroup>textarea {
     padding: 12px;
     margin-top: 8px;
     border: 2px solid var(--grey);
@@ -62,10 +62,32 @@
     transition: all ease-in-out .15s;
 }
 
-.formGroup>input:focus, .formGroup>textarea:focus {
+.formGroup>.input {
+    cursor: pointer;
+    display: flex;
+    padding: 0px;
+    align-items: center;
+}
+
+.formGroup>.input>.inputBtn {
+    background-color: #f4f4f4;
+    color: grey;
+    padding: 14px;
+}
+
+.formGroup>.input>.inputText {
+    flex: 1;
+    margin-left: var(--margin-super-small);
+}
+
+.formGroup>input:focus, .formGroup>.input:hover, .formGroup>textarea:focus {
     border-color: var(--box-in-color);
     outline: none;
     box-shadow: 0 0 0 .2rem var(--box-out-color);
+}
+
+.fileInput {
+    display: none;
 }
 
 .formGroup>select {

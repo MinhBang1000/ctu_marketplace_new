@@ -1,15 +1,23 @@
-import {LOGIN, LOGOUT, SET_PROJECT, RE_CHECK_AUTH} from "./constraints" 
+import {LOGIN, LOGOUT, SET_PROJECT, RE_CHECK_AUTH, RE_LOAD} from "./constraints" 
 
 const initState = {
     logStatus: false,
     roleCode: '',
     detailProject: 0,
     reCheckAuth: false,
+    reload: false,
 }
 
 const reducer = (state, action) => {
     let newState
     switch (action.type) {
+        case RE_LOAD: {
+            newState = {
+                ...state,
+                reload: !state.reload
+            }
+            break
+        }
         case RE_CHECK_AUTH: {
             newState = {
                 ...state,

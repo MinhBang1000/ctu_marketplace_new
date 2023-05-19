@@ -219,8 +219,8 @@
 .accountAvatar {
     width: 36px;
     height: 36px;
+    border-radius: 5px;
     margin-right: var(--margin-super-small);
-    border-radius: 100px;
 }
 
 .accountInfo {
@@ -266,8 +266,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    bottom: -90px;
-    border-radius: 5px;
+    bottom: -91px;
     box-shadow: var(--shadow);
     right: 15px;
     padding: 0;
@@ -293,8 +292,8 @@
 .maccount>img {
     width: 36px;
     height: 36px;
-    border-radius: 100px;
-    border: 3px solid #f4f4f4;
+    border-radius: 5px;
+    /* border: 1px solid #f4f4f4; */
     margin-right: var(--margin-super-small);
 }
 

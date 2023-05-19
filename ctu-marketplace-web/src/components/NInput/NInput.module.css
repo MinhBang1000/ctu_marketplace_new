@@ -11,3 +11,20 @@
     outline: none;
     box-shadow: 0 0 0 .2rem var(--box-out-color);
 }
+
+.password {
+    position: relative;
+}
+
+.password>input {
+    display: block;
+    width: 100%;
+}
+
+.toggle {
+    top: 23px;
+    right: 10px;
+    color: var(--primary);
+    cursor: pointer;
+    position: absolute;
+}

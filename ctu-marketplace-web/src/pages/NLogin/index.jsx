@@ -108,6 +108,9 @@ const NLogin = () => {
     const [localState, setState] = useState(initState)
     const {username, password, vUsername, vPassword, vFullname, vEmail, vAddress, vPhone, redirect, isLogin, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
     const [state, myDispatch] = useStore()
+    const {
+        logStatus
+    } = state
     const transitions = useTransition(isLogin, {
         from: {opacity: 0},
         enter: {opacity: 1}
@@ -281,7 +284,6 @@ const NLogin = () => {
             .catch(err => {
                 popupLogin(false)
             })
-
         })
         .catch(err => {
             popupLogin(false)
@@ -313,7 +315,7 @@ const NLogin = () => {
     const regexPatterns = {
         rEmail: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
         rPhone: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
-
+        rPassword: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
     }
     const validateFullname = (value) => {
         let validate = {
@@ -324,6 +326,9 @@ const NLogin = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập họ và tên !"
             validate.isValid = false 
+        }else if (value.length > 250) {
+            validate.text = "Họ và tên được nhập nhỏ hơn 250 ký tự !"
+            validate.isValid = false
         }
         return validate
     }
@@ -339,7 +344,10 @@ const NLogin = () => {
         }else if (!regexPatterns.rEmail.test(value)) {
             validate.text = "Bạn chưa nhập đúng định dạng Email !"
             validate.isValid = false  
-        }
+        }else if (value.length > 250) {
+            validate.text = "Email cần nhỏ hơn 250 ký tự ! Vui lòng nhập lại"
+            validate.isValid = false             
+        } 
         return validate
     }
     const validateAddress = (value) => {
@@ -351,7 +359,10 @@ const NLogin = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập địa chỉ !"
             validate.isValid = false 
-        }
+        }else if (value.length > 250) {
+            validate.text = "Địa chỉ cần nhỏ hơn 250 ký tự ! Vui lòng nhập lại"
+            validate.isValid = false             
+        } 
         return validate
     }
     const validatePhone = (value) => {
@@ -378,7 +389,10 @@ const NLogin = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập tên tài khoản !"
             validate.isValid = false 
-        }
+        }else if (value.length > 250) {
+            validate.text = "Tên đăng nhập cần nhỏ hơn 250 ký tự ! Vui lòng nhập lại"
+            validate.isValid = false             
+        } 
         return validate
     }
     const validatePassword = (value) => {
@@ -390,6 +404,9 @@ const NLogin = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập mật khẩu !"
             validate.isValid = false 
+        }else if (!isLogin && !regexPatterns.rPassword.test(value)) {
+            validate.text = "Mật khẩu từ 6-16 ký tự, bao gỗm chữ cái, số và ký tự đặc biệt !"
+            validate.isValid = false
         }
         return validate
     }
@@ -514,6 +531,7 @@ const NLogin = () => {
     // Rendering
     return (<>
         {redirect && <Redirect to="/" />}
+        {logStatus && <Redirect to="/" />}
         <div className={clsx(styles.auth)}  >
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.info)}

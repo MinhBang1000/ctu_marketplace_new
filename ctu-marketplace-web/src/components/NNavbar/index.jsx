@@ -3,7 +3,7 @@ import clsx from "clsx"
 import styles from "./NNavbar.module.css"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import { useStore, myLogout, myLogin } from "../../store/globalstate"
+import { useStore, myLogout, myLogin, reLoad } from "../../store/globalstate"
 import { useTransition, animated } from "@react-spring/web"
 
 const NNavbar = () => {
@@ -56,11 +56,15 @@ const NNavbar = () => {
         setState((prev) => {
             return {...prev, showNavbar: value}
         })
+        handleSetReload()
     }
     const handleToggle = () => {
         setState((prev) => {
             return {...prev, showAccount: !prev.showAccount}
         })
+    }
+    const handleSetReload = () => {
+        // using later for all link click event
     }
     // Sub-Components
     const mobileNavbar = () => {
@@ -86,7 +90,9 @@ const NNavbar = () => {
             })}>
                 {
                     logStatus ? <div className={clsx(styles.maccount)}>
-                        <img src={`${process.env.PUBLIC_URL}/images/ctu.jpg`}/>
+                        {
+                            !userInformations ?  <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img src={`https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                        }
                         <div className={clsx(styles.maccountInfo)}>
                             <div className={clsx(styles.maccountName)}>{userInformations && userInformations.fullName}</div>
                             <div className={clsx(styles.maccountEmail)}>{userInformations && userInformations.email}</div>
@@ -137,7 +143,7 @@ const NNavbar = () => {
                 </Link>
                 {
                     logStatus===true ? <>
-                        <Link className={clsx(styles.mitem)} to="/"
+                        <Link className={clsx(styles.mitem)} to="/account"
                             onClick={() => {
                                 handleShowHide(false)
                             }}
@@ -183,27 +189,32 @@ const NNavbar = () => {
                 </Link>
             </div>
             <Link className={clsx(styles.item)} to="/">
-                Trang chủ
+                <div onClick={handleSetReload}>Trang chủ</div>
             </Link>
             {
                 admin.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/administrator">
-                    Quản trị
+                    <div onClick={handleSetReload}>Quản trị</div>
                 </Link> : ''
             }
             {
                 !admin.includes(roleCode) && roles.includes(roleCode) && logStatus ? <Link className={clsx(styles.item)} to="/projects">
-                    Dự án
+                    <div onClick={handleSetReload}>
+                        Dự án
+                    </div>
                 </Link> : ''
             }
             <Link className={clsx(styles.item)} to="/introduction">
-                Giới thiệu
+                <div onClick={handleSetReload}>Giới thiệu</div>
             </Link>
             <Link className={clsx(styles.item)} to="/contact">
-                Liên hệ
+                <div onClick={handleSetReload}>Liên hệ</div>
             </Link>
             {
                 logStatus===true ? <div className={clsx(styles.account)}>
-                <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/>
+                {
+                    !userInformations ?  <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img  className={clsx(styles.accountAvatar)} src={`https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                }
+                {/* <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> */}
                 <div className={clsx(styles.accountInfo)}>
                     <div className={clsx(styles.accountName)}>{userInformations && userInformations.fullName}</div>
                     <div className={clsx(styles.accountEmail)}>{userInformations && userInformations.email}</div>
@@ -214,7 +225,7 @@ const NNavbar = () => {
                                 { item ? <>
                                     <i onClick={handleToggle} className={clsx(styles.accountToggle, `fa-solid fa-chevron-up`)}></i>
                                     <ul className={clsx(styles.accountDropdown)}>
-                                        <Link to="/"><li className={clsx(styles.accountItem)}><i className="fa-solid fa-user"></i>Tài khoản</li></Link>
+                                        <Link to="/account"><li className={clsx(styles.accountItem)}><i className="fa-solid fa-user"></i>Tài khoản</li></Link>
                                         <Link to="/"><li className={clsx(styles.accountItem, styles.accountLogout)} onClick={handleLogout}><i className="fa-solid fa-power-off"></i>Đăng xuất</li></Link>
                                     </ul>
                                 </>: <i onClick={handleToggle} className={clsx(styles.accountToggle, `fa-solid fa-chevron-down`)}></i> }
@@ -223,7 +234,7 @@ const NNavbar = () => {
                     }
                 </div> : <>
                         <Link className={clsx(styles.item)} to="/login">
-                            Đăng nhập
+                            <div onClick={handleSetReload}>Đăng nhập</div>
                         </Link>
                     </>
             }

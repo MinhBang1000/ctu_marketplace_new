@@ -93,14 +93,44 @@ const NAdminProject = () => {
         }).then(res => {
             axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
             .then(res => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Từ chối dự án",
+                    text: "Từ chối dự án thành công !"
+                })
+                let allOfProject = res.data.data 
+                if (projectFormat !== 0) {
+                    const check = projectFormat === 2
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.template === check 
+                    })
+                }
+                if (projectStatus !== 0) {
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.status.id === projectStatus
+                    })
+                }
+                if (projectSearch !== "") {
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.name.includes(projectSearch)
+                    })
+                }
                 setState((prev) => {
-                    return {...prev, projects: res.data.data}
+                    return {...prev, projects: allOfProject}
                 })
             }).catch(error => {
-                console.log(error)
+                Swal.fire({
+                    icon: "error",
+                    title: "Từ chối dự án",
+                    text: "Từ chối dự án không thành công !"
+                })
             }) 
         }).catch(error => {
-            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Từ chối dự án",
+                text: "Từ chối dự án không thành công !"
+            })        
         })
     }
     const handleApprove = (id) => {
@@ -109,14 +139,43 @@ const NAdminProject = () => {
         }).then(res => {
             axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
             .then(res => {
+                let allOfProject = res.data.data 
+                if (projectFormat !== 0) {
+                    const check = projectFormat === 2
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.template === check 
+                    })
+                }
+                if (projectStatus !== 0) {
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.status.id === projectStatus
+                    })
+                }
+                if (projectSearch !== "") {
+                    allOfProject = allOfProject.filter((project) => {
+                        return project.name.includes(projectSearch)
+                    })
+                }
+                Swal.fire({
+                    icon: "success",
+                    title: "Chấp thuận dự án",
+                    text: "Chấp thuận dự án thành công !"
+                })
                 setState((prev) => {
-                    return {...prev, projects: res.data.data}
+                    return {...prev, projects: allOfProject}
                 })
             }).catch(error => {
-                console.log(error)
-            }) 
+                Swal.fire({
+                    icon: "error",
+                    title: "Chấp thuận dự án",
+                    text: "Chấp thuận dự án không thành công !"
+                })            })
         }).catch(error => {
-            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Chấp thuận dự án",
+                text: "Chấp thuận dự án không thành công !"
+            }) 
         })
     }
     const handleDelete = (id) => {
@@ -136,16 +195,37 @@ const NAdminProject = () => {
                 }).then(res => {
                     axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
                     .then(res => {
+                        let allOfProject = res.data.data 
+                        if (projectFormat !== 0) {
+                            const check = projectFormat === 2
+                            allOfProject = allOfProject.filter((project) => {
+                                return project.template === check 
+                            })
+                        }
+                        if (projectStatus !== 0) {
+                            allOfProject = allOfProject.filter((project) => {
+                                return project.status.id === projectStatus
+                            })
+                        }
+                        if (projectSearch !== "") {
+                            allOfProject = allOfProject.filter((project) => {
+                                return project.name.includes(projectSearch)
+                            })
+                        }
                         Swal.fire({
                             icon: "success",
                             title: "Xóa dự án",
                             text: "Dự án đã được xóa thành công"
                         })
                         setState((prev) => {
-                            return {...prev, projects: res.data.data}
+                            return {...prev, projects: allOfProject}
                         })
                     }).catch(error => {
-                        
+                        Swal.fire({
+                            icon: "error",
+                            title: "Xóa dự án",
+                            text: "Không xóa được dự án này! Vui lòng kiểm tra lại trạng thái đăng nhập của bạn"
+                        })
                     }) 
                 }).catch(error => {
                     Swal.fire({

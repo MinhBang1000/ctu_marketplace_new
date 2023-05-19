@@ -4,7 +4,8 @@ import styles from "./NAdmin.module.css"
 import { useTransition, animated } from "@react-spring/web"
 import NAdminUser from "../NAdminUser"
 import NAdminProject from "../NAdminProject"
-
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
+import { useStore } from "../../store/globalstate"
 
 const NAdmin = () => {
     // Data
@@ -17,6 +18,12 @@ const NAdmin = () => {
     }
     // Hooks
     const [localState, setState] = useState(initState)
+    const [state, myDispatch] = useStore()
+    const roles = ["SAD", "AD"]
+    const {
+        logStatus,
+        roleCode
+    } = state
     const {pageType} = localState
     const pageTransitions = useTransition(pageType, {
         from: { opacity: 0 },
@@ -29,30 +36,35 @@ const NAdmin = () => {
         })
     }
     return (
-        <div className={clsx(styles.admin)}>
-            <div className={clsx(styles.sidebar, styles.adminPart)}>
-                <ul className={clsx(styles.list)}>
-                    <li className={clsx({
-                        [styles.item]: true,
-                        [styles.focus]: pageType === 1
-                    })} onClick={() => handleChangePage(1)}><i className="fa-solid fa-diagram-project"></i>Quản lý dự án</li>
-                    <li className={clsx({
-                        [styles.item] : true,
-                        [styles.focus] : pageType === 2
-                    })} onClick={() => handleChangePage(2)}><i className="fa-solid fa-users"></i>Quản lý người dùng</li>
-                </ul>
+        <>
+            {
+                !logStatus || !roles.includes(roleCode) ? <Redirect to="/"/> : ''
+            }
+            <div className={clsx(styles.admin)}>
+                <div className={clsx(styles.sidebar, styles.adminPart)}>
+                    <ul className={clsx(styles.list)}>
+                        <li className={clsx({
+                            [styles.item]: true,
+                            [styles.focus]: pageType === 1
+                        })} onClick={() => handleChangePage(1)}><i className="fa-solid fa-diagram-project"></i>Quản lý dự án</li>
+                        <li className={clsx({
+                            [styles.item] : true,
+                            [styles.focus] : pageType === 2
+                        })} onClick={() => handleChangePage(2)}><i className="fa-solid fa-users"></i>Quản lý người dùng</li>
+                    </ul>
+                </div>
+                <div className={clsx(styles.workbar, styles.adminPart)}>
+                    {
+                        pageTransitions((style,item) => {
+                            return <animated.div style={style}>
+                                { item === 1 && <NAdminProject />}
+                                { item === 2 && <NAdminUser />}
+                            </animated.div>
+                        })
+                    }
+                </div>
             </div>
-            <div className={clsx(styles.workbar, styles.adminPart)}>
-                {
-                    pageTransitions((style,item) => {
-                        return <animated.div style={style}>
-                            { item === 1 && <NAdminProject />}
-                            { item === 2 && <NAdminUser />}
-                        </animated.div>
-                    })
-                }
-            </div>
-        </div>
+        </>
     )
 }
 
