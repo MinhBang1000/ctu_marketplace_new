@@ -11,15 +11,21 @@ const NNavbar = () => {
     const roles = ["NNC", "SAD", "AD"]
     const admin = ["SAD", "AD"]
     const initState = {
-        showNavbar: true,
+        showNavbar: false,
         showAccount: false,
+        firstRender: false,
         userInformations: null,
     }
     // Hooks
     const [localState, setState] = useState(initState)
     const {showNavbar, showAccount, userInformations} = localState
     const [state, myDispatch] = useStore()
-    const {logStatus, roleCode, reCheckAuth} = state
+    const {logStatus, roleCode, reCheckAuth, firstRender} = state
+    const navbarTransitions = useTransition(showNavbar, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 },
+        leave: { opacity: 0 }
+    })
     const accountTransitions = useTransition(showAccount, {
         from: { opacity: 0 },
         enter: { opacity: 1 }
@@ -54,7 +60,7 @@ const NNavbar = () => {
     }
     const handleShowHide = (value) => {
         setState((prev) => {
-            return {...prev, showNavbar: value}
+            return {...prev, firstRender: true, showNavbar: value}
         })
         handleSetReload()
     }
@@ -83,11 +89,27 @@ const NNavbar = () => {
                     onClick={() => handleShowHide(true)}
                 ></i>
             </div>
-            <div className={clsx({
-                [styles.mlist]: true,
-                [styles.show]: showNavbar,
-                [styles.hide]: !showNavbar
-            })}>
+            {
+                navbarTransitions((style, item) => {
+                    return <animated.div style={style}>
+                        {item && mlist()}
+                    </animated.div>
+                })
+            }
+
+        </div>)
+    } 
+    const mlist = () => {
+        return (
+            <>
+            <div
+                // className={clsx({
+                //     [styles.mlist]: true,
+                //     [styles.show]: showNavbar,
+                //     [styles.hide]:  !showNavbar
+                // })}
+                className={clsx(styles.mlist)}
+            >
                 {
                     logStatus ? <div className={clsx(styles.maccount)}>
                         {
@@ -167,15 +189,18 @@ const NNavbar = () => {
                         </>
                 }
             </div>
-            <div className={clsx({
-                [styles.cover]: true,
-                [styles.show]: showNavbar,
-                [styles.hide]: !showNavbar
-            })}>
-                
+            <div 
+                // className={clsx({
+                //     [styles.cover]: true,
+                //     [styles.show]: showNavbar,
+                //     [styles.hide]: !showNavbar
+                // })}
+                className={clsx(styles.cover)}
+            >
             </div>
-        </div>)
-    } 
+            </>
+        )
+    }
     const desktopNavbar = () => {
         return (<div className={clsx(styles.navbar)}>
         <div className={clsx(styles.list)}>

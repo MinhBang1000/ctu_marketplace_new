@@ -47,6 +47,17 @@
     font-weight: bold;
 }
 
+.detailKeyValues table {
+    max-width: 100%;
+}
+.detailKeyValues tr td {
+    max-width: 100%;
+}
+.detailKeyValues img {
+    display: block;
+    max-width: 100%;
+}
+
 @media only screen and (max-width: 768px) {
     .detailWrapper {
         display: flex;
