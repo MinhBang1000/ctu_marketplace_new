@@ -73,8 +73,7 @@ public class PasswordResetCodeServiceImpl implements PasswordResetCodeService {
                     + code
                     + "</h1><p style='text-align: center;'>(Mã xác nhận có hiệu lực trong vòng 10 phút) </p><p>Vui lòng không cung cấp mã xác nhận cho bất kỳ ai vì lí do bảo mật!</p><p>Trân trọng, <br>System Admin.</p>";
 
-            emailService.sendNotificationMessage(userProfile.getEmail(),
-                    "[CTU-MARKETPLACE] Thay đổi mật khẩu người dùng!", content);
+            emailService.sendNotificationMessage(userProfile.getEmail(),"[CTU-MARKETPLACE] Thay đổi mật khẩu người dùng!", content);
             return passwordResetCode;
         } catch (Exception e) {
             throw new GlobalException(Constant.STATUS_CODE_400, e.getMessage());

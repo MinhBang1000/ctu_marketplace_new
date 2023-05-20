@@ -13,6 +13,7 @@ import { store } from "./store";
 
 import App from "./App";
 import { StoreProvider } from "./store/globalstate";
+import ScrollTop from "./components/ScrollTop";
 const options = {
   // you can also just use 'bottom center'
   position: positions.BOTTOM_CENTER,
@@ -30,6 +31,7 @@ ReactDOM.render(
         <AlertProvider template={AlertTemplate} {...options}>
           <I18nextProvider i18n={i18n}>
             <StoreProvider>
+              <ScrollTop />
               <App />
             </StoreProvider>
           </I18nextProvider>

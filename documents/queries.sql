@@ -145,3 +145,17 @@ insert into field(id, name) values (50901,'Công nghệ thực phẩm');
 insert into field(id, name) values (50901,'Công nghệ thực phẩm');
 
 select MAX(id) from field;
+-- 20/05/2023
+-- Bug 1
+use marketplace;
+
+show columns from new_project;
+alter table new_project modify column name longtext;
+alter table new_project modify column image longtext;
+alter table new_project modify column author longtext; 
+
+-- Bug 2
+use marketplace; 
+show columns from password_reset_code;
+alter table password_reset_code modify column expiry_date datetime(6) default null;
+alter table password_reset_code modify column reset_code varchar(255) default null;
