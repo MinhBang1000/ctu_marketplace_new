@@ -333,6 +333,9 @@
                 list-style-type: none;
                 padding: 0;
                 display: flex;
+                li {
+                    cursor: pointer;
+                }
                 li + li {
                     margin-left: 15px;
                 }

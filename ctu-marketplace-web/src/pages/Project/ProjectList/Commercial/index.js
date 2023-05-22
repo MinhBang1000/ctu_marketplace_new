@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-globals */
 
 import React, { useEffect, useState, useRef } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 import axios from 'axios';
 import {Link} from "react-router-dom"
@@ -22,6 +23,7 @@ import { Navigation, Scrollbar, A11y } from 'swiper';
 
 //carousel
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { event } from 'jquery';
 
 
 const ProjectList = (props) => {
@@ -48,46 +50,103 @@ const ProjectList = (props) => {
     const apiGetProjects = "https://marketplace.ctu.edu.vn/api/v3/projects"; //127.0.0.1:3999
 
     const [itemPerSlide, setItemPerSlide] = useState(4);
-
     const nexto = () => {
         swiper.slideNext();
         setActiveIndex(swiper.activeIndex);
     };
-
     const prev = () => {
         swiper.slidePrev();
         setActiveIndex(swiper.activeIndex);
     }
-
+    
+    const history = useHistory();
 
     useEffect(() => {
         seo({
             title: SEO_PROJECTS.commercial.title,
             metaDescription: SEO_PROJECTS.commercial.metaDescription
-        });
+        }); 
+        const queryParameters = new URLSearchParams(window.location.search)
+            const fieldId = Number(queryParameters.get("field"));
+            console.log("field: ", fieldId);
+            if(fieldId!==null && fieldId!==0) {
+                console.log("hi");
+                console.log('fieldId: ', typeof fieldId)
+        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
+                .then(res => {
+                    console.log("project: ", res.data.data);
+                    console.log("fieldId: ", fieldId)
+                    setProjects(res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }));
+                    var projectsTemp = [];
+                    projectsTemp = res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }).filter((project) => {
+                        var fields = [];
+                        for(var i=0; i<project.fields.length; i++) {
+                            fields.push(project.fields[i].id)
+                        }
+                        console.log("field in project: ", fields)
+                        var check = false;
+                        if(fields.includes(fieldId)) {
+                            check=true;
+                        }
+                        console.log("check: ", check)
+                        return check;
+                    
+                    })
+            setProjects(projectsTemp);
+            setProjects7(projectsTemp.slice(0, itemPerPage));
+            setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
+            setCurrentPage(1);
 
-        axios.get(`${apiGetProjects}?approve=true`)
-            .then(res => {
-                setProjects(res.data.data.filter((project) => {
-                    return project.template===false;
-                }))
-                setProjects7(res.data.data.filter((project) => {
-                    return project.template===false;
-                }).slice(0, itemPerPage));
-                setSwiperProjects(res.data.data.filter((project) => {
-                    return project.template===false;
-                }).slice(0, 8));
-                setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
-                    return project.template===false;
-                }).length/itemPerPage));
+            fields.map(field => {
+                return field.id === fieldId ? field.status = ! field.status : '';
+            })
+            setFields([...fields]);
+            var newFields = [];
+            for(var i=0; i<fields.length; i++) {
+                if(fields[i].status === true) {
+                    newFields.push(fields[i].id);
+                }
+            }
+            setFieldFilter(newFields);
 
+            window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
             })
             .catch(error => {
                 console.log("Error: ", error);
             })
+            } else {
+                axios.get(`${apiGetProjects}?approve=true`)
+                .then(res => {
+                    setProjects(res.data.data.filter((project) => {
+                        return project.template===false;
+                    }))
+                    setProjects7(res.data.data.filter((project) => {
+                        return project.template===false;
+                    }).slice(0, itemPerPage));
+                    setSwiperProjects(res.data.data.filter((project) => {
+                        return project.template===false;
+                    }).slice(0, 8));
+                    setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
+                        return project.template===false;
+                    }).length/itemPerPage));
+    
+                })
+                .catch(error => {
+                    console.log("Error: ", error);
+                })
+            }
+            // history.push({});
+       
+
+           
 
         axios.get('https://marketplace.ctu.edu.vn/api/v3/fields')
             .then(res => {
+                console.log("field: ", res.data.data);
                 setFields(
                 res.data.data.map(field => {
                     var newField = {};
@@ -250,27 +309,28 @@ const ProjectList = (props) => {
     const handleClickFilter = () => {       
         if(fieldFilter.length > 0) {
             axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
-            .then(res => {
-                setProjects(res.data.data.filter((project) => {
-                    return project.template===false && project.status?.code === 'DD';
-                }));
-                var projectsTemp = [];
-                projectsTemp = res.data.data.filter((project) => {
-                    return project.template===false && project.status?.code === 'DD';
-                }).filter((project) => {
-                var fields = [];
-                for(var i=0; i<project.fields.length; i++) {
-                    fields.push(project.fields[i].id)
-                }
-                var check = false;
-                for(i=0; i<fieldFilter.length; i++) {
-                    if(fields.includes(fieldFilter[i])) {
-                        check=true;
-                        break;
-                    }
-                }
-                return check;
-            })
+                .then(res => {
+                    setProjects(res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }));
+                    var projectsTemp = [];
+                    projectsTemp = res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }).filter((project) => {
+                        var fields = [];
+                        for(var i=0; i<project.fields.length; i++) {
+                            fields.push(project.fields[i].id)
+                        }
+                        var check = false;
+                        for(i=0; i<fieldFilter.length; i++) {
+                            if(fields.includes(fieldFilter[i])) {
+                                check=true;
+                                break;
+                            }
+                        }
+                        return check;
+                    
+                    })
             setProjects(projectsTemp);
             setProjects7(projectsTemp.slice(0, itemPerPage));
             setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
@@ -299,6 +359,52 @@ const ProjectList = (props) => {
                     console.log("Error: ", error);
                 })
             }
+    }
+
+    const handleClickFilterInProjectCard = (id) => {
+        console.log("hi");
+        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
+                .then(res => {
+                    setProjects(res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }));
+                    var projectsTemp = [];
+                    projectsTemp = res.data.data.filter((project) => {
+                        return project.template===false && project.status?.code === 'DD';
+                    }).filter((project) => {
+                        var fields = [];
+                        for(var i=0; i<project.fields.length; i++) {
+                            fields.push(project.fields[i].id)
+                        }
+                        var check = false;
+                        if(fields.includes(id)) {
+                            check=true;
+                        }
+                        return check;
+                    
+                    })
+            setProjects(projectsTemp);
+            setProjects7(projectsTemp.slice(0, itemPerPage));
+            setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
+            setCurrentPage(1);
+
+            fields.map(field => {
+                return field.id === id ? field.status = ! field.status : '';
+            })
+            setFields([...fields]);
+            var newFields = [];
+            for(var i=0; i<fields.length; i++) {
+                if(fields[i].status === true) {
+                    newFields.push(fields[i].id);
+                }
+            }
+            setFieldFilter(newFields);
+
+            window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
+            })
+            .catch(error => {
+                console.log("Error: ", error);
+            })
     }
  
     const renderList = () => {
@@ -339,7 +445,7 @@ const ProjectList = (props) => {
                                 </div>
                                 <div className='home__search__block__filter__list'>
                                     {
-                                        fields.map((field, index) => <div key={field + '2'} className='home__search__block__filter__list__item'>
+                                        fields.map((field, index) => <div key={field.id + '2'} className='home__search__block__filter__list__item'>
                                                 <input type='checkbox' id={field.id + '2'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
                                                 <label htmlFor={field.id + '2'} >{field.name}</label>
                                             </div>
@@ -427,7 +533,7 @@ const ProjectList = (props) => {
                                     onSlideChange={() => ''}
                                 >
                                     {
-                                        swiperProjects.map((project, index) => <SwiperSlide key={index}>
+                                        swiperProjects.map((project, index) => <SwiperSlide key={project.id + 'project1'}>
                                              <Link 
                                                 to={`/projects/detail/${project.id}`}
                                             >
@@ -454,15 +560,15 @@ const ProjectList = (props) => {
                         {projects7.length > 0 ? 
                         <>
                             <div className='home__project-list'>
-                                {projects7.map((project, index) => <div className='mk-card-horizontal' key={project.id}>
+                                {projects7.map((project, index) => <div className='mk-card-horizontal' key={project.id + 'project2'}>
                                         <div className="row product-card row">
                                             <div className="col-lg-6 col-md-12 product-card__description">
                                                 <div className="mk-card-body">
                                                     <div className='product-card__description__header'>
                                                         <ul className='mk-card-horizontal-field'>
                                                             {
-                                                                project.fields.slice(0,2).map((field) => {
-                                                                    return <li id={field.id + '3'} style={{color: 'rgba(0, 0, 0, 0.2) !important'}}>{field.name}</li>
+                                                                project.fields.slice(0,2).map((field, indexField) => {
+                                                                    return <li key={field.id + index + indexField} style={{color: 'rgba(0, 0, 0, 0.2) !important'}} onClick={(e) => handleClickFilterInProjectCard(field.id)}>{field.name}</li>
                                                                 })
                                                             }
                                                             {
