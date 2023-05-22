@@ -23,8 +23,6 @@ import { Navigation, Scrollbar, A11y } from 'swiper';
 
 //carousel
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { event } from 'jquery';
-
 
 const ProjectList = (props) => {
     const [projects7, setProjects7] = useState([]);
@@ -66,95 +64,71 @@ const ProjectList = (props) => {
             title: SEO_PROJECTS.commercial.title,
             metaDescription: SEO_PROJECTS.commercial.metaDescription
         }); 
+
         const queryParameters = new URLSearchParams(window.location.search)
-            const fieldId = Number(queryParameters.get("field"));
-            console.log("field: ", fieldId);
-            if(fieldId!==null && fieldId!==0) {
-                console.log("hi");
-                console.log('fieldId: ', typeof fieldId)
-        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
-                .then(res => {
-                    console.log("project: ", res.data.data);
-                    console.log("fieldId: ", fieldId)
-                    setProjects(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }));
+        const fieldId = Number(queryParameters.get("field"));
+
+        axios.get(`${apiGetProjects}?search=${search}`)
+            .then(res => {
+                return res.data.data.filter((project) => {
+                    return project.template===false && project.status?.code === 'DD'
+                })
+            })
+            .then(res => {
+                if(fieldId!==null && fieldId!==0) {
+                    setSwiperProjects(res.slice(0, 8));
                     var projectsTemp = [];
-                    projectsTemp = res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).filter((project) => {
+                    projectsTemp = res.filter((project) => {
                         var fields = [];
                         for(var i=0; i<project.fields.length; i++) {
                             fields.push(project.fields[i].id)
                         }
-                        console.log("field in project: ", fields)
                         var check = false;
                         if(fields.includes(fieldId)) {
                             check=true;
                         }
-                        console.log("check: ", check)
                         return check;
-                    
                     })
-            setProjects(projectsTemp);
-            setProjects7(projectsTemp.slice(0, itemPerPage));
-            setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
-            setCurrentPage(1);
-
-            fields.map(field => {
-                return field.id === fieldId ? field.status = ! field.status : '';
-            })
-            setFields([...fields]);
-            var newFields = [];
-            for(var i=0; i<fields.length; i++) {
-                if(fields[i].status === true) {
-                    newFields.push(fields[i].id);
+                    setProjects(projectsTemp);
+                    setProjects7(projectsTemp.slice(0, itemPerPage));
+                    setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
+                    setCurrentPage(1);
+                    window.scrollBy(0, 900 - document.documentElement.scrollTop - 130);
+                } else { 
+                    setProjects(res)
+                    setProjects7(res.slice(0, itemPerPage));
+                    setSwiperProjects(res.slice(0, 8));
+                    setNumberOfPage(Math.ceil(res.length/itemPerPage));
                 }
-            }
-            setFieldFilter(newFields);
-
-            window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
             })
             .catch(error => {
                 console.log("Error: ", error);
             })
-            } else {
-                axios.get(`${apiGetProjects}?approve=true`)
-                .then(res => {
-                    setProjects(res.data.data.filter((project) => {
-                        return project.template===false;
-                    }))
-                    setProjects7(res.data.data.filter((project) => {
-                        return project.template===false;
-                    }).slice(0, itemPerPage));
-                    setSwiperProjects(res.data.data.filter((project) => {
-                        return project.template===false;
-                    }).slice(0, 8));
-                    setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
-                        return project.template===false;
-                    }).length/itemPerPage));
-    
-                })
-                .catch(error => {
-                    console.log("Error: ", error);
-                })
-            }
-            // history.push({});
-       
-
-           
 
         axios.get('https://marketplace.ctu.edu.vn/api/v3/fields')
             .then(res => {
-                console.log("field: ", res.data.data);
-                setFields(
-                res.data.data.map(field => {
+                return res.data.data.map(field => {
                     var newField = {};
                     newField.id = field.id;
                     newField.name = field.name;
                     newField.status = false;
                     return newField;
-                }));
+                });
+            })
+            .then(res => {
+                if(fieldId!==null && fieldId!==0) {
+                    for(var i=0 ; i<res.length; i++) {
+                        if(res[i].id === fieldId) {
+                            res[i].status = true;
+                        }
+                    }
+                    var newFields = [fieldId];
+                    setFieldFilter(newFields);
+                }
+                return res;
+            })
+            .then(res=> {
+                setFields(res);
             })
 
         //responsive
@@ -193,21 +167,21 @@ const ProjectList = (props) => {
         document.getElementById('home__project-list')?.scrollIntoView({ behavior: 'smooth' });
     }
 
-    const searchProject = () => {
-        event.preventDefault();
-        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
+    const searchProject = (e) => {
+        e.preventDefault();
+        axios.get(`${apiGetProjects}?search=${search}`)
             .then(res => {
-                setProjects(res.data.data.filter((project) => {
+                return res.data.data.filter((project) => {
                     return project.template===false && project.status?.code === 'DD';
-                }));
-                setProjects7(res.data.data.filter((project) => {
-                    return project.template===false && project.status?.code === 'DD';
-                }).slice(0, itemPerPage));
-                setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
-                    return project.template===false && project.status?.code === 'DD';
-                }).length/itemPerPage));
-                if(projects.length > 0 && search !== '')
+                });
+            })
+            .then(res => {
+                setProjects(res);
+                setProjects7(res.slice(0, itemPerPage));
+                setNumberOfPage(Math.ceil(res.length/itemPerPage));
+                if(projects.length > 0 && search !== '') {
                     window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
+                }
                 setFields(fields.map(field => {
                         var nField = field;
                         nField.status = false;
@@ -266,18 +240,18 @@ const ProjectList = (props) => {
     }
 
     const removeFilter = () => {
+        history.push({});
         if(fieldFilter.length > 0) {
-            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
+            axios.get(`${apiGetProjects}?search=${search}`)
                 .then(res => {
-                    setProjects(res.data.data.filter((project) => {
+                    return res.data.data.filter((project) => {
                         return project.template===false && project.status?.code === 'DD';
-                    }));
-                    setProjects7(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).slice(0, itemPerPage));
-                    setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).length/itemPerPage));
+                    })
+                })
+                .then(res => {
+                    setProjects(res);
+                    setProjects7(res.slice(0, itemPerPage));
+                    setNumberOfPage(Math.ceil(res.length/itemPerPage));
                     setFields(fields.map(field => {
                         var nField = field;
                         nField.status = false;
@@ -306,17 +280,18 @@ const ProjectList = (props) => {
         setFieldFilter(newFields);
     }
 
-    const handleClickFilter = () => {       
-        if(fieldFilter.length > 0) {
-            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
-                .then(res => {
-                    setProjects(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }));
+    const handleClickFilter = () => {   
+        history.push({});
+        axios.get(`${apiGetProjects}?search=${search}`)
+            .then(res => {
+                return res.data.data.filter((project) => {
+                    return project.template===false && project.status?.code === 'DD';
+                })
+            })
+            .then(res => {
+                if(fieldFilter.length > 0) {
                     var projectsTemp = [];
-                    projectsTemp = res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).filter((project) => {
+                    projectsTemp = res.filter((project) => {
                         var fields = [];
                         for(var i=0; i<project.fields.length; i++) {
                             fields.push(project.fields[i].id)
@@ -329,78 +304,62 @@ const ProjectList = (props) => {
                             }
                         }
                         return check;
-                    
-                    })
-            setProjects(projectsTemp);
-            setProjects7(projectsTemp.slice(0, itemPerPage));
-            setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
-            setCurrentPage(1);
-            window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
+                    });
+                    setProjects(projectsTemp);
+                    setProjects7(projectsTemp.slice(0, itemPerPage));
+                    setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
+                    setCurrentPage(1);
+                    window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
+                } else {
+                    setProjects(res);
+                    setProjects7(res.slice(0, itemPerPage));
+                    setNumberOfPage(Math.ceil(res.length/itemPerPage));
+                    setCurrentPage(1);
+                }
             })
             .catch(error => {
                 console.log("Error: ", error);
             })
-
-        } else {
-            axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
-                .then(res => {
-                    setProjects(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }));
-                    setProjects7(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).slice(0, itemPerPage));
-                    setNumberOfPage(Math.ceil(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).length/itemPerPage));
-                    setCurrentPage(1);
-                })
-                .catch(error => {
-                    console.log("Error: ", error);
-                })
-            }
     }
 
     const handleClickFilterInProjectCard = (id) => {
-        console.log("hi");
-        axios.get(`${apiGetProjects}?search=${search}`) // api tim kiem 
-                .then(res => {
-                    setProjects(res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }));
-                    var projectsTemp = [];
-                    projectsTemp = res.data.data.filter((project) => {
-                        return project.template===false && project.status?.code === 'DD';
-                    }).filter((project) => {
-                        var fields = [];
-                        for(var i=0; i<project.fields.length; i++) {
-                            fields.push(project.fields[i].id)
-                        }
-                        var check = false;
-                        if(fields.includes(id)) {
-                            check=true;
-                        }
-                        return check;
-                    
-                    })
-            setProjects(projectsTemp);
-            setProjects7(projectsTemp.slice(0, itemPerPage));
-            setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
-            setCurrentPage(1);
-
-            fields.map(field => {
-                return field.id === id ? field.status = ! field.status : '';
+        axios.get(`${apiGetProjects}?search=${search}`)
+            .then(res => {
+                return res.data.data.filter((project) => {
+                    return project.template===false && project.status?.code === 'DD';
+                })
             })
-            setFields([...fields]);
-            var newFields = [];
-            for(var i=0; i<fields.length; i++) {
-                if(fields[i].status === true) {
-                    newFields.push(fields[i].id);
+            .then(res => {
+                setProjects(res);
+                var projectsTemp = [];
+                projectsTemp = res.filter((project) => {
+                    var fields = [];
+                    for(var i=0; i<project.fields.length; i++) {
+                        fields.push(project.fields[i].id)
+                    }
+                    var check = false;
+                    if(fields.includes(id)) {
+                        check=true;
+                    }
+                    return check;
+                
+                })
+                setProjects(projectsTemp);
+                setProjects7(projectsTemp.slice(0, itemPerPage));
+                setNumberOfPage(Math.ceil(projectsTemp.length/itemPerPage));
+                setCurrentPage(1);
+                fields.map(field => {
+                    return field.id === id ? field.status = true : '';
+                })
+                setFields([...fields]);
+                var newFields = [];
+                for(var i=0; i<fields.length; i++) {
+                    if(fields[i].status === true) {
+                        newFields.push(fields[i].id);
+                    }
                 }
-            }
-            setFieldFilter(newFields);
-
-            window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
+                setFieldFilter(newFields);
+                window.scrollBy(0, 900 - document.documentElement.scrollTop - heightNavbarSearch);
             })
             .catch(error => {
                 console.log("Error: ", error);
@@ -413,7 +372,7 @@ const ProjectList = (props) => {
                 <div className='home'>
                     <div className={searchDisplay? 'home_line home__line--active' : 'home__line'} id="home__line" style={{backgroundColor: 'var(--primary)', padding: '20px 0', position: 'sticky', zIndex: 4, top: 70}}>
                     <div id='home__search__block' className='home__search__block' style={{margin: 'auto'}}> 
-                        <form className='home__search__block__search row' onSubmit={searchProject}>
+                        <form className='home__search__block__search row' onSubmit={(e) => searchProject(e)}>
                             <div className='col-md-10 col-sm-12 group-icon-input'>
                                 <div className='home__search__block__search__icon'>
                                     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px">
@@ -445,7 +404,7 @@ const ProjectList = (props) => {
                                 </div>
                                 <div className='home__search__block__filter__list'>
                                     {
-                                        fields.map((field, index) => <div key={field.id + '2'} className='home__search__block__filter__list__item'>
+                                        fields.map((field) => <div key={field.id + '2'} className='home__search__block__filter__list__item'>
                                                 <input type='checkbox' id={field.id + '2'} checked={field.status} onChange={(e) => handleUpdateCheckboxList(field.id)}/>
                                                 <label htmlFor={field.id + '2'} >{field.name}</label>
                                             </div>
@@ -470,7 +429,7 @@ const ProjectList = (props) => {
                             </div>
                         </div>
                         <div id='home__search__block' className='home__search__block'> 
-                            <form className='home__search__block__search row' onSubmit={searchProject}>
+                            <form className='home__search__block__search row' onSubmit={(e) => searchProject(e)}>
                                 <div className='col-md-10 col-sm-12 group-icon-input'>
                                     <div className='home__search__block__search__icon'>
                                         <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 32 32" width="32px" height="32px">
@@ -616,6 +575,7 @@ const ProjectList = (props) => {
                             <div className='row' style={{height: '200px', width: '100%'}}>
                                 <div className='col-md-4'></div>
                                 <div className='col-md-4' style={{textAlign: 'center', lineHeight: '200px', fontSize: '20px'}}>
+                                    <img src={require('../../../../assets/images/nodata.png')} alt='' height="100px" width="150px" style={{marginRight: '10px'}}/>
                                     Không có dữ liệu
                                 </div>
                                 <div className='col-md-4'></div>

@@ -36,7 +36,9 @@
 }
 
 .detailItem {
-    text-decoration: underline;
+    color: #3D69A0;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .detailKeyValues {
