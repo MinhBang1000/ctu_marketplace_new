@@ -1,16 +1,19 @@
-import React from "react"
+import React, { useContext } from "react"
 import clsx from "clsx"
 import styles from "./NDetail.module.css"
 import { useEffect } from "react"
 import axios from "axios"
 import { useState } from "react"
 import Swal from "sweetalert2"
+import { StoreProvider } from "../../store/globalstate"
+import {Link} from "react-router-dom"
 
 const NDetail = (props) => {
     const {id} = props.match.params 
     const initState = { projectDetail: null }
     const [localState, setState] = useState(initState)
     const {projectDetail} = localState
+
     useEffect(() => {
         axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${id}`)
         .then((res) => {
@@ -37,7 +40,11 @@ const NDetail = (props) => {
                 {
                     project.fields.map((item, index) => {
                         return (
-                            <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
+                            <Link
+                                to={'/?field=2'}
+                            >
+                                <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
+                            </Link>
                         )
                     })
                 }
