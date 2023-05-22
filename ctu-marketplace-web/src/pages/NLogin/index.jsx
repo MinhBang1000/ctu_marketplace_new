@@ -483,7 +483,7 @@ const NLogin = () => {
             isValid: true
         }
         if (value === "") {
-            validate.text = "Bạn chưa nhập họ và tên !"
+            validate.text = "Bạn chưa nhập tên !"
             validate.isValid = false 
         }else if (value.length > 250) {
             validate.text = "Họ và tên được nhập nhỏ hơn 250 ký tự !"
@@ -498,7 +498,7 @@ const NLogin = () => {
             isValid: true
         }
         if (value === "") {
-            validate.text = "Bạn chưa nhập địa chỉ Email !"
+            validate.text = "Bạn chưa nhập Email !"
             validate.isValid = false 
         }else if (!regexPatterns.rEmail.test(value)) {
             validate.text = "Bạn chưa nhập đúng định dạng Email !"
@@ -531,7 +531,7 @@ const NLogin = () => {
             isValid: true
         }
         if (value === "") {
-            validate.text = "Bạn chưa nhập số điện thoại !"
+            validate.text = "Bạn chưa nhập SĐT !"
             validate.isValid = false 
         }else if (!regexPatterns.rPhone.test(value)) {
             validate.text = "Số điện thoại bao gồm 10 chữ số và bắt đầu bằng 0 !"
@@ -775,26 +775,26 @@ const NLogin = () => {
         {redirect && <Redirect to="/" />}
         {logStatus && <Redirect to="/" />}
         <div className={clsx(styles.auth)}  >
-        <div className={clsx(styles.wrapper)}>
-            <div className={clsx(styles.info)}
-                style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}
-            >
+            <div className={clsx(styles.wrapper)}>
+                <div className={clsx(styles.info, pageType === 2 && styles.registerSize)}
+                    style={{ backgroundImage: `url('${process.env.PUBLIC_URL}/images/ctu.jpg')`}}
+                >
 
+                </div>
+                <form className={clsx(styles.content, pageType === 2 && styles.registerSize)} onSubmit={(e)=>handleEnterSubmit(e)}>
+                    {
+                        transitions((style, item) => {
+                            return <animated.div style={style}>
+                                {item === 1 && loginComponent()}
+                                {item === 2 && signupComponent()}
+                                {item === 3 && sendEmail()}
+                                {item === 4 && checkResetCode()}
+                                {item === 5 && updatePassword()}
+                            </animated.div>
+                        })
+                    }
+                </form>
             </div>
-            <form className={clsx(styles.content)} onSubmit={(e)=>handleEnterSubmit(e)}>
-                {
-                    transitions((style, item) => {
-                        return <animated.div style={style}>
-                            {item === 1 && loginComponent()}
-                            {item === 2 && signupComponent()}
-                            {item === 3 && sendEmail()}
-                            {item === 4 && checkResetCode()}
-                            {item === 5 && updatePassword()}
-                        </animated.div>
-                    })
-                }
-            </form>
-        </div>
     </div>
     </>)
 }

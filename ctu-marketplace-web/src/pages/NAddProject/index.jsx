@@ -257,7 +257,8 @@ const NAddProject = () => {
             return {...prev, fields: newCheckedFields}
         })
     }, [checkFields])
-    useEffect(() => {
+    useEffect(() => {  
+        handleScrollOnTop()
         if (pageType === 1) {
             setState((prev) => {
                 return {
@@ -283,6 +284,9 @@ const NAddProject = () => {
         }
     },[pageType])
     // Handle 
+    const handleScrollOnTop = () => {
+        window.scrollTo(0, 0)
+    }
     const handleUp = (index) => {
         // At least two element
         if (index > 0) {
@@ -396,6 +400,12 @@ const NAddProject = () => {
         })
     }
     const handleChooseForm = (id) => {
+        if (id === 3) {
+            if (!handleCheckValidProject()) {
+                handleValidationWhenSubmit()
+                return 
+            }
+        }
         setState((prev) => {
             return { ...prev, pageType: id }
         })
@@ -1117,7 +1127,7 @@ const NAddProject = () => {
                         <div className={clsx(styles.btn, styles.primary)}
                             onClick={() => handleChooseForm(3)}
                         >
-                            Tạo dự án
+                            Tiếp tục
                         </div>
                     </div>
                 </div>
@@ -1300,6 +1310,7 @@ const NAddProject = () => {
     // Primary render
     return (
         <>
+            {/* { handleScrollOnTop() } */}
             { !logStatus || !roles.includes(roleCode) ? <Redirect to="/" /> : '' }
             <div className={clsx(styles.nAddProject)}>
                 <div className={clsx(styles.nAddProjectInfo, styles.nAddProjectPart)}>

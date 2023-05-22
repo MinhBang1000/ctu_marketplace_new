@@ -430,6 +430,11 @@ const NAccount = () => {
             return {...prev, ...resetValidateState}
         })
     }
+    const handleInfoSubmit = () => {
+        setState((prev) => {
+            return {...prev, vEmail: validateEmail(prev.email), vPhone: validatePhone(prev.phone)}
+        })
+    }
     const handleInformationsSubmit = () => {
         if (checkValidInfoSubmit()) {
             let json = prepareDataInfo()
@@ -443,6 +448,7 @@ const NAccount = () => {
                 setState((prev) => {
                     return {...prev, isGetUser: !prev.isGetUser}
                 })
+                handleAfterInfoSubmit()
             })
             .catch(err => {
                 Swal.fire({
@@ -457,7 +463,7 @@ const NAccount = () => {
                 title: "Nhập thông tin",
                 text: "Thông tin chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
             })
-            handleAfterInfoSubmit()
+            handleInfoSubmit()
         }
     }
     const handleAfterPasswordSubmit = () => {
