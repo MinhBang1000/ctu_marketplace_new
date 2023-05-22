@@ -279,7 +279,7 @@ const NLogin = () => {
                 getNews
             }
         }
-        const url = isResearcher===true?`https://marketplace.ctu.edu.vn/api/v2/auth/sign-up/researcher`:`https://marketplace.ctu.edu.vn/api/v2/auth/sign-up/guest`
+        const url = isResearcher===true?`${process.env.REACT_APP_BASE_URL}/api/v2/auth/sign-up/researcher`:`${process.env.REACT_APP_BASE_URL}/api/v2/auth/sign-up/guest`
         axios.post(url, data)
         .then((res) => {
             if (!isResearcher) {
@@ -320,7 +320,7 @@ const NLogin = () => {
             }
         }else if (pageType === 3) {
             if (handleCheckValidSendEmail()) {
-                axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/${username}`)
+                axios.post(`${process.env.REACT_APP_BASE_URL}/api/v2/auth/reset-password/${username}`)
                 .then(res => {
                 })
                 .catch(err => {
@@ -353,7 +353,7 @@ const NLogin = () => {
             }
         }else if (pageType === 4) {
             if (handleCheckValidCheckCode()) {
-                axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/check-reset-code/${username}/${checkCode}`)
+                axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth/reset-password/check-reset-code/${username}/${checkCode}`)
                 .then((res) => {
                     Swal.fire({
                         icon: 'success',
@@ -390,7 +390,7 @@ const NLogin = () => {
                     password,
                     code: checkCode
                 }
-                axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/update-password`, json)
+                axios.post(`${process.env.REACT_APP_BASE_URL}/api/v2/auth/reset-password/update-password`, json)
                 .then((res) => {
                     Swal.fire({
                         icon: 'success',
@@ -432,11 +432,11 @@ const NLogin = () => {
             username,
             password
         }
-        axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/login`, data)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/v2/auth/login`, data)
         .then(res => {
             localStorage.setItem('token', JSON.stringify(res.data.data.token))
             // Setting local variables
-            axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth?username=${username}`, { headers: authHeader()})
+            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth?username=${username}`, { headers: authHeader()})
             .then(res => {
                 localStorage.setItem('userData', JSON.stringify(res.data))
                 const expiredTime = new Date().getTime() + (60000 * 30)

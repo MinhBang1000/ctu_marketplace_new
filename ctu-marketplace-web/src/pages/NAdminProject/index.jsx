@@ -47,7 +47,7 @@ const NAdminProject = () => {
     // Apis
     useEffect(() => {
 
-        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/status-management`, {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/status-management`, {
             headers: authHeader()
         }).then(res => {
             setState((prev) => {
@@ -60,7 +60,7 @@ const NAdminProject = () => {
     }, [])
 
     useEffect(() => {
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
         .then(res => {
             let allOfProject = res.data.data 
             if (projectFormat !== 0) {
@@ -88,10 +88,10 @@ const NAdminProject = () => {
     }, [projectFormat, projectStatus, projectSearch])
     // Handle
     const handleDenied = (id) => {
-        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/approve/${id}?TC=true`,null,{
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/approve/${id}?TC=true`,null,{
             headers: authHeader()
         }).then(res => {
-            axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
             .then(res => {
                 Swal.fire({
                     icon: "success",
@@ -134,10 +134,10 @@ const NAdminProject = () => {
         })
     }
     const handleApprove = (id) => {
-        axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/approve/${id}?DD=true`,null,{
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/approve/${id}?DD=true`,null,{
             headers: authHeader()
         }).then(res => {
-            axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
             .then(res => {
                 let allOfProject = res.data.data 
                 if (projectFormat !== 0) {
@@ -190,10 +190,10 @@ const NAdminProject = () => {
             cancelButtonText: 'Hủy bỏ'
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://marketplace.ctu.edu.vn/api/v3/projects/${id}`,{
+                axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${id}`,{
                     headers: authHeader()
                 }).then(res => {
-                    axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+                    axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
                     .then(res => {
                         let allOfProject = res.data.data 
                         if (projectFormat !== 0) {

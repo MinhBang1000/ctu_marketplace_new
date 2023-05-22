@@ -113,7 +113,7 @@ const NNavbar = () => {
                 {
                     logStatus ? <div className={clsx(styles.maccount)}>
                         {
-                            !userInformations ?  <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img src={`https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                            !userInformations ?  <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img src={`${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
                         }
                         <div className={clsx(styles.maccountInfo)}>
                             <div className={clsx(styles.maccountName)}>{userInformations && userInformations.fullName}</div>
@@ -237,7 +237,7 @@ const NNavbar = () => {
             {
                 logStatus===true ? <div className={clsx(styles.account)}>
                 {
-                    !userInformations ?  <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img  className={clsx(styles.accountAvatar)} src={`https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                    !userInformations ?  <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img  className={clsx(styles.accountAvatar)} src={`${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
                 }
                 {/* <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> */}
                 <div className={clsx(styles.accountInfo)}>

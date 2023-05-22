@@ -129,7 +129,7 @@ const NContact = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (checkValidToSubmit()) {
-            axios.post(`https://marketplace.ctu.edu.vn/api/v2/public/contact`, prepareData())
+            axios.post(`${process.env.REACT_APP_BASE_URL}/api/v2/public/contact`, prepareData())
             .then((res) => {
                 Swal.fire({
                     icon: "success",

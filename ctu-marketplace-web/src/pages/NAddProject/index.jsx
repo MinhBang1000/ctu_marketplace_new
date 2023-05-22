@@ -164,7 +164,7 @@ const NAddProject = () => {
     // Apis
     useEffect(() => {
         // Get All Status
-        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/status-management`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/status-management`)
         .then((res) => {
             setState((prev) => {
                 return {...prev, statuses: res.data.data}
@@ -174,7 +174,7 @@ const NAddProject = () => {
             console.log(err)
         })
         // Get All Fields
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/fields`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/fields`)
         .then(res => {
             let allField = res.data.data.map((field) => {
                 return {
@@ -189,7 +189,7 @@ const NAddProject = () => {
             console.log(error)
         })
         // Get Project Templates
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true&approve=true`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects?is_template=true&approve=true`)
         .then(res => {
             setState((prev) => {
                 return {...prev, templates: res.data.data}
@@ -199,7 +199,7 @@ const NAddProject = () => {
             console.log(error)
         })
         // Get All Project to List
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
         .then(res => {
             const auth = JSON.parse(localStorage.getItem('userData'))
             const myProjects = res.data.data.filter((item) => {
@@ -222,7 +222,7 @@ const NAddProject = () => {
     useEffect(() => {
         const format = formatOption
         const status = statusOption
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
         .then(res => {
             const auth = JSON.parse(localStorage.getItem('userData'))
             let myProjects = res.data.data.filter((item) => {
@@ -247,10 +247,10 @@ const NAddProject = () => {
         })
     }, [formatOption, statusOption])
     useEffect(() => {
-        const newCheckedFields = fields.map((field) => {
+        const newCheckedFields = constFields.map((field) => {
             return {
                 ...field,
-                checked: checkFields.includes(field.id)
+                checked: checkFields.includes(parseInt(field.id))
             }
         })
         setState((prev) => {
@@ -268,9 +268,18 @@ const NAddProject = () => {
             })
         }else if (pageType === 3) {
             // Get Project Templates
-            setState((prev) => {
-                return {...prev, reCallApi:!prev.reCallApi}
+            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects?is_template=true&approve=true`)
+            .then(res => {
+                setState((prev) => {
+                    return {...prev, templates: res.data.data}
+                })
             })
+            .catch(error => {
+                console.log(error)
+            })
+            // setState((prev) => {
+            //     return {...prev, reCallApi:!prev.reCallApi}
+            // })
         }
     },[pageType])
     // Handle 
@@ -291,7 +300,7 @@ const NAddProject = () => {
         if (projectImage !== null) {
             let formData = new FormData()
             formData.append("file", projectImage)
-            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects/upload-image`, formData, { headers: authHeader() })
+            axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/upload-image`, formData, { headers: authHeader() })
             .then((res) => {
                 setState((prev) => {
                     return {...prev, projectImageName: res.data.data.name}
@@ -473,7 +482,7 @@ const NAddProject = () => {
     const handleCreatePattern = () => {
         let json = preparingData()
         if (handleCheckValidProject()) {
-            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {
+            axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects?is_template=true`, json, {
                 headers: authHeader()
             }).then(res => {
                 resetComponent()
@@ -504,7 +513,7 @@ const NAddProject = () => {
     const handleCreateProject = () => {
         let json = preparingData()
         if (handleCheckValidProject()) {
-            axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json, {
+            axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`, json, {
                 headers: authHeader()
             }).then(res => {
                 resetComponent()
@@ -538,13 +547,13 @@ const NAddProject = () => {
             let json = preparingData()
             let check = true 
             try {
-                await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects?is_template=true`, json, {headers: authHeader()})
+                await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects?is_template=true`, json, {headers: authHeader()})
             }catch (err) {
                 check = false
             }
             let json1 = preparingData()
             try {
-                await axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects`, json1, {headers: authHeader()})
+                await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`, json1, {headers: authHeader()})
             }catch (err) {
                 check = false
             }
@@ -600,14 +609,14 @@ const NAddProject = () => {
         })
     }
     const handleDetailPage = async(projectId) => {
-        let rawData = await axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`)
+        let rawData = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${projectId}`)
         const project = rawData.data.data
         setState((prev) => {
             return {...prev, projectDetail: project}
         })
     }
     const handleEditPage = async(projectId) => {
-        let rawData = await axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`)
+        let rawData = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${projectId}`)
         const project = rawData.data.data
         const data={
             vProjectName: { 
@@ -632,6 +641,7 @@ const NAddProject = () => {
             },
             // data
             projectName: project.name,
+            projectImageName: project.image,
             projectAuthor: project.author,
             isUpdate: true,
             projectIntroduction: project.introduction,
@@ -643,14 +653,13 @@ const NAddProject = () => {
         })
     }
     const handleSaveProject = () => {
-        console.log(handleCheckValidProject());
         if (handleCheckValidProject()) {
             let data = preparingData()
             const newKeyValues = data.keyValues.map((item) => {
                 return {key: item.key, value: item.value}
             })
             data.keyValues = newKeyValues
-            axios.put(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
+            axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${projectDetail.id}`, data, { headers: authHeader() })
             .then((res) => {
                 Swal.fire({
                     icon: 'success',
@@ -703,11 +712,11 @@ const NAddProject = () => {
             cancelButtonText: 'Hủy bỏ'
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://marketplace.ctu.edu.vn/api/v3/projects/${projectId}`, {headers: authHeader() })
+                axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${projectId}`, {headers: authHeader() })
                 .then((res) => {
                     const format = formatOption
                     const status = statusOption
-                    axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects`)
+                    axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects`)
                     .then(res => {
                         const auth = JSON.parse(localStorage.getItem('userData'))
                         let myProjects = res.data.data.filter((item) => {
