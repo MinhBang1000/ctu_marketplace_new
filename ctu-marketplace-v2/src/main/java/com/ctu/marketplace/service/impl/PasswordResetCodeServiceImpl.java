@@ -69,7 +69,7 @@ public class PasswordResetCodeServiceImpl implements PasswordResetCodeService {
             userProfile.setPasswordResetCode(passwordResetCode);
             userProfileRepository.save(userProfile);
 
-            String content = "<h2 style='text-align: center'>Khôi phục mật khẩu</h2><p>Xin chào Đoàn Hoàng Tính,</p><p>Chúng tôi đã nhận được yêu cầu khôi phục mật khẩu của bạn thông qua username mà bạn đã cung cấp. Mã xác nhận của bạn là: </p><h1 style='text-align: center; color: red; font-family: consolas; margin:0'>"
+            String content = "<h2 style='text-align: center'>Khôi phục mật khẩu</h2><p>Xin chào,</p><p>Chúng tôi đã nhận được yêu cầu khôi phục mật khẩu của bạn thông qua username mà bạn đã cung cấp. Mã xác nhận của bạn là: </p><h1 style='text-align: center; color: red; font-family: consolas; margin:0'>"
                     + code
                     + "</h1><p style='text-align: center;'>(Mã xác nhận có hiệu lực trong vòng 10 phút) </p><p>Vui lòng không cung cấp mã xác nhận cho bất kỳ ai vì lí do bảo mật!</p><p>Trân trọng, <br>System Admin.</p>";
 

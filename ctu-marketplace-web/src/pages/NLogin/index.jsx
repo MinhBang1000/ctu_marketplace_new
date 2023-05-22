@@ -10,23 +10,39 @@ import Swal from "sweetalert2"
 import { Redirect } from "react-router-dom/cjs/react-router-dom"
 import NValid from "../../components/NValid"
 import { useTransition, animated } from "@react-spring/web"
+import NRequire from "../../components/NRequire"
+import NInput from "../../components/NInput"
 
 const NLogin = () => {
     // Init hooks
     const initState = {
+        // Data
+        checkCode: '',
         username: "",
         password: "",
+        confirm: "",
         redirect: false,
         isLogin: true, // true is login , false is sign up
+        pageType: 1, // 1 is login, 2 is sign up, 3 is send email, 4 is check code, 5 update password
         isResearcher: false,
         isShow: false,
         // Validate
+        vCheckCode: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
         vUsername: {
             first: true,
             isValid: true,
             text: '...'
         },
         vPassword: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vConfirm: {
             first: true,
             isValid: true,
             text: '...'
@@ -61,12 +77,22 @@ const NLogin = () => {
         dob: new Date(),
     }
     const resetValidateState = {
+        vCheckCode: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
         vUsername: { 
             first: true,
             isValid: true,
             text: '...'
         },
         vPassword: {
+            first: true,
+            isValid: true,
+            text: '...'
+        },
+        vConfirm: {
             first: true,
             isValid: true,
             text: '...'
@@ -94,8 +120,10 @@ const NLogin = () => {
     }
     const resetState = {
         isShow: false,
+        checkCode: "",
         username: "",
         password: "",
+        confirm: "",
         // Signup
         fullName: '',
         email: '',
@@ -106,12 +134,12 @@ const NLogin = () => {
         dob: new Date(),
     }
     const [localState, setState] = useState(initState)
-    const {username, password, vUsername, vPassword, vFullname, vEmail, vAddress, vPhone, redirect, isLogin, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
+    const {username, password, checkCode, confirm, vConfirm, vCheckCode, vUsername, vPassword, vFullname, vEmail, vAddress, vPhone, redirect, isLogin, pageType, isResearcher, fullName, email,isShow, phone, address, gender, dob, getNews} = localState
     const [state, myDispatch] = useStore()
     const {
         logStatus
     } = state
-    const transitions = useTransition(isLogin, {
+    const transitions = useTransition(pageType, {
         from: {opacity: 0},
         enter: {opacity: 1}
     })
@@ -152,6 +180,11 @@ const NLogin = () => {
             return {...prev, ...resetValidateState}
         })
     }
+    const handleSetCheckCode = (value) => {
+        setState((prev) => {
+            return {...prev, checkCode: value, vCheckCode: {...validateCheckCode(value)}}
+        })
+    }
     const handleSetDob = (value) => {
         setState((prev) => {
             return {...prev, dob: value}
@@ -187,11 +220,39 @@ const NLogin = () => {
             return {...prev, username: value, vUsername: { ...prev.vUsername, ...validateUsername(value)}}
         })
     }
+    const handleSetConfirm = (value) => {
+        setState((prev) => {
+            return {...prev, confirm: value, vConfirm: {...prev.vConfirm, ...validateConfirm(value)}}
+        })
+    }
     const handleSetPassword = (value) => {
         setState((prev) => {
             return {...prev, password: value, vPassword: {...prev.vPassword, ...validatePassword(value)}}
         })
     }
+    const handleReset = () => {
+        setState((prev) => {
+            return {...prev, ...resetState, ...resetValidateState}
+        })
+    }
+    const handleChangeFeature = (value) => {
+        setState((prev) => {
+            return { ...prev, pageType: value }
+        })
+        if (value === 4) {
+            return 
+        }
+        if (value === 5) {
+            return
+        }
+        handleReset()
+    }
+    const handleChangeRole = (value) => {
+        setState((prev) => {
+            return {...prev, isResearcher: (value === "true")}
+        })
+    }
+    // Submit
     const handleSubmitSignup = () => {
         let data = {}
         if (isResearcher === true) {
@@ -235,7 +296,7 @@ const NLogin = () => {
     }
     const handleEnterSubmit = (e) => {
         e.preventDefault()
-        if (isLogin) {
+        if (pageType === 1) {
             if (handleCheckValidLogin()) {
                 handleSubmitLogin()
             }else {
@@ -246,7 +307,7 @@ const NLogin = () => {
                 })
                 handleValidationWhenSubmit()
             }
-        }else{
+        }else if (pageType === 2) {
             if (handleCheckValidSignUp()) {
                 handleSubmitSignup()
             }else{
@@ -256,6 +317,113 @@ const NLogin = () => {
                     text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
                 })
                 handleValidationWhenSubmit()
+            }
+        }else if (pageType === 3) {
+            if (handleCheckValidSendEmail()) {
+                axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/${username}`)
+                .then(res => {
+                })
+                .catch(err => {
+                }) 
+                Swal.fire({
+                    title: 'Vui lòng chờ trong giây lát ...',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    timer: 8500,
+                    didOpen: () => {
+                      Swal.showLoading()
+                    }
+                })
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Gửi thành công',
+                        text: 'Mã xác nhận được gửi thành công!'
+                    }).then(() => {
+                        handleChangeFeature(4)
+                    }) 
+                })
+            }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Nhập thông tin",
+                    text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
+                })
+                handleValidationWhenSubmit()
+            }
+        }else if (pageType === 4) {
+            if (handleCheckValidCheckCode()) {
+                axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/check-reset-code/${username}/${checkCode}`)
+                .then((res) => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Mã xác nhận',
+                        text: 'Xác nhận mã thành công !'
+                    }).then(() => {
+                        handleChangeFeature(5)
+                    })
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Mã xác nhận',
+                        text: 'Xác nhận không hợp lệ ! Vui lòng kiểm tra lại'
+                    })
+                })
+            }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Nhập thông tin",
+                    text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
+                })
+                setState((prev) => {
+                    return {
+                        ...prev, 
+                        vCheckCode: {...validateCheckCode(prev.checkCode)}
+                    }
+                })
+            }
+        }else if (pageType === 5) {
+            if (handleCheckValidUpdatePassword()) {
+                let json = {
+                    username,
+                    password,
+                    code: checkCode
+                }
+                axios.post(`https://marketplace.ctu.edu.vn/api/v2/auth/reset-password/update-password`, json)
+                .then((res) => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thay đổi mật khẩu',
+                        text: 'Mật khẩu được thay đổi thành công !'
+                    }).then(() => {
+                        const tUsername = username
+                        handleChangeFeature(1)
+                        setState((prev) => {
+                            return {...prev, username: tUsername, vUsername: {...validateUsername(tUsername)}}
+                        })
+                    })
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thay đổi mật khẩu',
+                        text: 'Thay đổi mật khẩu không thành công !',
+                    })
+                })
+            }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Nhập thông tin",
+                    text: "Thông tin đăng nhập chưa đầy đủ hoặc chưa đúng! Vui lòng nhập lại"
+                })
+                setState((prev) => {
+                    return {
+                        ...prev, 
+                        vPassword: {...validatePassword(prev.password)},
+                        vConfirm: {...validateConfirm(prev.confirm)}
+                    }
+                })
             }
         }
     }
@@ -290,33 +458,23 @@ const NLogin = () => {
             popupLogin(false)
         })
     }
-    const handleReset = () => {
-        setState((prev) => {
-            return {...prev, ...resetState, ...resetValidateState}
-        })
-    }
-    const handleChangeFeature = (value) => {
-        if (value === true) {
-            setState((prev) => {
-                return {...prev, isLogin: true}
-            })
-        }else {
-            setState((prev) => {
-                return {...prev, isLogin: false}
-            })
-        }
-        handleReset()
-    }
-    const handleChangeRole = (value) => {
-        setState((prev) => {
-            return {...prev, isResearcher: (value === "true")}
-        })
-    }
     // Validation
     const regexPatterns = {
         rEmail: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
         rPhone: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
         rPassword: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+    }
+    const validateCheckCode = (value) => {
+        let validate = {
+            text: '...',
+            isValid: true,
+            first: false
+        }
+        if (value === '') {
+            validate.isValid = false
+            validate.text = 'Bạn chưa nhập mã xác thực !'
+        }
+        return validate
     }
     const validateFullname = (value) => {
         let validate = {
@@ -396,6 +554,24 @@ const NLogin = () => {
         } 
         return validate
     }
+    const validateConfirm = (value) => {
+        let validate = {
+            first: false,
+            text: "...",
+            isValid: true
+        }
+        if (value === "") {
+            validate.text = "Bạn chưa nhập xác nhận mật khẩu !"
+            validate.isValid = false 
+        }else if (pageType !== 1 && !regexPatterns.rPassword.test(value)) {
+            validate.text = "Mật khẩu từ 6-16 ký tự, bao gỗm chữ cái, số và ký tự đặc biệt !"
+            validate.isValid = false
+        }else if (password !== value) {
+            validate.text = "Mật khẩu xác nhận chưa giống mật khẩu !"
+            validate.isValid = false
+        }
+        return validate
+    }
     const validatePassword = (value) => {
         let validate = {
             first: false,
@@ -405,7 +581,7 @@ const NLogin = () => {
         if (value === "") {
             validate.text = "Bạn chưa nhập mật khẩu !"
             validate.isValid = false 
-        }else if (!isLogin && !regexPatterns.rPassword.test(value)) {
+        }else if (pageType !== 1 && !regexPatterns.rPassword.test(value)) {
             validate.text = "Mật khẩu từ 6-16 ký tự, bao gỗm chữ cái, số và ký tự đặc biệt !"
             validate.isValid = false
         }
@@ -421,6 +597,15 @@ const NLogin = () => {
         check = check && vPhone.isValid && !vPhone.first && vFullname.isValid && !vFullname.first
         return check
     }
+    const handleCheckValidSendEmail = () => {
+        return !vUsername.first && vUsername.isValid
+    }
+    const handleCheckValidCheckCode = () => {
+        return vCheckCode.isValid && !vCheckCode.first
+    }
+    const handleCheckValidUpdatePassword = () => {
+        return confirm === password && vConfirm.isValid && !vConfirm.first
+    }
     const handleValidationWhenSubmit = () => {
         setState((prev => {
             return {
@@ -434,6 +619,7 @@ const NLogin = () => {
             }
         }))
     }
+    
     // Sub components
     const loginComponent = () =>{
         return (<div className={clsx(styles.login)}>
@@ -452,12 +638,12 @@ const NLogin = () => {
                 <input placeholder="*************" value={password} type={!isShow ? 'password' : 'text'}  onChange={(e) => handleSetPassword(e.target.value)} />
                 <NValid isValid={vPassword.first || vPassword.isValid} text={vPassword.text}/>
             </div>
-            {/* <div className={clsx(styles.link, styles.forgot)}><span>Quên mật khẩu</span></div> */}
+            <div className={clsx(styles.link, styles.forgot)}><span onClick={() => handleChangeFeature(3)} >Quên mật khẩu</span></div>
             <hr></hr>
             <button className={clsx(styles.btn, styles.submit)} type="submit" >Đăng nhập</button>
             <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
             {/* Google Login Here */}
-            <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(false)}><span>Bạn chưa có tài khoản ?</span></div>
+            <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(2)}><span>Bạn chưa có tài khoản ?</span></div>
         </div>)
     }
     const signupComponent = () => {
@@ -525,8 +711,63 @@ const NLogin = () => {
                 <hr></hr>
                 <button className={clsx(styles.btn, styles.submit)} type="submit">Đăng ký</button>
                 <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
-                <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(true)}><span>Bạn đã có tài khoản ?</span></div>
+                <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(1)}><span>Bạn đã có tài khoản ?</span></div>
             </div>
+        )
+    }
+    const sendEmail = () => {
+        return (<div className={styles.sendEmail}>
+                <h3 className={clsx(styles.title)}>Quên mật khẩu !</h3>
+                <div className={clsx(styles.scripts)}>Dùng tên đăng nhập của bạn ...</div>
+                <div className={clsx(styles.formGroup)}>
+                    <label>Tên đăng nhập</label>
+                    <input placeholder="nguyenvana ..." value={username} type="text"  onChange={(e) => handleSetUsername(e.target.value)} />
+                    <NValid isValid={vUsername.first || vUsername.isValid} text={vUsername.text}/>
+                </div>
+                <hr></hr>
+                <button className={clsx(styles.btn, styles.submit)} type="submit" >Xác nhận</button>
+                {/* Google Login Here */}
+                <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(1)}><span>Đăng nhập ?</span></div>
+        </div>)
+    }
+    const checkResetCode = () => {
+        return (<div className={clsx(styles.checkCode)}>
+            <h3 className={clsx(styles.title)}>Quên mật khẩu !</h3>
+            <div className={clsx(styles.scripts)}>Kiểm tra mã xác thực ...</div>
+            <div className={clsx(styles.formGroup)}>
+                <label>Mã xác thực</label>
+                <input placeholder="QxtC2 ..." value={checkCode} type="text"  onChange={(e) => handleSetCheckCode(e.target.value)} />
+                <NValid isValid={vCheckCode.first || vCheckCode.isValid} text={vCheckCode.text}/>
+            </div>
+            <div className={clsx(styles.link, styles.resend)} ><span onClick={() => handleChangeFeature(3)}>Gửi lại mã</span></div>
+            <hr></hr>
+            <button className={clsx(styles.btn, styles.submit)} type="submit" >Xác nhận</button>
+            {/* Google Login Here */}
+            <div className={clsx(styles.link, styles.signup)} ><span onClick={() => handleChangeFeature(1)}>Đăng nhập ?</span></div>
+        </div>)
+    }
+    const updatePassword = () => {
+        return (
+            <div>
+                <h3 className={clsx(styles.title)}>Quên mật khẩu !</h3>
+                <div className={clsx(styles.scripts)}>Thay đổi mật khẩu của bạn ...</div>
+                <div className={clsx(styles.formGroup)}>
+                    <label>Mật khẩu mới <NRequire/></label>
+                    {/* <input placeholder="********************" value={password} type="password"  onChange={(e) => handleSetPassword(e.target.value)} /> */}
+                    <NInput type={'password'} setValue={handleSetPassword} value={password} placeholder={"*****************"}/>
+                    <NValid isValid={vPassword.first || vPassword.isValid} text={vPassword.text}/>
+                </div>
+                <div className={clsx(styles.formGroup)}>
+                    <label>Xác nhận mật khẩu <NRequire/></label>
+                    {/* <input placeholder="********************" value={confirm} type="password"  onChange={(e) => handleSetConfirm(e.target.value)} /> */}
+                    <NInput type={'password'} setValue={handleSetConfirm} value={confirm} placeholder={"*****************"}/>
+                    <NValid isValid={vConfirm.first || vConfirm.isValid} text={vConfirm.text}/>
+                </div>
+                <hr></hr>
+                <button className={clsx(styles.btn, styles.submit)} type="submit" >Xác nhận</button>
+                {/* Google Login Here */}
+                <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(1)}><span>Đăng nhập ?</span></div>
+            </div> 
         )
     }
     // Rendering
@@ -543,7 +784,13 @@ const NLogin = () => {
             <form className={clsx(styles.content)} onSubmit={(e)=>handleEnterSubmit(e)}>
                 {
                     transitions((style, item) => {
-                        return <animated.div style={style}>{item ? loginComponent() : signupComponent()}</animated.div>
+                        return <animated.div style={style}>
+                            {item === 1 && loginComponent()}
+                            {item === 2 && signupComponent()}
+                            {item === 3 && sendEmail()}
+                            {item === 4 && checkResetCode()}
+                            {item === 5 && updatePassword()}
+                        </animated.div>
                     })
                 }
             </form>

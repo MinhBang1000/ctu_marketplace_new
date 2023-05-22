@@ -132,6 +132,15 @@
     color: white;
 }
 
+.forgot {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.resend {
+    display: flex;
+    justify-content: flex-end;
+}
 
 @media only screen and (max-width: 1466px) {
     .registerGroup {
