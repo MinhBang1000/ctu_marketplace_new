@@ -35,7 +35,7 @@ const NAdminUser = () => {
     } = state
     // Apis
     useEffect(() => {
-        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/role-management`, { headers: authHeader() })
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/role-management`, { headers: authHeader() })
         .then(res => {
             setState((prev) => {
                 return {...prev, userRoleList: res.data.data}
@@ -46,7 +46,7 @@ const NAdminUser = () => {
 
     }, [])
     useEffect(() => {
-        axios.get(`https://marketplace.ctu.edu.vn/api/v2/admin/user-management/users/1`, { headers: authHeader() })
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/user-management/users/1`, { headers: authHeader() })
         .then(res => {
             let allOfUser = res.data.data
             if (userRole !== 0) {
@@ -74,7 +74,7 @@ const NAdminUser = () => {
     }, [reCallApis, userRole, userStatus, userSearch])
     // Handle
     const handleDenied = (id) => {
-        axios.put(`https://marketplace.ctu.edu.vn/api/v2/admin/user-management/enable-user?userId=${id}&isEnabled=false`,null,{
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/user-management/enable-user?userId=${id}&isEnabled=false`,null,{
             headers: authHeader()
         }).then(res => {
             Swal.fire({
@@ -92,7 +92,7 @@ const NAdminUser = () => {
         })
     }
     const handleApprove = (id) => {
-        axios.put(`https://marketplace.ctu.edu.vn/api/v2/admin/user-management/enable-user?userId=${id}&isEnabled=true`,null,{
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/user-management/enable-user?userId=${id}&isEnabled=true`,null,{
             headers: authHeader()
         }).then(res => {
             Swal.fire({
@@ -121,7 +121,7 @@ const NAdminUser = () => {
             cancelButtonText: 'Hủy bỏ'
           }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`https://marketplace.ctu.edu.vn/api/v2/admin/user-management/delete-user?username=${username}`, {headers: authHeader() })
+                axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v2/admin/user-management/delete-user?username=${username}`, {headers: authHeader() })
                 .then((res) => {
                     Swal.fire({
                         icon: "success",

@@ -15,7 +15,7 @@ const NDetail = (props) => {
     const {projectDetail} = localState
 
     useEffect(() => {
-        axios.get(`https://marketplace.ctu.edu.vn/api/v3/projects/${id}`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/${id}`)
         .then((res) => {
             setState((prev) => {
                 return {...prev, projectDetail: res.data.data}

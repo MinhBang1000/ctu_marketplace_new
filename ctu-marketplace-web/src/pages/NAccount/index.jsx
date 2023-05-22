@@ -174,7 +174,7 @@ const NAccount = () => {
     } = localState
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userData'))
-        axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth?username=${user.data.username}`, { headers: authHeader()})
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth?username=${user.data.username}`, { headers: authHeader()})
         .then(res => {
             localStorage.setItem('userData', JSON.stringify(res.data))
             // Setup global state for logStatus
@@ -263,15 +263,15 @@ const NAccount = () => {
             if (validateImage(file)) {
                 let formData = new FormData()
                 formData.append("file", file)
-                axios.post(`https://marketplace.ctu.edu.vn/api/v3/projects/upload-image`, formData, { headers: authHeader() })
+                axios.post(`${process.env.REACT_APP_BASE_URL}/api/v3/projects/upload-image`, formData, { headers: authHeader() })
                 .then((res) => {
                     const fileName = res.data.data.name
-                    axios.put(`https://marketplace.ctu.edu.vn/api/v3/users/update-image?imageName=${fileName}`, null, {
+                    axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/users/update-image?imageName=${fileName}`, null, {
                         headers: authHeader()
                     })
                     .then((res) => {
                         const user = JSON.parse(localStorage.getItem('userData'))
-                        axios.get(`https://marketplace.ctu.edu.vn/api/v2/auth?username=${user.data.username}`, { headers: authHeader()})
+                        axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth?username=${user.data.username}`, { headers: authHeader()})
                         .then(res => {
                             localStorage.setItem('userData', JSON.stringify(res.data))
                             // Setup global state for logStatus
@@ -433,7 +433,7 @@ const NAccount = () => {
     const handleInformationsSubmit = () => {
         if (checkValidInfoSubmit()) {
             let json = prepareDataInfo()
-            axios.put(`https://marketplace.ctu.edu.vn/api/v3/users/update-informations`, json, {headers:authHeader()})
+            axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/users/update-informations`, json, {headers:authHeader()})
             .then(res => {
                 Swal.fire({
                     icon: 'success',
@@ -478,7 +478,7 @@ const NAccount = () => {
     const handlePasswordSubmit = () => {
         if (checkValidPasswordSubmit()) {
             let json = prepareDataPassword()
-            axios.put(`https://marketplace.ctu.edu.vn/api/v3/users/update-password/${currentUser.id}`, json, { headers: authHeader() })
+            axios.put(`${process.env.REACT_APP_BASE_URL}/api/v3/users/update-password/${currentUser.id}`, json, { headers: authHeader() })
             .then(res => {
                 Swal.fire({
                     icon: 'success',
@@ -512,7 +512,7 @@ const NAccount = () => {
             <div className={clsx(styles.introduction, styles.accountPart)}>
                 <div className={clsx(styles.avatar)}>
                     <img 
-                        src={!image ? `${process.env.PUBLIC_URL}/images/avatar.jpg` : `https://marketplace.ctu.edu.vn/api/v3/projects/view-image/${image}`}
+                        src={!image ? `${process.env.PUBLIC_URL}/images/avatar.jpg` : `${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${image}`}
                         className={clsx(styles.upload)}
                     />
                     <div className={clsx(styles.btnUpload)} onClick={triggerAvatar}>
