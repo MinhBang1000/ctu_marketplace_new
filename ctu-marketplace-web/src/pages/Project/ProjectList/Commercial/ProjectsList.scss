@@ -84,7 +84,7 @@
                 &__button {
                     height: 80px;
                     background-color: #ffaf00; 
-                    font-size: 18px !important;
+                    font-size: 18px;
                     color: white;
                     font-weight: 500;
                     border-color: unset;
@@ -142,8 +142,8 @@
                         display: flex;
                         align-items: center;
                         input {
-                            height: 15px;
-                            width: 15px;
+                            min-height: 15px;
+                            min-width: 15px;
                             margin-top: 2px;
                         }
                         label {
@@ -527,6 +527,13 @@
         &__search {
             height: auto !important;
             padding-bottom: 50px;
+            &__block {
+                &__search {
+                    &__button {
+                        font-size: 15px;
+                    }
+                }
+            }
         }
     }
 }

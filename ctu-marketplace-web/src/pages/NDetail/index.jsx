@@ -41,7 +41,7 @@ const NDetail = (props) => {
                     project.fields.map((item, index) => {
                         return (
                             <Link
-                                to={'/?field=2'}
+                                to={`/?field=${item.id}`}
                             >
                                 <li key={index} className={clsx(styles.detailItem)}>{item.name}</li>
                             </Link>
