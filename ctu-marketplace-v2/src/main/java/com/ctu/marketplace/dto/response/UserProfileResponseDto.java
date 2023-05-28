@@ -36,6 +36,7 @@ public class UserProfileResponseDto extends BaseResponse {
     private String bio;
     private RoleDto role;
     private DomainDto domain;
+    private String provider;
     private List<UserFunctionResponseDto> userFunctionList;
 
 }

@@ -643,6 +643,7 @@ const NLogin = () => {
             <button className={clsx(styles.btn, styles.submit)} type="submit" >Đăng nhập</button>
             <button className={clsx(styles.btn, styles.reset)} type="reset" onClick={handleReset} >Nhập lại</button>
             {/* Google Login Here */}
+            <a href={`https://127.0.0.1:3001/oauth2/authorize/google?redirect_uri=http://127.0.0.1:3006`}>GOOGLE HERE</a>
             <div className={clsx(styles.link, styles.signup)} onClick={() => handleChangeFeature(2)}><span>Bạn chưa có tài khoản ?</span></div>
         </div>)
     }
