@@ -99,6 +99,13 @@ const NNavbar = () => {
 
         </div>)
     } 
+    const userAvatar = () => {
+        // Check user of google or not through avatar
+        if (userInformations && userInformations.avatar.substring(0,5) === "https") {
+            return `${userInformations.avatar}`
+        }
+        return `${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${userInformations.avatar}`
+    }
     const mlist = () => {
         return (
             <>
@@ -113,7 +120,7 @@ const NNavbar = () => {
                 {
                     logStatus ? <div className={clsx(styles.maccount)}>
                         {
-                            !userInformations ?  <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img src={`${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                            !userInformations ?  <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img src={userAvatar()}/> : <img src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
                         }
                         <div className={clsx(styles.maccountInfo)}>
                             <div className={clsx(styles.maccountName)}>{userInformations && userInformations.fullName}</div>
@@ -237,7 +244,7 @@ const NNavbar = () => {
             {
                 logStatus===true ? <div className={clsx(styles.account)}>
                 {
-                    !userInformations ?  <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img  className={clsx(styles.accountAvatar)} src={`${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${userInformations.avatar}`}/> : <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
+                    !userInformations ?  <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> : userInformations.avatar ? <img  className={clsx(styles.accountAvatar)} src={userAvatar()}/> : <img  className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> 
                 }
                 {/* <img className={clsx(styles.accountAvatar)} src={`${process.env.PUBLIC_URL}/images/avatar.jpg`}/> */}
                 <div className={clsx(styles.accountInfo)}>

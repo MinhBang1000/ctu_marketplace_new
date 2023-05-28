@@ -103,6 +103,10 @@
     margin-top: var(--margin-super-small, 8px);
 }
 
+.disable {
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
     .account {
         flex-direction: column;

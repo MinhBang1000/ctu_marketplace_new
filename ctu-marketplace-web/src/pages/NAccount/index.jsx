@@ -192,7 +192,7 @@ const NAccount = () => {
                     address: myUser.address,
                     email: myUser.email,
                     phone: myUser.phoneNumber,
-                    gender: myUser.gender,
+                    gender: myUser.gender ? myUser.gender : 1,
                     dob: myUser.dob,
                 }
             })
@@ -335,7 +335,10 @@ const NAccount = () => {
         rPassword: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
     }
     const replaceAllSpace = (str) => {
-        return str.replace(/\s/g, '');
+        if (str) {
+            return str.replace(/\s/g, '');
+        }
+        return ""
     }
     const validateImage = (value) => {
         let check = true
@@ -510,6 +513,12 @@ const NAccount = () => {
         }
     }
 
+    const userAvatar = () => {
+        if (image && image.substring(0,5) === "https") {
+            return `${image}`
+        }
+        return `${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${image}`
+    }
 
     return (
     <>
@@ -518,7 +527,7 @@ const NAccount = () => {
             <div className={clsx(styles.introduction, styles.accountPart)}>
                 <div className={clsx(styles.avatar)}>
                     <img 
-                        src={!image ? `${process.env.PUBLIC_URL}/images/avatar.jpg` : `${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${image}`}
+                        src={!image ? `${process.env.PUBLIC_URL}/images/avatar.jpg` : userAvatar()}
                         className={clsx(styles.upload)}
                     />
                     <div className={clsx(styles.btnUpload)} onClick={triggerAvatar}>
@@ -612,7 +621,11 @@ const NAccount = () => {
                 </form>
             </div>
 
-            <div className={clsx(styles.password, styles.accountPart)}>
+            <div className={clsx({
+                [styles.password]: true, 
+                [styles.accountPart]: true,
+                [styles.disable]: currentUser && currentUser.provider !== "local"
+            })}>
                 <h3 className={clsx(styles.title)}>Thay đổi mật khẩu !</h3>
                 <div className={styles.script}>Thường xuyên thay đổi mật khẩu giúp tăng cường bảo mật ...</div>
                 <form className={clsx(styles.form)}

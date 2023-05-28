@@ -37,7 +37,8 @@ const renderRedirectAfterLogin = (roleCode, topEnabledFunctionCode) => {
   }
 
   if (roleCode === ROLE_NNC) {
-    window.location = ROUTE_PREFIX_NNC;
+    // window.location = ROUTE_PREFIX_NNC;
+    window.location = "/";
   }
   if (roleCode === ROLE_USER) {
     window.location = "/";

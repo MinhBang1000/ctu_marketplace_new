@@ -55,11 +55,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (oAuth2UserInfo.getEmail().isEmpty()) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
-        Optional<UserProfile> userOptional = userProfileRepository
+        UserProfile user = null;
+        Optional<UserProfile> userOptional = null;
+        userOptional = userProfileRepository
                 .findByUsernameAndProviderAndIsDeletedAndIsEnabledAndIsLocked(oAuth2UserInfo.getEmail(),
                         Constant.USER_PROVIDER_GOOGLE, false, true, false);
-        UserProfile user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
             if (!user.getProvider().equals("google")) {
@@ -88,21 +88,35 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userProfile.setProvider(Constant.USER_PROVIDER_GOOGLE);
             userProfile.setUsername(oAuth2UserInfo.getEmail());
             userProfile.setEmail(oAuth2UserInfo.getEmail());
+            // Setup password like this
             userProfile.setPassword(encoder.encode(secret + oAuth2UserInfo.getEmail()));
             userProfile.setFullName(oAuth2UserInfo.getName());
+            // fix there for avatar name --> fix in front end
             userProfile.setAvatar(oAuth2UserInfo.getImageUrl());
             String email = oAuth2UserInfo.getEmail();
             int length = email.length();
             int idx = email.indexOf('@');
             String sub = email.substring(idx,length);
-            if(sub.equals("@ctu.edu.vn")){
+            // Edit overhere --> CTU Researcher
+            if (sub.equals("@cit.ctu.edu.vn") || sub.equals("@ctu.edu.vn")) {
                 userProfile.setRole(roleService.getById(Constant.ROLE_RESEARCHER_ID));
-                userProfile.setDomain(domainService.getById(Constant.DOMAIN_CTU_ID));
-            }else{
+                userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
+                userProfile.setIsEnabled(false);
+                userProfileRepository.save(userProfile);
+                return null;
+            }else {
                 userProfile.setRole(roleService.getById(Constant.ROLE_GUEST_ID));
                 userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
             }
-            return userProfileRepository.save(userProfile);
+//            if(sub.equals("@ctu.edu.vn")){
+//                userProfile.setRole(roleService.getById(Constant.ROLE_RESEARCHER_ID));
+//                userProfile.setDomain(domainService.getById(Constant.DOMAIN_CTU_ID));
+//            }else{
+//                userProfile.setRole(roleService.getById(Constant.ROLE_GUEST_ID));
+//                userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
+//            }
+//            return userProfileRepository.save(userProfile);
+            return userProfileRepository.save(userProfile); // Guest
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -111,7 +125,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private UserProfile updateExistingUser(UserProfile existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFullName(oAuth2UserInfo.getName());
-        existingUser.setAvatar(oAuth2UserInfo.getImageUrl());
+        //  fix there for avatar name
+//        existingUser.setAvatar(oAuth2UserInfo.getImageUrl());
         return userProfileRepository.save(existingUser);
     }
 
