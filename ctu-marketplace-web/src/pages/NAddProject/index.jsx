@@ -1025,7 +1025,7 @@ const NAddProject = () => {
             return (
                 <div className={clsx(styles.heading)}>
                     <h1>Danh sách dự án</h1>
-                    <p>Bao gốm các dự án của bạn</p>
+                    <p>Bao gồm các dự án của bạn</p>
                 </div>
             )   
             }
