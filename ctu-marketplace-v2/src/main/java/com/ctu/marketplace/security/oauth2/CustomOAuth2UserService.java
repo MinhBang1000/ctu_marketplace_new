@@ -101,21 +101,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if (sub.equals("@cit.ctu.edu.vn") || sub.equals("@ctu.edu.vn")) {
                 userProfile.setRole(roleService.getById(Constant.ROLE_RESEARCHER_ID));
                 userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
-                userProfile.setIsEnabled(false);
-                userProfileRepository.save(userProfile);
-                return null;
             }else {
                 userProfile.setRole(roleService.getById(Constant.ROLE_GUEST_ID));
                 userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
             }
-//            if(sub.equals("@ctu.edu.vn")){
-//                userProfile.setRole(roleService.getById(Constant.ROLE_RESEARCHER_ID));
-//                userProfile.setDomain(domainService.getById(Constant.DOMAIN_CTU_ID));
-//            }else{
-//                userProfile.setRole(roleService.getById(Constant.ROLE_GUEST_ID));
-//                userProfile.setDomain(domainService.getById(Constant.DOMAIN_KHC_ID));
-//            }
-//            return userProfileRepository.save(userProfile);
             return userProfileRepository.save(userProfile); // Guest
         } catch (Exception e) {
             e.printStackTrace();
