@@ -159,3 +159,35 @@ use marketplace;
 show columns from password_reset_code;
 alter table password_reset_code modify column expiry_date datetime(6) default null;
 alter table password_reset_code modify column reset_code varchar(255) default null;
+
+
+-- 29/05/2023 
+-- New feature of 
+use marketplace; 
+create table new_footer(
+	id bigint primary key auto_increment,
+    name varchar(255) not null,
+    domain_id bigint not null,
+    foreign key (domain_id) references domain(id)
+);
+create table new_footer_info(
+	id bigint primary key auto_increment,
+    footer_key longtext not null,
+    footer_value longtext,
+    footer_id bigint not null,
+    foreign key (footer_id) references new_footer(id)
+);
+
+create table introduction(
+	id bigint primary key auto_increment,
+    name varchar(255) not null,
+    domain_id bigint not null,
+    foreign key (domain_id) references domain(id)
+);
+create table introduction_info(
+	id bigint primary key auto_increment,
+    introduction_key longtext not null,
+    introduction_value longtext,
+    introduction_id bigint not null,
+    foreign key (introduction_id) references introduction(id)
+);
