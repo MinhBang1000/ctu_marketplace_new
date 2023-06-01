@@ -30,8 +30,8 @@ public class NewFooterService {
                 .build();
         newFooterRequestDTO.getNewFooterInfos().stream().forEach(item -> {
             NewFooterInfo newFooterInfo = this.newFooterInfoRepository.save(NewFooterInfo.builder()
-                    .key(item.getFooterKey())
-                    .value(item.getFooterValue())
+                    .footerKey(item.getFooterKey())
+                    .footerValue(item.getFooterValue())
                     .build());
             newFooter.addNewFooterInfo(newFooterInfo);
         });
@@ -42,7 +42,7 @@ public class NewFooterService {
         return this.newFooterRepository.findAll();
     }
 
-    public NewFooter detail(@NonNull Long id) throws Exception{
+    public NewFooter retrieve(@NonNull Long id) throws Exception{
         return this.newFooterRepository.findById(id).get();
     }
 
@@ -58,8 +58,8 @@ public class NewFooterService {
         NewFooter finalNewFooter = newFooter;
         newFooterRequestDTO.getNewFooterInfos().stream().forEach(item -> {
             NewFooterInfo newFooterInfo = NewFooterInfo.builder()
-                            .key(item.getFooterKey())
-                            .value(item.getFooterValue())
+                            .footerKey(item.getFooterKey())
+                            .footerValue(item.getFooterValue())
                             .build();
             finalNewFooter.addNewFooterInfo(newFooterInfo);
             this.newFooterInfoRepository.save(newFooterInfo);

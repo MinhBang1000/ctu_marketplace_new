@@ -13,3 +13,5 @@
     + NewProject exists = this.newProjectRepository.findById(id).get();
       exists.getKeyValues().removeIf(c -> c.getProject().getId() == exists.getId());
       return this.newProjectRepository.save(exists);
+- Bị lỗi Hibernate - A collection with cascade=”all-delete-orphan” was no longer referenced by the owning entity instance --> Do set lại list children trong một entity
+--> Chỉ cần Xóa ra từ từ bằng mutable và add vào bằng hàm tự định nghĩa là được --> Xem method update của IntroductionController

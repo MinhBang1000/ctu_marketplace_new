@@ -20,9 +20,9 @@ public class IntroductionInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "introduction_key")
-    private String key;
+    private String introductionKey;
     @Column(name = "introduction_value")
-    private String value;
+    private String introductionValue;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "introduction_id")

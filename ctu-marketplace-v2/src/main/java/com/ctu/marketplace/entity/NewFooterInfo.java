@@ -20,9 +20,9 @@ public class NewFooterInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "footer_key")
-    private String key;
+    private String footerKey;
     @Column(name = "footer_value")
-    private String value;
+    private String footerValue;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "footer_id")

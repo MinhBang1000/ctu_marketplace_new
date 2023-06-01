@@ -191,3 +191,10 @@ create table introduction_info(
     introduction_id bigint not null,
     foreign key (introduction_id) references introduction(id)
 );
+
+-- 1/6/2023
+-- Find out the domain id
+use marketplace;
+select * from domain;
+select * from introduction;
+show tables;

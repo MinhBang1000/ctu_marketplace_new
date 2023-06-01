@@ -28,17 +28,19 @@ public class IntroductionService {
     }
 
     public Introduction create(IntroductionRequestDTO introductionRequestDTO) throws Exception {
-        Introduction introduction = Introduction.builder()
-                .name(introductionRequestDTO.getName())
-                .domain(this.domainRepository.findById(introductionRequestDTO.getDomainId()).get())
-                .build();
+        Introduction introduction = this.introductionRepository.save(
+                Introduction.builder()
+                        .name(introductionRequestDTO.getName())
+                        .domain(this.domainRepository.findById(introductionRequestDTO.getDomainId()).get())
+                        .build()
+        );
         List<IntroductionInfo> introductionInfos = introductionRequestDTO.getIntroductionInfoRequestDTOS().stream()
                 .map((item) -> {
                     return this.introductionInfoRepository.save(
                       IntroductionInfo.builder()
                               .introduction(introduction)
-                              .key(item.getIntroductionKey())
-                              .value(item.getIntroductionValue())
+                              .introductionKey(item.getIntroductionKey())
+                              .introductionValue(item.getIntroductionValue())
                               .build()
                     );
                 }).collect(Collectors.toList());
@@ -50,28 +52,27 @@ public class IntroductionService {
         Introduction existIntro = this.introductionRepository.findById(id).get();
         existIntro.setName(introductionRequestDTO.getName() != null || !introductionRequestDTO.getName().equals("") ? introductionRequestDTO.getName() : existIntro.getName());
         if (introductionRequestDTO.getDomainId() != null || !introductionRequestDTO.getDomainId().equals("")) {
-            existIntro.setDomain(this.domainRepository.findById(id).get());
+            existIntro.setDomain(this.domainRepository.findById(introductionRequestDTO.getDomainId()).get());
         }
-        this.introductionInfoRepository.findAll().removeIf(c -> {
-            return c.getIntroduction().getId() == id;
+        existIntro.getIntroductionInfos().removeIf(c -> {
+            return true;
         });
-        List<IntroductionInfo> introductionInfos = introductionRequestDTO.getIntroductionInfoRequestDTOS().stream().map(item -> {
-            return this.introductionInfoRepository.save(
+        introductionRequestDTO.getIntroductionInfoRequestDTOS().stream().forEach(item -> {
+            IntroductionInfo introductionInfo = this.introductionInfoRepository.save(
                     IntroductionInfo.builder()
                             .introduction(existIntro)
-                            .key(item.getIntroductionKey())
-                            .value(item.getIntroductionValue())
+                            .introductionKey(item.getIntroductionKey())
+                            .introductionValue(item.getIntroductionValue())
                             .build()
             );
-        }).collect(Collectors.toList());
-        existIntro.setIntroductionInfos(introductionInfos);
+            existIntro.addIntroductionInfo(introductionInfo);
+        });
         return this.introductionRepository.save(existIntro);
     }
 
     public void delete(Long id) throws Exception {
-        this.introductionInfoRepository.findAll().removeIf(c -> {
-            return c.getIntroduction().getId() == id;
-        });
+        Introduction existIntro = this.introductionRepository.findById(id).get();
+        existIntro.getIntroductionInfos().removeIf(c -> true);
         this.introductionRepository.deleteById(id);
     }
 }
