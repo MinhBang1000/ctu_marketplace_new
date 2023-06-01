@@ -1,0 +1,89 @@
+.management-introduction {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    &__modify {
+        &__field-list {
+            &__item {
+               &__title {
+                    display: flex;
+                    align-items: end;
+                    justify-content: space-between;
+                    .remove-icon {
+                        svg {
+                            min-width: 15px;
+                        }
+                    }
+                    input {
+                        color: gray;
+                        border: none;
+                        border-bottom: 1px solid transparent;
+                        height: 40px;
+                        transition: all .3s ease;
+                        width: calc(100% - 25px);
+                        &:focus {
+                            outline: none;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                            transition: all .3s ease;
+                        }
+                    }
+               }
+                textarea {
+                    margin-top: 10px;
+                    width: 100%;
+                    border: 1px solid rgba(0, 0, 0, 0.2);
+                    padding: 10px;
+                    min-height: 200px; 
+                    transition: all .2s ease;
+                    &:focus {
+                        outline: none;
+                        border-color: rgba(0, 0, 0, 0.5);
+                        transition: all .2s ease;
+                    }
+                }
+            }
+            &__item + &__item {
+                margin-top: 12px;
+            }
+        }
+        &__add-new {
+            margin-top: 20px;
+            display: flex;
+            justify-content: right;
+            button {
+                background-color: white !important;
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                svg {
+                    height: 20px;
+                    margin-left: 10px;
+                }
+            }
+        }
+        &__button {
+            margin-top: 20px;
+            display: flex;
+            justify-content: right;
+            &__cancel {
+                border: 1px solid black;
+                padding: 10px 30px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+            &__update {
+                padding: 10px 30px;
+                background-color: #2d9e64;
+                color: white;
+                cursor: pointer;
+                svg {
+                    width: 15px;
+                    margin-left: 8px;
+                    fill: white;
+                }
+            }
+        }
+    }
+}
