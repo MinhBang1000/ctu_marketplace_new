@@ -2,7 +2,11 @@
     background-color: white;
     padding: 20px;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
     &__modify {
+        width: 50%;
+        margin: auto;
         &__field-list {
             &__item {
                &__title {
@@ -35,6 +39,7 @@
                     padding: 10px;
                     min-height: 200px; 
                     transition: all .2s ease;
+                    text-align: justify;
                     &:focus {
                         outline: none;
                         border-color: rgba(0, 0, 0, 0.5);
@@ -84,6 +89,32 @@
                     fill: white;
                 }
             }
+        }
+    }
+    &__review {
+        width: 47%;
+        // margin: 20px;
+        background-color: #f4f4f4;
+        border-radius: 5px;
+        // border-left: 1px solid black;
+        padding: 10px 20px;
+        &__item {
+            &__title {  
+                font-size: 20px;
+                font-weight: bold;
+            }
+            &__content {
+                margin-top: 10px;
+                text-align: justify;
+            }
+        }
+        &__item + &__item {
+            margin-top: 20px;
+        }
+        display: none;
+        &--hidden {
+            color: #f4f4f4;
+            width: 0;
         }
     }
 }
