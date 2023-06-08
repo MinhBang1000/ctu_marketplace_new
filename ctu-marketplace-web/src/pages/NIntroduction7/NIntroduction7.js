@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './NIntroduction7.scss'
 import axios from 'axios';
+import nl2br from 'react-nl2br';
 
 export default function NIntroduction7() {
     const [introduction, setIntroduction] = useState([]);
@@ -25,7 +26,7 @@ export default function NIntroduction7() {
         <div className='introduction-view'>
             <div className='introduction-view__header row'>
                 <div tiv className='introduction-view__header__title col-md-3 col-sm-4'>
-                    Gioi thieu
+                    Giới thiệu
                 </div>
                 <div tiv className='introduction-view__header__highlighter col-md-9 col-sm-8'>
                     <ul>
@@ -46,7 +47,7 @@ export default function NIntroduction7() {
                                 {item.introductionKey}
                             </div>
                             <div className='introduction-view__content__item__value'>
-                                {item.introductionValue}
+                                {nl2br(item.introductionValue)}
                             </div>
                         </div>
                     })

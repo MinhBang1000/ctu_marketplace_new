@@ -2,47 +2,55 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import './NAdminManageIntroduction.scss'
 import axios from 'axios';
+import deepEqual from 'deep-equal';
+import nl2br from 'react-nl2br';
+// import _ from 'loadash'
 
 export default function NAdminMangeIntroduction() {
-    const [fields, setFields] = useState([
-    {introductionKey: 'Giới thiệu', introductionValue: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."},
-    {introductionKey: 'Chức năng', introductionValue: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."},
-    {introductionKey: 'Nhiệm vụ', introductionValue: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."},
-    {introductionKey: 'Giới thiệu', introductionValue: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."},
-    {introductionKey: 'Chức năng', introductionValue: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."},
-    {introductionKey: 'Nhiệm vụ', introductionValue: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."},
+    const [fields, setFields] = useState([]); // [{introductionKey: ''}, introductionValue: '']
+
+    const [backupFields, setBackupFields] = useState([]);
     
-    ]); // [{introductionKey: ''}, introductionValue: '']
-    
-    const api = 'https://marketplace.ctu.edu.vn/api/v3';
+    const [showReview, setShowReview] = useState(false);
+
+    const [updateIntroductionLoading, setUpdateIntroductionLoading] = useState(false);
+    const [savedNotification, setSavedNotification] = useState(false);
+
+    const api = 'https://marketplace.ctu.edu.vn/api/v3/';
+
+    const [editingCheck, setEditingCheck] = useState(false);
 
     useEffect(() => {
-        axios.get(`${api}/`)
-            .then(res => {
-                res = res.data.data;
+        axios.get(`${api}introductions/1`)
+            .then(res => {;
+                setFields([...res.data.data.introductionInfos]);
+                setBackupFields([...res.data.data.introductionInfos]);
             })
             .then(res => {
-                
-        })
-    }, [])
+               
+            })
+    }, []);
 
     const handleAddField = (e) => {
         e.preventDefault();
-        console.log("hi");
-        setFields([...fields, {introductionKey: 'Name', introductionValue: 'Cao Cong Danh'}]);
-        console.log("fieldss: ", fields)
+        setFields([...fields, {introductionKey: 'Tiêu đề', introductionValue: 'Nội dung'}]);
+        setEditingCheck(true);
     }
 
     const handleUpdateFieldValue = (e, index) => {
         var nFields = [...fields];
         nFields[index].introductionValue = e.target.value;
         setFields(nFields);
+        setEditingCheck(true);
+        console.log(fields);
+        console.log(backupFields)
     }
 
     const handleUpdateFieldName = (e, index) => {
         var nFields = [...fields];
         nFields[index].introductionKey = e.target.value;
         setFields(nFields);
+        setEditingCheck(true);
     }
 
     const handleDeleteField = (e, indexField) => {
@@ -51,23 +59,90 @@ export default function NAdminMangeIntroduction() {
             return index !== indexField
         })
         setFields(nFields);
+        setEditingCheck(true);
+       
+    }
+
+    const deepCompareTwoObject = (obj1, obj2) => {
+        // var check = true;
+        const obj1Keys = Object.keys(obj1);
+        const obj2Keys = Object.keys(obj2);
+        console.log("objKey1: ", obj1)
+
+        if(obj1Keys.length !== obj2Keys.length) {
+            return false;
+        }
+        for(let objKey of obj1Keys) {
+            if(obj1[objKey] !== obj2[objKey]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const compareTwoArray = (arr1, arr2) => {
+        for(var i=0; i<arr1.length; i++) {
+            if(!deepCompareTwoObject(arr1[i], arr2[i]))
+                return false;
+        }
+        return true;
     }
 
     const hanleUpdateIntroduction = (e) => {
-       axios.put(`${api}/introductions/1`, {name: "Giới thiệu 1.2",
-       domainId: 999, introductionInfoRequestDTOS: fields})
-        .then(res => {
-            console.log("res: ", res)
-        })
-        .catch(error => {
-            console.log("error: ", error);
-        })
+        console.log("eee: ", editingCheck)
+        if(editingCheck===true) {
+            setUpdateIntroductionLoading(true);
+            axios.put(`${api}introductions/1`, {name: "Giới thiệu 1.2",
+            domainId: 999, introductionInfoRequestDTOS: fields})
+                .then(res => {
+                    console.log("res: ", res);
+                    setUpdateIntroductionLoading(false);
+                    setBackupFields([...fields]);
+                    setEditingCheck(false);
+                })
+                .then(() => {
+                    setSavedNotification(true);
+                    setTimeout(() => {
+                        setSavedNotification(false)
+                    }, 3000)
+                })
+                .catch(error => {
+                    console.log("error: ", error);
+                })
+        }
+    }
+
+    window.onresize = () => {
+        var width = window.screen.width;
+        if(width < 1000) {
+            setShowReview(false);
+        }
+    }
+
+    const handleReview = (e) => {
+        var width = window.screen.width;
+        if(width < 1000) {
+            document.getElementById('review')?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            setShowReview(!showReview);
+        }
     }
 
     return (
-        <>
+        <>  
             <div className='management-introduction'>
                 <div className='management-introduction__modify'>
+                    <div className={!showReview ? 'management-introduction__modify__button-show-review' : 'management-introduction__modify__button-show-review management-introduction__modify__button-show-review--hide'} onClick={handleReview}>
+                        {
+                            showReview ? <span style={{color: 'rgb(129, 0, 0)'}}>
+                                <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="15px" height="15px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
+                                Đóng
+                            </span>
+                            : <span style={{color: 'green'}}>Xem lại</span>
+                        }
+                    </div>
+
+                    <div className='none' style={{height: '25px'}}></div>
                     <div className='management-introduction__modify__field-list'>
                         {
                             fields.map((field, index) => {
@@ -106,29 +181,42 @@ export default function NAdminMangeIntroduction() {
                         </button>
                     </div>
                     <div className='management-introduction__modify__button'>
-                        <div className='management-introduction__modify__button__cancel'>
-                            Hủy thay đổi
+                        <div className={!savedNotification ? 'management-introduction__modify__button__notification' : 'management-introduction__modify__button__notification management-introduction__modify__button__notification--active'}>
+                            Đã lưu
                         </div>
-                        <div className='management-introduction__modify__button__update' onClick={(e) => hanleUpdateIntroduction(e)}>
-                            Lưu
-                            <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 511.52"><path fill-rule="nonzero" d="M36.75 0h438.5C495.55 0 512 16.82 512 37.03v437.46c0 20.19-16.47 37.03-36.75 37.03H98.28c-2.89 0-5.5-1.17-7.39-3.06L3.06 420.62A10.387 10.387 0 0 1 0 413.24V37.03C0 16.81 16.45 0 36.75 0zM174.5 447.79c-13.75 0-13.75-20.9 0-20.9h153.97c13.74 0 13.74 20.9 0 20.9H174.5zm0-64.38c-13.75 0-13.75-20.9 0-20.9h153.97c13.74 0 13.74 20.9 0 20.9H174.5zm209.51 106.91V350.25c0-16.78-13.87-30.64-30.65-30.64H149.6c-16.78 0-30.64 13.86-30.64 30.64v140.07h265.05zm20.89-140.07v140.37h70.35c8.85 0 15.85-7.37 15.85-16.13V37.03c0-8.78-6.99-16.13-15.85-16.13H404.9v170.17c0 28.31-23.23 51.55-51.54 51.55H149.6c-28.34 0-51.54-23.21-51.54-51.55V20.9H36.75c-8.87 0-15.85 7.34-15.85 16.13v371.88l77.16 77.16V350.25c0-28.32 23.22-51.54 51.54-51.54h203.76c28.22 0 51.54 23.32 51.54 51.54zm-20.89-159.18V20.9H118.96v170.17c0 16.8 13.85 30.65 30.64 30.65h203.76c16.77 0 30.65-13.88 30.65-30.65z"/>
-                            </svg>
+                        {/* <div className='management-introduction__modify__button__cancel' onClick={(e) => handleCancelChange(e)}>
+                            Hủy thay đổi
+                        </div> */}
+                        <div className='management-introduction__modify__button__update' onClick={(e) => hanleUpdateIntroduction(e)} id='review'>
+                            {
+                                updateIntroductionLoading ? <div class="spinner-border" role="status"><span class="sr-only">Loading...</span> </div>
+                                : 
+                                <span>
+                                    Lưu
+                                    <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 511.52"><path fill-rule="nonzero" d="M36.75 0h438.5C495.55 0 512 16.82 512 37.03v437.46c0 20.19-16.47 37.03-36.75 37.03H98.28c-2.89 0-5.5-1.17-7.39-3.06L3.06 420.62A10.387 10.387 0 0 1 0 413.24V37.03C0 16.81 16.45 0 36.75 0zM174.5 447.79c-13.75 0-13.75-20.9 0-20.9h153.97c13.74 0 13.74 20.9 0 20.9H174.5zm0-64.38c-13.75 0-13.75-20.9 0-20.9h153.97c13.74 0 13.74 20.9 0 20.9H174.5zm209.51 106.91V350.25c0-16.78-13.87-30.64-30.65-30.64H149.6c-16.78 0-30.64 13.86-30.64 30.64v140.07h265.05zm20.89-140.07v140.37h70.35c8.85 0 15.85-7.37 15.85-16.13V37.03c0-8.78-6.99-16.13-15.85-16.13H404.9v170.17c0 28.31-23.23 51.55-51.54 51.55H149.6c-28.34 0-51.54-23.21-51.54-51.55V20.9H36.75c-8.87 0-15.85 7.34-15.85 16.13v371.88l77.16 77.16V350.25c0-28.32 23.22-51.54 51.54-51.54h203.76c28.22 0 51.54 23.32 51.54 51.54zm-20.89-159.18V20.9H118.96v170.17c0 16.8 13.85 30.65 30.64 30.65h203.76c16.77 0 30.65-13.88 30.65-30.65z"/>
+                                    </svg>
+                                </span>
+                            }
                         </div>
                     </div>
                 </div>
-                <div className='management-introduction__review'>
-                    {
-                        fields.map((field, index) => {
-                            return <div key={index} className='management-introduction__review__item'>
-                                <div className='management-introduction__review__item__title'>
-                                    {field.introductionKey}
+                {/* style={{width: showReviewMinScreen? '47%' : '100%'}} */}
+                <div className={!showReview ? 'management-introduction__review' : 'management-introduction__review management-introduction__review--active'}>
+                    <div className={showReview ? 'management-introduction__review__virtual' : 'management-introduction__review__virtual management-introduction__review__virtual--hide'}>
+                        <div className='none' style={{height: '35px'}}></div>
+                        {
+                            fields.map((field, index) => {
+                                return <div key={index} className='management-introduction__review__item'>
+                                    <div className='management-introduction__review__item__title'>
+                                        {field.introductionKey}
+                                    </div>
+                                    <div className='management-introduction__review__item__content'>
+                                        {nl2br(field.introductionValue)}
+                                    </div>
                                 </div>
-                                <div className='management-introduction__review__item__content'>
-                                    {field.introductionValue}
-                                </div>
-                            </div>
-                        })
-                    }
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </>
