@@ -33,7 +33,7 @@ export default function NAdminMangeIntroduction() {
 
     const handleAddField = (e) => {
         e.preventDefault();
-        setFields([...fields, {introductionKey: 'Tiêu đề', introductionValue: 'Nội dung'}]);
+        setFields([...fields, {introductionKey: '', introductionValue: ''}]);
         setEditingCheck(true);
     }
 
@@ -152,6 +152,7 @@ export default function NAdminMangeIntroduction() {
                                             <input
                                                 value = {field.introductionKey}
                                                 onChange={(e) => handleUpdateFieldName(e, index)}
+                                                placeholder='Tiêu đề'
                                             />
                                             <div className='remove-icon' onClick={(e) => handleDeleteField(e, index)}>
                                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 108.294 122.88" enable-background="new 0 0 108.294 122.88">
@@ -163,7 +164,9 @@ export default function NAdminMangeIntroduction() {
                                         </div>  
                                         <textarea className='management-introduction__modify__field-list__item__value' 
                                                 value={field.introductionValue} 
-                                                onChange={(e) => handleUpdateFieldValue(e, index)}/>
+                                                onChange={(e) => handleUpdateFieldValue(e, index)}
+                                                placeholder='Nội dung'
+                                                />
                                     </div>
                                 )
                             })
