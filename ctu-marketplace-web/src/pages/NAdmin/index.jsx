@@ -4,6 +4,7 @@ import styles from "./NAdmin.module.css"
 import { useTransition, animated } from "@react-spring/web"
 import NAdminUser from "../NAdminUser"
 import NAdminProject from "../NAdminProject"
+import NAdminMangeIntroduction from "../Admin/NAdmin-Manage-Introduction/NAdminMangeIntroduction"
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
 import { useStore } from "../../store/globalstate"
 
@@ -51,6 +52,10 @@ const NAdmin = () => {
                             [styles.item] : true,
                             [styles.focus] : pageType === 2
                         })} onClick={() => handleChangePage(2)}><i className="fa-solid fa-users"></i>Quản lý người dùng</li>
+                        <li className={clsx({
+                            [styles.item] : true,
+                            [styles.focus] : pageType === 3
+                        })} onClick={() => handleChangePage(3)}><i class="fa-solid fa-grip-lines"></i>Quản lý trang giới thiệu</li>
                     </ul>
                 </div>
                 <div className={clsx(styles.workbar, styles.adminPart)}>
@@ -59,6 +64,7 @@ const NAdmin = () => {
                             return <animated.div style={style}>
                                 { item === 1 && <NAdminProject />}
                                 { item === 2 && <NAdminUser />}
+                                { item === 3 && <NAdminMangeIntroduction />}
                             </animated.div>
                         })
                     }

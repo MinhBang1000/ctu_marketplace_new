@@ -5,6 +5,9 @@ import { ROUTE_NNC_CREATE_PROJECT, ROUTE_NNC_EDIT_PROJECT, ROUTE_NNC_PROJECTS, R
 
 import Loading from '../../pages/Loading';
 import PrivateRouter from './PrivateRoute';
+import NAdminMangeIntroduction from '../../pages/Admin/NAdmin-Manage-Introduction/NAdminMangeIntroduction';
+import NIntroduction from '../../pages/NIntroduction/NIntroduction';
+import NIntroduction7 from '../../pages/NIntroduction7/NIntroduction7';
 
 const NAccount = lazy(() => import("../../pages/NAccount"))
 const NContact = lazy(() => import('../../pages/NContact'))
@@ -85,13 +88,16 @@ const RouterCustom = () => {
             <Switch>
                 <Route exact path="/" component={ProjectListCommercial}/>
 
+                {/* test/informal */}
+                <Route exact path="/modify-introduction" component={NAdminMangeIntroduction} />
+                {/*  */}
 
                 {/* We have to code here update new version */}
 
                 <Route exact path="/projects" component={NAddProject} />
                 <Route exact path="/login" component={NLogin} />
                 <Route exact path="/register" component={SignUp} />
-                <Route exact path="/introduction" component={NIntro} />
+                <Route exact path="/introduction" component={NIntroduction7} />
                 <Route exact path="/contact" component={NContact} />
                 <Route exact path="/administrator" component={NAdmin} />
                 <Route exact path="/projects/detail/:id" component={NDetail} />
