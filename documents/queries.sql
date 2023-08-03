@@ -197,4 +197,8 @@ create table introduction_info(
 use marketplace;
 select * from domain;
 select * from introduction;
+select * from introduction_info;
 show tables;
+
+select * from new_footer;
+select * from new_footer_info;

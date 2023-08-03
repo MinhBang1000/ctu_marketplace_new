@@ -50,7 +50,7 @@ public class NewFooterController {
             this.errorMsg = ex.getMessage();
         }
         return new ResponseEntity<>(
-                new Response<>(Constant.STATUS_CODE_400, "Created Failed !", Constant.CREATE_FAILED_MESSAGE),
+                new Response<>(Constant.STATUS_CODE_400, "Created Failed !", this.errorMsg),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -62,6 +62,7 @@ public class NewFooterController {
                         Constant.STATUS_CODE_200,
                         this.newFooterService.list().stream().map(item -> {
                             return NewFooterResponseDTO.builder()
+                                    .id(item.getId())
                                     .name(item.getName())
                                     .domain(this.modelMapper.map(item.getDomain(), DomainResponseDto.class))
                                     .newFooterInfos(
@@ -127,6 +128,23 @@ public class NewFooterController {
                         "Updated Failed !",
                         this.errorMsg
                 ),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @DeleteMapping("/{footerId}")
+    public ResponseEntity<Response<String>> delete(@NonNull @PathVariable(name = "footerId") Long id) {
+        try {
+            this.newFooterService.delete(id);
+            return new ResponseEntity<>(
+                    new Response<>(Constant.STATUS_CODE_204,"Deleted!", Constant.DELETE_SUCCESS_MESSAGE),
+                    HttpStatus.NO_CONTENT
+            );
+        } catch (Exception ex) {
+           this.errorMsg = ex.getMessage();
+        }
+        return new ResponseEntity<>(
+                new Response<>(Constant.STATUS_CODE_404,"Can not delete!", errorMsg),
                 HttpStatus.BAD_REQUEST
         );
     }

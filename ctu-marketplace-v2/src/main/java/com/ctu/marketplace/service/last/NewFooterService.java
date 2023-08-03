@@ -28,14 +28,15 @@ public class NewFooterService {
                 .name(newFooterRequestDTO.getName())
                 .domain(this.domainRepository.findById(newFooterRequestDTO.getDomainId()).get())
                 .build();
+        NewFooter finalNewFooter = this.newFooterRepository.save(newFooter);
         newFooterRequestDTO.getNewFooterInfos().stream().forEach(item -> {
             NewFooterInfo newFooterInfo = this.newFooterInfoRepository.save(NewFooterInfo.builder()
                     .footerKey(item.getFooterKey())
                     .footerValue(item.getFooterValue())
+                    .footer(finalNewFooter)
                     .build());
-            newFooter.addNewFooterInfo(newFooterInfo);
         });
-        return this.newFooterRepository.save(newFooter);
+        return this.newFooterRepository.save(finalNewFooter);
     }
 
     public List<NewFooter> list() {
@@ -49,19 +50,20 @@ public class NewFooterService {
     public NewFooter update(@NonNull Long id,@NonNull NewFooterRequestDTO newFooterRequestDTO) throws Exception{
         NewFooter newFooter = this.newFooterRepository.findById(id).get();
         final Long existId = newFooter.getId();
-        newFooter.getNewFooterInfos().removeIf(c -> c.getFooter().getId() == existId);
-        newFooter = NewFooter.builder()
-                .id(newFooter.getId())
-                .domain(newFooter.getDomain())
-                .name(newFooterRequestDTO.equals("") || newFooterRequestDTO.getName().equals(newFooter.getName()) ? newFooter.getName() : newFooterRequestDTO.getName())
-                .build();
+        newFooter.setName(newFooterRequestDTO.getName() != "" || newFooterRequestDTO.getName()!=null ? newFooterRequestDTO.getName() : newFooter.getName());
+        if (newFooterRequestDTO.getDomainId() != null || !newFooterRequestDTO.getDomainId().equals("")) {
+            newFooter.setDomain(this.domainRepository.findById(newFooterRequestDTO.getDomainId()).get());
+        }
+        newFooter.getNewFooterInfos().removeIf(c -> {
+            return true;
+        });
         NewFooter finalNewFooter = newFooter;
         newFooterRequestDTO.getNewFooterInfos().stream().forEach(item -> {
             NewFooterInfo newFooterInfo = NewFooterInfo.builder()
                             .footerKey(item.getFooterKey())
                             .footerValue(item.getFooterValue())
+                            .footer(this.newFooterRepository.findById(existId).get())
                             .build();
-            finalNewFooter.addNewFooterInfo(newFooterInfo);
             this.newFooterInfoRepository.save(newFooterInfo);
         });
         return this.newFooterRepository.save(finalNewFooter);
