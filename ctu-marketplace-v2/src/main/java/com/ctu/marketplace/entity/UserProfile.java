@@ -70,7 +70,17 @@ public class UserProfile extends BaseEntity implements Serializable{
 
     @Column(name = "is_locked")
     private Boolean isLocked;
-    
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "research_information_id", referencedColumnName = "id")
+    private ResearchInformation researchInformation;
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    private List<StrongGroup> strongGroups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<StrongGroupMember> strongGroupMembers = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password_reset_code_id")
     @JsonIgnore
