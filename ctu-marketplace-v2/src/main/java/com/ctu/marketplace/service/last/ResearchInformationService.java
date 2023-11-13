@@ -2,8 +2,11 @@ package com.ctu.marketplace.service.last;
 
 
 import com.ctu.marketplace.entity.ResearchInformation;
+import com.ctu.marketplace.entity.UserProfile;
 import com.ctu.marketplace.repository.IResearchInformationRepository;
+import com.ctu.marketplace.repository.UserProfileRepository;
 import com.ctu.marketplace.service.IResearchInformationService;
+import com.ctu.marketplace.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ import java.util.concurrent.ExecutionException;
 public class ResearchInformationService implements IResearchInformationService {
     @Autowired
     private IResearchInformationRepository researchInformationRepository;
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     @Override
     public List<ResearchInformation> list() {
@@ -32,6 +37,14 @@ public class ResearchInformationService implements IResearchInformationService {
 
     @Override
     public ResearchInformation create(ResearchInformation researchInformation) {
+        Optional<UserProfile> userProfile = userProfileRepository.findById(researchInformation.getUserProfile().getId());
+        if (!userProfile.isPresent()) {
+            throw new IllegalArgumentException("Doesn't have any user with this ID");
+        }
+        ResearchInformation createdResearchInformation = researchInformationRepository.save(researchInformation);
+        UserProfile foundUser = userProfile.get();
+        foundUser.setResearchInformation(createdResearchInformation);
+        userProfileRepository.save(foundUser);
         return researchInformationRepository.save(researchInformation);
     }
 

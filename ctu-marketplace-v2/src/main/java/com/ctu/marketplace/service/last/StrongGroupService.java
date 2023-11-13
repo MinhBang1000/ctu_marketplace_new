@@ -4,10 +4,12 @@ import com.ctu.marketplace.entity.StrongGroup;
 import com.ctu.marketplace.repository.IStrongGroupRepository;
 import com.ctu.marketplace.service.IStrongGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StrongGroupService implements IStrongGroupService {
     @Autowired
     private IStrongGroupRepository strongGroupRepository;
@@ -42,3 +44,4 @@ public class StrongGroupService implements IStrongGroupService {
         return strongGroupRepository.save(strongGroup);
     }
 }
+
