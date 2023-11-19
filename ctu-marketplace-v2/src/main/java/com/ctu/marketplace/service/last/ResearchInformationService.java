@@ -3,6 +3,7 @@ package com.ctu.marketplace.service.last;
 
 import com.ctu.marketplace.entity.ResearchInformation;
 import com.ctu.marketplace.entity.UserProfile;
+import com.ctu.marketplace.exception.CustomExceptionMessage;
 import com.ctu.marketplace.repository.IResearchInformationRepository;
 import com.ctu.marketplace.repository.UserProfileRepository;
 import com.ctu.marketplace.service.IResearchInformationService;
@@ -30,7 +31,7 @@ public class ResearchInformationService implements IResearchInformationService {
     public ResearchInformation retrieve(Long id) {
         Optional<ResearchInformation> optionalResearchInfo = researchInformationRepository.findById(id);
         if (!optionalResearchInfo.isPresent()) {
-            throw new IllegalArgumentException("Doesn't match any instance by this ID");
+            throw new IllegalArgumentException(CustomExceptionMessage.NOT_FOUND_BY_THIS_ID);
         }
         return optionalResearchInfo.get();
     }
@@ -39,7 +40,7 @@ public class ResearchInformationService implements IResearchInformationService {
     public ResearchInformation create(ResearchInformation researchInformation) {
         Optional<UserProfile> userProfile = userProfileRepository.findById(researchInformation.getUserProfile().getId());
         if (!userProfile.isPresent()) {
-            throw new IllegalArgumentException("Doesn't have any user with this ID");
+            throw new IllegalArgumentException(CustomExceptionMessage.NOT_FOUND_BY_THIS_ID);
         }
         ResearchInformation createdResearchInformation = researchInformationRepository.save(researchInformation);
         UserProfile foundUser = userProfile.get();
@@ -54,8 +55,7 @@ public class ResearchInformationService implements IResearchInformationService {
     }
 
     @Override
-    public ResearchInformation update(ResearchInformation researchInformation, Long id) {
-        researchInformation.setId(id);
+    public ResearchInformation update(ResearchInformation researchInformation) {
         return researchInformationRepository.save(researchInformation);
     }
 

@@ -1,11 +1,11 @@
 package com.ctu.marketplace.controller.last;
 
-import com.ctu.marketplace.dto.last.request.CreateResearchInformationDTO;
-import com.ctu.marketplace.dto.last.response.CreateResearchInformationResDTO;
-import com.ctu.marketplace.dto.last.response.ListResearchInformationResDTO;
+import com.ctu.marketplace.dto.last.request.CreateResearchInformationReqDTO;
+import com.ctu.marketplace.dto.last.request.UpdateResearchInformationReqDTO;
+import com.ctu.marketplace.dto.last.response.RetrieveResearchInformationResDTO;
 import com.ctu.marketplace.entity.ResearchInformation;
-import com.ctu.marketplace.entity.UserProfile;
 import com.ctu.marketplace.service.IResearchInformationService;
+import com.ctu.marketplace.tools.mapper.IMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,30 +19,23 @@ import java.util.stream.Collectors;
 public class ResearchInformationController {
     @Autowired
     private IResearchInformationService researchInformationService;
-    @PostMapping("")
-    public ResponseEntity<CreateResearchInformationResDTO> createResearchInformation(@RequestBody CreateResearchInformationDTO createResearchInformationDTO) {
-        ResearchInformation newResearchInformation = new ResearchInformation();
-        newResearchInformation.setDegree(createResearchInformationDTO.getDegree());
-        newResearchInformation.setDepartment(createResearchInformationDTO.getDepartment());
-        newResearchInformation.setPosition(createResearchInformationDTO.getPosition());
-        newResearchInformation.setInstitution(createResearchInformationDTO.getInstitution());
-        UserProfile userProfile = new UserProfile();
-        userProfile.setId(createResearchInformationDTO.getPersonId());
-        newResearchInformation.setUserProfile(userProfile);
-        ResearchInformation createdResearchInfo = researchInformationService.create(newResearchInformation);
-        return new ResponseEntity<>(CreateResearchInformationResDTO.builder()
-                .degree(createResearchInformationDTO.getDegree())
-                .department(createResearchInformationDTO.getDepartment())
-                .institution(createResearchInformationDTO.getInstitution())
-                .position(createResearchInformationDTO.getPosition())
-                .build(), HttpStatus.CREATED);
+    @Autowired
+    private IMapper<CreateResearchInformationReqDTO, ResearchInformation> createMapper;
+    @Autowired
+    private IMapper<UpdateResearchInformationReqDTO, ResearchInformation> updateMapper;
+    @PostMapping
+    public ResponseEntity<Void> create(@RequestBody CreateResearchInformationReqDTO createResearchInformationReqDTO) {
+        ResearchInformation researchInformation = createMapper.mapping(createResearchInformationReqDTO);
+        researchInformationService.create(researchInformation);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ListResearchInformationResDTO>> getAllResearchInformation() {
+    public ResponseEntity<List<RetrieveResearchInformationResDTO>> list() {
         return new ResponseEntity<>(researchInformationService.list().stream().map(
                 res -> {
-                    return ListResearchInformationResDTO.builder()
+                    return RetrieveResearchInformationResDTO.builder()
+                            .id(res.getId())
                             .degree(res.getDegree())
                             .position(res.getPosition())
                             .institution(res.getInstitution())
@@ -52,26 +45,18 @@ public class ResearchInformationController {
         ).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @PutMapping("/{researchInformationId}")
-    public ResponseEntity<ListResearchInformationResDTO> updateReseachInformation(@RequestBody CreateResearchInformationDTO updateResearchInformationDTO, @PathVariable Long researchInformationId) {
-        ResearchInformation newResearchInformation = new ResearchInformation();
-        newResearchInformation.setDegree(updateResearchInformationDTO.getDegree());
-        newResearchInformation.setDepartment(updateResearchInformationDTO.getDepartment());
-        newResearchInformation.setPosition(updateResearchInformationDTO.getPosition());
-        newResearchInformation.setInstitution(updateResearchInformationDTO.getInstitution());
-        ResearchInformation updatedResearchInfo = researchInformationService.update(newResearchInformation, researchInformationId);
-        return new ResponseEntity<>(ListResearchInformationResDTO.builder()
-                .department(updateResearchInformationDTO.getDepartment())
-                .institution(updateResearchInformationDTO.getInstitution())
-                .position(updateResearchInformationDTO.getPosition())
-                .degree(updateResearchInformationDTO.getDegree())
-                .build(), HttpStatus.OK);
+    @PatchMapping("/{researchInformationId}")
+    public ResponseEntity<Void> update(@RequestBody UpdateResearchInformationReqDTO updateResearchInformationReqDTO, @PathVariable Long researchInformationId) {
+        updateResearchInformationReqDTO.setId(researchInformationId);
+        researchInformationService.update(updateMapper.mapping(updateResearchInformationReqDTO));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{researchInformationId}")
-    public ResponseEntity<ListResearchInformationResDTO> retrieveResearchInformation(@PathVariable Long researchInformationId) {
+    public ResponseEntity<RetrieveResearchInformationResDTO> retrieve(@PathVariable Long researchInformationId) {
         ResearchInformation researchInformation = researchInformationService.retrieve(researchInformationId);
-        return new ResponseEntity<>(ListResearchInformationResDTO.builder()
+        return new ResponseEntity<>(RetrieveResearchInformationResDTO.builder()
+                .id(researchInformation.getId())
                 .degree(researchInformation.getDegree())
                 .position(researchInformation.getPosition())
                 .institution(researchInformation.getInstitution())
@@ -80,8 +65,8 @@ public class ResearchInformationController {
     }
 
     @DeleteMapping("/{researchInformationId}")
-    public ResponseEntity<String> deleteResearchInformation(@PathVariable Long researchInformationId) {
+    public ResponseEntity<Void> delete(@PathVariable Long researchInformationId) {
         researchInformationService.delete(researchInformationId);
-        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

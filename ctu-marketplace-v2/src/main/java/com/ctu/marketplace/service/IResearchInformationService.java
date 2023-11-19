@@ -9,5 +9,5 @@ public interface IResearchInformationService {
     ResearchInformation retrieve(Long id);
     ResearchInformation create(ResearchInformation researchInformation);
     void delete(Long id);
-    ResearchInformation update(ResearchInformation researchInformation, Long id);
+    ResearchInformation update(ResearchInformation researchInformation);
 }

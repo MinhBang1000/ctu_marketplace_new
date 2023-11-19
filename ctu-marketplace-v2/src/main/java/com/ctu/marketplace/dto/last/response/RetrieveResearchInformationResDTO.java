@@ -1,15 +1,14 @@
-package com.ctu.marketplace.dto.last.request;
+package com.ctu.marketplace.dto.last.response;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public class CreateResearchInformationDTO {
+public class RetrieveResearchInformationResDTO {
+    private Long id;
     private String degree;
     private String position;
     private String institution;
     private String department;
-    private Long personId;
 }
