@@ -39,8 +39,7 @@ public class PublicationService implements IPublicationService {
     }
 
     @Override
-    public Publication update(Publication publication, Long id) {
-        publication.setId(id);
+    public Publication update(Publication publication) {
         return publicationRepository.save(publication);
     }
 }

@@ -17,5 +17,6 @@ public class Skill {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "research_information_id", nullable = false)
     private ResearchInformation researchInformation;
 }

@@ -17,8 +17,10 @@ public class StrongGroupMember {
     private Boolean decision;
 
     @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
     private UserProfile member;
 
     @ManyToOne
+    @JoinColumn(name = "strong_group_id", nullable = false)
     private StrongGroup strongGroup;
 }

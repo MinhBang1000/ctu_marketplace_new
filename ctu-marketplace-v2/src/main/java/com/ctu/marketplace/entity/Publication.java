@@ -38,5 +38,6 @@ public class Publication {
     private String doi;
 
     @ManyToOne
+    @JoinColumn(name = "research_information_id", nullable = false)
     private ResearchInformation researchInformation;
 }

@@ -9,5 +9,5 @@ public interface IPublicationService {
     Publication retrieve(Long id);
     Publication create(Publication Publication);
     void delete(Long id);
-    Publication update(Publication Publication, Long id);
+    Publication update(Publication Publication);
 }
