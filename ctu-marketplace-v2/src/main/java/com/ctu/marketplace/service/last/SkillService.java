@@ -39,8 +39,7 @@ public class SkillService implements ISkillService {
     }
 
     @Override
-    public Skill update(Skill skill, Long id) {
-        skill.setId(id);
+    public Skill update(Skill skill) {
         return skillRepository.save(skill);
     }
 }

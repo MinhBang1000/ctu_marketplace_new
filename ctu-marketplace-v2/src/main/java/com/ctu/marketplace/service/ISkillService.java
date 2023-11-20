@@ -9,5 +9,5 @@ public interface ISkillService {
     Skill retrieve(Long id);
     Skill create(Skill Skill);
     void delete(Long id);
-    Skill update(Skill Skill, Long id);
+    Skill update(Skill Skill);
 }
