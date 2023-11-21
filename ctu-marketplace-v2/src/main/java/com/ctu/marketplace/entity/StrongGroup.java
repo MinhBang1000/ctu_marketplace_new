@@ -36,4 +36,16 @@ public class StrongGroup {
 
     @OneToMany(mappedBy = "strongGroup", cascade = CascadeType.ALL)
     private List<StrongGroupMember> members = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "StrongGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", mission='" + mission + '\'' +
+                ", vision='" + vision + '\'' +
+                ", topic='" + topic + '\'' +
+                '}';
+    }
 }

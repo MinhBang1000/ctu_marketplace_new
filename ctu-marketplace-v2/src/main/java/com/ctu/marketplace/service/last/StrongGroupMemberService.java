@@ -39,8 +39,7 @@ public class StrongGroupMemberService implements IStrongGroupMemberService {
     }
 
     @Override
-    public StrongGroupMember update(StrongGroupMember strongGroupMember, Long id) {
-        strongGroupMember.setId(id);
+    public StrongGroupMember update(StrongGroupMember strongGroupMember) {
         return strongGroupMemberRepository.save(strongGroupMember);
     }
 }

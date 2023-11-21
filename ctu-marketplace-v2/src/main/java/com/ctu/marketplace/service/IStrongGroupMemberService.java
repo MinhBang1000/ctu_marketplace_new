@@ -9,5 +9,5 @@ public interface IStrongGroupMemberService {
     StrongGroupMember retrieve(Long id);
     StrongGroupMember create(StrongGroupMember StrongGroupMember);
     void delete(Long id);
-    StrongGroupMember update(StrongGroupMember StrongGroupMember, Long id);
+    StrongGroupMember update(StrongGroupMember StrongGroupMember);
 }
