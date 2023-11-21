@@ -31,6 +31,7 @@ public class StrongGroup {
     private String topic;
 
     @ManyToOne
+    @JoinColumn(name = "leader_id", nullable = false)
     private UserProfile userProfile;
 
     @OneToMany(mappedBy = "strongGroup", cascade = CascadeType.ALL)
