@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,13 +34,19 @@ public class StrongGroupController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RetrieveStrongGroupResDTO>> list() {
+    public ResponseEntity<List<RetrieveStrongGroupResDTO>> list(@RequestParam(name = "leaderId", required = false) String leaderId) {
         return new ResponseEntity<>(
-                strongGroupService.list().stream().map(
-                        strongGroup -> {
-                            return retrieveMapper.mapping(strongGroup);
-                        }
-                ).collect(Collectors.toList())
+                strongGroupService.list().stream()
+                        .filter(
+                                strongGroup -> {
+                                    if (Objects.nonNull(leaderId)) {
+                                        return strongGroup.getUserProfile().getId() == Long.parseLong(leaderId);
+                                    }
+                                    return true;
+                                }
+                        )
+                        .map(
+                            strongGroup -> retrieveMapper.mapping(strongGroup)).collect(Collectors.toList())
                 , HttpStatus.OK
         );
     }

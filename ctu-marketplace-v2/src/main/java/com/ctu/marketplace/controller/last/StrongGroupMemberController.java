@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,13 +45,22 @@ public class StrongGroupMemberController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RetrieveStrongGroupMemberResDTO>> list() {
+    public ResponseEntity<List<RetrieveStrongGroupMemberResDTO>> list(@RequestParam(name = "strongGroupId", required = false) String strongGroupId, @RequestParam(name = "memberId", required = false) String memberId) {
         return new ResponseEntity<>(
-                strongGroupMemberService.list().stream().map(
-                        strongGroupMember -> {
-                            return invitationMapper.mapping(strongGroupMember);
-                        }
-                ).collect(Collectors.toList())
+                strongGroupMemberService.list().stream().filter(
+                            strongGroupMember -> {
+                                if (Objects.nonNull(strongGroupId) && Objects.nonNull(memberId)) {
+                                    return strongGroupMember.getStrongGroup().getId() == Long.parseLong(strongGroupId) && strongGroupMember.getMember().getId() == Long.parseLong(memberId);
+                                } else if (Objects.nonNull(strongGroupId)) {
+                                    return strongGroupMember.getStrongGroup().getId() == Long.parseLong(strongGroupId);
+                                } else if (Objects.nonNull(memberId)) {
+                                    return strongGroupMember.getMember().getId() == Long.parseLong(memberId);
+                                }
+                                return true;
+                            }
+                        ).map(
+                            strongGroupMember -> invitationMapper.mapping(strongGroupMember))
+                        .collect(Collectors.toList())
                 , HttpStatus.OK);
     }
 
