@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { connect, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 import { fields as projectFieldsCommercial } from '../../../../components/ProjectCreate/commercialFields';
 import { fields as projectFieldsIdea } from '../../../../components/ProjectCreate/ideaFields';
 import { fields as projectFieldsResearching } from '../../../../components/ProjectCreate/researchingFields';

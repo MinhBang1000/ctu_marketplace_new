@@ -14,6 +14,7 @@ import Swal from "sweetalert2"
 import axios from "axios"
 import authHeader from "../../services/auth.header"
 import { useEffect } from "react"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 const NAccount = () => {
     // Data
@@ -520,6 +521,11 @@ const NAccount = () => {
         return `${process.env.REACT_APP_BASE_URL}/api/v3/projects/view-image/${image}`
     }
 
+    const history = useHistory();
+    const handleUserGroup = () => {
+        history.push('/UserGroup')
+    }
+
     return (
     <>
         { !logStatus && <Redirect to="/" />  }
@@ -552,6 +558,9 @@ const NAccount = () => {
                     </div>
                     {/* <i className="fa-solid fa-venus"></i> */}
                     <div className={styles.item}><i className="fa-solid fa-cake-candles"></i>{currentUser && handleDate(currentUser.dob)}</div>
+                    <div>
+                        <button className="btn btn-success" onClick={() => handleUserGroup()}>Lý lịch Khoa học</button>
+                    </div>
                 </div>
             </div>
             

@@ -1,0 +1,262 @@
+* {
+    vertical-align: inherit;
+}
+
+.user_group {
+    width: 100%;
+    background-color: white;
+}
+
+.user_group_container {
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user_group_container_profile {
+    display: block;
+}
+
+.user_group_container_profile_header {
+    position: relative;
+}
+
+.user_group_container_profile_header_item {
+    padding-top: 12.5px;
+    padding-bottom: 12.5px;
+    padding-left: 25px;
+    padding-right: 0;
+}
+
+.user_group_container_profile_header_detail {
+    display: flex;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.user_group_container_profile_header_detail_item {}
+
+.user_avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+}
+
+.user_group_container_profile_header_reading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 0;
+}
+
+.user_group_container_profile_navbar {
+    border-top: 1px solid #D1D1D2;
+    ;
+    margin-top: 20px;
+}
+
+.user_group_container_profile_navbar_box {
+    position: relative;
+    top: 0px;
+}
+
+.user_group_container_edit {
+    border-top: 1px solid #D1D1D2;
+    background-color: #F6F6F6;
+    border-bottom: 1px solid #D1D1D2;
+}
+
+.user_group_container_profile_edit {
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user_group_container_profile_edit_marin {
+    margin-top: 30px;
+    background-color: white;
+}
+
+.user_group_container_profile_edit_box {
+    justify-content: space-between;
+    border-bottom: 1px solid #D1D1D2;
+    background-color: white;
+}
+
+.user_group_container_profile_edit_header {
+    padding: 17px 15px 1px 20px;
+
+}
+
+.user_group_container_profile_edit_endheader{
+    padding: 10px;
+
+}
+
+.none {
+    display: none;
+}
+
+.button_edit{
+    border: none;
+    background: none;
+    color: #6F6F71;
+    font-size: 17px;
+}
+
+.user_group_container_profile_edit_box_body {}
+
+.user_group_container_profile_edit_box_body_item {
+    margin: 30px;
+    border: 1px solid #D1D1D2;
+    position: relative;
+
+}
+
+.user_group_container_profile_edit_box_body_list {
+    padding: 30px;
+}
+
+.user_group_container_profile_edit_box_body_list_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.user_group_container_profile_edit_box_body_list_item {
+    height: auto;
+}
+
+.user_group_container_profile_edit_box_body_list_header_avatar {}
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+}
+
+.modal__overlay {
+    position: absolute;
+    width: 100%;
+    height: 1000px;
+    background-color: rgba(0, 0, 0, 0.4);
+
+}
+
+.modal__body {
+    background-color: white;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
+.author_form {
+    width: 500px;
+}
+
+.author_form__container {
+    padding: 20px;
+}
+
+.author_form__container_header {
+    border-bottom: 1px solid #D1D1D2;
+}
+
+.author_form__container_header_title {
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.author_form__container_header_body {
+    font-size: 14px;
+    line-height: 1.5rem;
+    color: #525254;
+}
+
+.author_form__container_body {
+    margin-top: 16px;
+}
+
+.author_form__container_body_title {
+    color: #525254;
+    font-size: 15px;
+
+}
+
+.author_form__container_body_name {
+    font-size: 15px;
+}
+
+.author_form__container_body_form {
+    display: block;
+}
+
+.author_form__container_body_form_box {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.author_form__container_body_form_box_marin{
+    margin-left: 14px;
+    padding: 3px 2.5px 2px 0px;
+}
+.author_form__container_body_form_box_title{
+    margin-bottom: 10px;
+}
+
+.font_size{
+    font-size: 15px;
+}
+
+.input_form{
+    width: 420px;
+    height: 35px;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #B0B0B2;
+}
+
+.textarea_form{
+    width: 420px;
+    height: 100px;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #B0B0B2;
+}
+
+.author_form_btn_end{
+    display: block;
+    float: inline-end;
+    margin-bottom: 10px;
+}
+
+.author_form_btn_end_flex{
+    
+}
+
+.author_form_btn_end_close{
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: #006DD9;
+    padding-right: 20px;
+}
+
+.author_form_btn_end_save{
+    background-color: #006DD9;
+    color: white;
+    border: #006DD9;
+    border-radius: 9999px;
+    padding: 6px 1em;
+
+}
+
+.click__nav{
+    cursor: pointer;
+}

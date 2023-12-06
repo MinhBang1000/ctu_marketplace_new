@@ -5,8 +5,12 @@ import { useTransition, animated } from "@react-spring/web"
 import NAdminUser from "../NAdminUser"
 import NAdminProject from "../NAdminProject"
 import NAdminMangeIntroduction from "../Admin/NAdmin-Manage-Introduction/NAdminMangeIntroduction"
+import NAdminManageFooter from "../Admin/NAdmin-Manage-Footer/NAdmin-Manage-Footer"
+
+import NAdminManageGroup from "../Admin/Admin-Manage-Group/NAdmin-Manage-group-List/NAdmin-Manage-Group"
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min"
 import { useStore } from "../../store/globalstate"
+
 
 const NAdmin = () => {
     // Data
@@ -56,6 +60,15 @@ const NAdmin = () => {
                             [styles.item] : true,
                             [styles.focus] : pageType === 3
                         })} onClick={() => handleChangePage(3)}><i class="fa-solid fa-grip-lines"></i>Quản lý trang giới thiệu</li>
+                         <li className={clsx({
+                            [styles.item] : true,
+                            [styles.focus] : pageType === 4
+                        })} onClick={() => handleChangePage(4)}><i class="fa-solid fa fa-eject"></i>Quản lý Footer</li>
+                         <li className={clsx({
+                            [styles.item] : true,
+                            [styles.focus] : pageType === 5
+                        })} onClick={() => handleChangePage(5)}><i class="fa-solid fa fa-eject"></i>Quản lý Group</li>
+
                     </ul>
                 </div>
                 <div className={clsx(styles.workbar, styles.adminPart)}>
@@ -65,10 +78,14 @@ const NAdmin = () => {
                                 { item === 1 && <NAdminProject />}
                                 { item === 2 && <NAdminUser />}
                                 { item === 3 && <NAdminMangeIntroduction />}
+                                { item === 4 && <NAdminManageFooter />}
+                                { item === 5 && <NAdminManageGroup />}
+                               
                             </animated.div>
                         })
                     }
                 </div>
+               
             </div>
         </>
     )

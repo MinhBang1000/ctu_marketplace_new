@@ -326,7 +326,8 @@ const NAdminProject = () => {
     const projectDetailComponent = () => {
         return (
             <>
-                <div className={clsx(styles.back)}><NButton clickFunc={handleBack} btnType={`success`}><i className="fa-solid fa-arrow-left"></i> Quay lại</NButton></div>
+                <div className={clsx(styles.back)}>
+                    <NButton clickFunc={handleBack} btnType={`success`}><i className="fa-solid fa-arrow-left"></i> Quay lại</NButton></div>
                 <div className={clsx(styles.content)}>
                     <h1 className={clsx(styles.title)}>{detailProject.name}</h1>
                     <h3 className={clsx(styles.author)}>{detailProject.author}</h3>

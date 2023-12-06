@@ -8,6 +8,10 @@ import PrivateRouter from './PrivateRoute';
 import NAdminMangeIntroduction from '../../pages/Admin/NAdmin-Manage-Introduction/NAdminMangeIntroduction';
 import NIntroduction from '../../pages/NIntroduction/NIntroduction';
 import NIntroduction7 from '../../pages/NIntroduction7/NIntroduction7';
+import NAdminManageGroup from '../../pages/Admin/Admin-Manage-Group/NAdmin-Manage-group-List/NAdmin-Manage-Group';
+import NAdminManageUserGroup from '../../pages/Admin/NAdmin-Manage-UserGroup/NAdmin-Manage-UserGroup';
+import NViewGroup from '../NViewGroup';
+import NViewDetail from '../NViewGroup/NView-Detail';
 
 const NAccount = lazy(() => import("../../pages/NAccount"))
 const NContact = lazy(() => import('../../pages/NContact'))
@@ -98,11 +102,15 @@ const RouterCustom = () => {
                 <Route exact path="/login" component={NLogin} />
                 <Route exact path="/register" component={SignUp} />
                 <Route exact path="/introduction" component={NIntroduction7} />
+                <Route exact path="/viewgroup" component={NViewGroup} />
+                <Route exact path="/viewdetail/:id" component={NViewDetail} />
+                <Route exact path='/grouplist' component={NAdminManageGroup}></Route>    
+
                 <Route exact path="/contact" component={NContact} />
                 <Route exact path="/administrator" component={NAdmin} />
                 <Route exact path="/projects/detail/:id" component={NDetail} />
                 <Route exact path="/account" component={NAccount} />
-
+                <Route exact path="/UserGroup" component={NAdminManageUserGroup}></Route>
                 {/* We have to code here update new version */}
 
                 {/* <Route exact path="/" component={ProjectListCommercial}/> */}

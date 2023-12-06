@@ -436,7 +436,7 @@ const NLogin = () => {
         .then(res => {
             localStorage.setItem('token', JSON.stringify(res.data.data.token))
             // Setting local variables
-            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth?username=${username}`, { headers: authHeader()})
+            axios.get(`${process.env.REACT_APP_BASE_URL}/api/v2/auth?username=${username}`, { headers: authHeader()}) //lay thong tin nguoi dung
             .then(res => {
                 localStorage.setItem('userData', JSON.stringify(res.data))
                 const expiredTime = new Date().getTime() + (60000 * 30)

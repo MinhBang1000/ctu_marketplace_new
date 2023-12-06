@@ -35,7 +35,7 @@ const NNavbar = () => {
         if (userData !== null) {
             myDispatch(myLogin())
             setState((prev) => {
-                return {...prev, userInformations: userData.data}
+                return {...prev, f: userData.data}
             })
         }
     }, [reCheckAuth])
@@ -237,6 +237,9 @@ const NNavbar = () => {
             }
             <Link className={clsx(styles.item)} to="/introduction">
                 <div onClick={handleSetReload}>Giới thiệu</div>
+            </Link>
+            <Link className={clsx(styles.item)} to="/viewgroup">
+                <div onClick={handleSetReload}>Nhóm Mạnh</div>
             </Link>
             <Link className={clsx(styles.item)} to="/contact">
                 <div onClick={handleSetReload}>Liên hệ</div>
