@@ -4,18 +4,23 @@ import { Link } from "react-router-dom";
 import './NAdminManageUserGroup.scss'
 import NAdminManageNavHome from "../NAdmin-Manage-NavUser/NAdmin-Manage-NavHome";
 import NAdminManageNavPublication from "../NAdmin-Manage-NavUser/NAdmin-Manage-NavPublication";
+import NAdminManageNavInvitation from "../NAdmin-Manage-NavUser/NAdmin-Manage-NavInvitation/NAdmin-Manage-NavInvitation";
 
 
 function NAdminManageUserGroup() {
     const [user, setUser] = useState()
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(3)
 
     let render = null;
+
+    console.log("render: ", render);
 
     if (currentPage === 1) {
         render = <NAdminManageNavHome />
     } else if (currentPage === 2) {
         render = <NAdminManageNavPublication />
+    } else if(currentPage === 3) {
+        render = <NAdminManageNavInvitation/>
     }
 
 
@@ -75,11 +80,12 @@ function NAdminManageUserGroup() {
                                         <li className='nav-item' onClick={() => setCurrentPage(1)}>
                                             <div className="nav-link click__nav">Hồ sơ</div>
                                         </li>
-
                                         <li className='nav-item' onClick={() => setCurrentPage(2)}>
                                             <div className="nav-link click__nav">Bài viết</div>
                                         </li>
-
+                                        <li className='nav-item' onClick={() => setCurrentPage(3)}>
+                                            <div className="nav-link click__nav">Lời mời</div>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>

@@ -1,0 +1,135 @@
+.invitation-list {
+    width: 100%;
+    background-color: #F6F6F6;
+    border-top: 1px solid #D1D1D2;
+    border-bottom: 1px solid #D1D1D2;
+    padding: 20px 0;
+    &__table {
+        max-width: 983px;
+        background-color: white;
+        margin: auto;
+        padding: 20px;
+        table {
+            tr + tr {
+                border-top: 1px solid #D1D1D2;
+            }
+            tr, td {
+                height: 50px;
+                line-height: 50px;
+            }
+            width: 100%;
+            .group-name {
+                width: 50%;
+            }
+            .leader {
+    
+            }
+            .action {
+                display: flex;
+                justify-content: right;
+                align-items: center;
+                &__acceptance, &__decline {
+                    height: 30px;
+                    padding: 0 10px;
+                    line-height: 30px;
+                    border-radius: 3px;
+                    color: white;
+                    font-size: 13px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    &:hover {
+                        filter: brightness(92%);
+                        transition: all 0.3s ease;
+                    }
+                }
+                &__acceptance {
+                    background-color: #21409d;
+                }
+                &__decline {
+                    margin-right: 10px;
+                    color: black;
+                    border: 1px solid #D1D1D2;
+                    background-color: white;
+                }
+            }
+        }
+    }
+}
+
+.user-list {
+    width: 100%;
+    background-color: #F6F6F6;
+    border-top: 1px solid #D1D1D2;
+    border-bottom: 1px solid #D1D1D2;
+    padding: 20px 0;
+    .virtual {
+        max-width: 500px;
+        background-color: white;
+        margin: auto;
+        padding: 20px;
+    }
+    &__group-name {
+        font: {
+            size: 20px;
+            weight: 500;
+        }
+    }
+    table {
+        tr + tr {
+            border-top: 1px solid #D1D1D2;
+        }
+        tr, td {
+            height: 50px;
+            line-height: 50px;
+        }
+        width: 100%;
+        .group-name {
+            // width: 50%;
+        }
+        .action {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            &__invitation, &__cancel {
+                height: 30px;
+                padding: 0 10px;
+                line-height: 30px;
+                border-radius: 3px;
+                color: white;
+                font-size: 13px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                &:hover {
+                    filter: brightness(92%);
+                    transition: all 0.3s ease;
+                }
+            }
+            &__invitation{
+                background-color: #21409d;
+            }
+            &__cancel{
+                color: black;
+                border: 1px solid #D1D1D2;
+                background-color: white;
+            }
+        }
+    }
+    &__pending-invitation {
+        margin-top: 20px;
+        &__title {
+            font-weight: 500;
+        }
+        &__list {
+            
+        }
+    }
+    &__yet-invitation {
+        margin-top: 20px;
+        &__title {
+            font-weight: 500;
+        }
+        &__list {
+            
+        }
+    }
+}
