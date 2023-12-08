@@ -71,8 +71,7 @@ public class UserProfile extends BaseEntity implements Serializable{
     @Column(name = "is_locked")
     private Boolean isLocked;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "research_information_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "userProfile")
     private ResearchInformation researchInformation;
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL)
@@ -123,6 +122,4 @@ public class UserProfile extends BaseEntity implements Serializable{
 
     @OneToMany(mappedBy = "userProfile")
     private List<GroupDetail> groupDetailList;
-
-   
 }

@@ -21,7 +21,8 @@ public class ResearchInformation {
     private String institution;
     @Column(name = "department")
     private String department;
-    @OneToOne(mappedBy = "researchInformation")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
     @OneToMany(mappedBy = "researchInformation", cascade = CascadeType.ALL)
     private List<Publication> publications = new ArrayList<>();
