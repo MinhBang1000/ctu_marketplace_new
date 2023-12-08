@@ -4,6 +4,7 @@ import com.ctu.marketplace.dto.last.request.AskingStrongGroupDTO;
 import com.ctu.marketplace.entity.StrongGroup;
 import com.ctu.marketplace.entity.StrongGroupMember;
 import com.ctu.marketplace.entity.UserProfile;
+import com.ctu.marketplace.entity.constraints.CustomConstraints;
 import com.ctu.marketplace.exception.CustomExceptionMessage;
 import com.ctu.marketplace.repository.IStrongGroupRepository;
 import com.ctu.marketplace.repository.UserProfileRepository;
@@ -30,7 +31,7 @@ public class AskingStrongGroupMemberMapper implements IMapper<AskingStrongGroupD
         StrongGroupMember creatingInvitation = new StrongGroupMember();
         creatingInvitation.setMember(optionalUserProfile.get());
         creatingInvitation.setStrongGroup(optionalStrongGroup.get());
-        creatingInvitation.setDecision(false);
+        creatingInvitation.setDecision(CustomConstraints.PENDING);
         return creatingInvitation;
     }
 }

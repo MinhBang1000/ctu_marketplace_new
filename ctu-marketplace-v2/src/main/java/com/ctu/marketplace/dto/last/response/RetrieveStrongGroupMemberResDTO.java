@@ -9,5 +9,5 @@ public class RetrieveStrongGroupMemberResDTO {
     private Long id;
     private RetrieveStrongGroupResDTO strongGroup;
     private RetrieveMemberResDTO member;
-    private Boolean decision;
+    private String decision;
 }

@@ -36,32 +36,16 @@ public class StrongGroupMemberController {
     @PostMapping("/answering")
     public ResponseEntity<Void> answering(@RequestBody AnsweringStrongGroupDTO answeringStrongGroupDTO) {
         StrongGroupMember strongGroupMember = answerMapper.mapping(answeringStrongGroupDTO);
-        if (strongGroupMember.getDecision()) {
-            strongGroupMemberService.update(strongGroupMember);
-        }else {
-            strongGroupMemberService.delete(strongGroupMember.getId());
-        }
+        strongGroupMemberService.update(strongGroupMember);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<RetrieveStrongGroupMemberResDTO>> list(@RequestParam(name = "strongGroupId", required = false) String strongGroupId, @RequestParam(name = "memberId", required = false) String memberId) {
-        return new ResponseEntity<>(
-                strongGroupMemberService.list().stream().filter(
-                            strongGroupMember -> {
-                                if (Objects.nonNull(strongGroupId) && Objects.nonNull(memberId)) {
-                                    return strongGroupMember.getStrongGroup().getId() == Long.parseLong(strongGroupId) && strongGroupMember.getMember().getId() == Long.parseLong(memberId);
-                                } else if (Objects.nonNull(strongGroupId)) {
-                                    return strongGroupMember.getStrongGroup().getId() == Long.parseLong(strongGroupId);
-                                } else if (Objects.nonNull(memberId)) {
-                                    return strongGroupMember.getMember().getId() == Long.parseLong(memberId);
-                                }
-                                return true;
-                            }
-                        ).map(
-                            strongGroupMember -> invitationMapper.mapping(strongGroupMember))
-                        .collect(Collectors.toList())
-                , HttpStatus.OK);
+    public ResponseEntity<List<RetrieveStrongGroupMemberResDTO>> list(@RequestParam(name = "strongGroupId", required = false) String strongGroupId, @RequestParam(name = "memberId", required = false) String memberId, @RequestParam(name = "decision", required = false) String decision) {
+        List<StrongGroupMember> invitationStronGroupFilteredList = Objects.isNull(strongGroupId) ? strongGroupMemberService.list() : strongGroupMemberService.list().stream().filter(strongGroupMember -> strongGroupMember.getStrongGroup().getId() == Long.parseLong(strongGroupId)).collect(Collectors.toList());
+        List<StrongGroupMember> invitationMemberFilteredList = Objects.isNull(memberId) ? invitationStronGroupFilteredList : invitationStronGroupFilteredList.stream().filter(strongGroupMember -> strongGroupMember.getMember().getId() == Long.parseLong(memberId)).collect(Collectors.toList());
+        List<StrongGroupMember> invitationDecisionFilteredList = Objects.isNull(decision) ? invitationMemberFilteredList : invitationMemberFilteredList.stream().filter(strongGroupMember -> strongGroupMember.getDecision().equals(decision)).collect(Collectors.toList());
+        return new ResponseEntity<>(invitationDecisionFilteredList.stream().map(invitation -> invitationMapper.mapping(invitation)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/hello")

@@ -13,8 +13,8 @@ public class StrongGroupMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "decision")
-    private Boolean decision;
+    @Column(name = "decision", columnDefinition = "VARCHAR(60) CHECK (decision IN ('ACCEPT', 'PENDING', 'DENIED'))")
+    private String decision;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)

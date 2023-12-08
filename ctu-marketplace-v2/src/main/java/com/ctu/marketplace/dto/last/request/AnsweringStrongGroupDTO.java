@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class AnsweringStrongGroupDTO {
     private Long invitationId;
-    private Boolean decision;
+    private String decision;
 }
